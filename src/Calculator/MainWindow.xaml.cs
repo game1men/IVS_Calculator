@@ -20,6 +20,8 @@ namespace GUI_Application {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            if () { 
+            }
         }
     }
 }
