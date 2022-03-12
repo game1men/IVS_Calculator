@@ -23,4 +23,12 @@
     <ProjectReference Include="..\MathLib\MathLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Git_Repos\ivs-calculator\src\MathLib-Tests\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Git_Repos\ivs-calculator\src\MathLib-Tests\.editorconfig" />
+  </ItemGroup>
+
 </Project>

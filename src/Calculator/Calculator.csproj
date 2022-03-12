@@ -12,4 +12,12 @@
     <PackageId>$(AssemblyName)</PackageId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Git_Repos\ivs-calculator\src\Calculator\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Git_Repos\ivs-calculator\src\Calculator\.editorconfig" />
+  </ItemGroup>
+
 </Project>

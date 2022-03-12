@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Git_Repos\ivs-calculator\src\MathLib\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Git_Repos\ivs-calculator\src\MathLib\.editorconfig" />
+  </ItemGroup>
+
 </Project>
