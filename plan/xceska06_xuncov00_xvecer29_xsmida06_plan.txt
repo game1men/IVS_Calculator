@@ -1,0 +1,22 @@
+
+-----------------do 27.03.----------------------
+testy na matematickou knihovnu - xuncov00
+matematická knihovna - xsmida06
+
+mockup kalkulačky - xvecer29
+rozhraní kalkulačka  - xvecer29
+
+------------------------------------------------
+
+-----------------do 23.04.----------------------
+backend kalkulačky - xceska06
+program na profiling - xceska06
+
+makefile - xuncov00
+instalačka - xvecer29
+mockup další verze - xvecer29
+------------------------------------------------
+
+systém pro správu verzí: Git
+hosting: Gitlab
+komunikační kanály: Discord, Gitlab, Trello
