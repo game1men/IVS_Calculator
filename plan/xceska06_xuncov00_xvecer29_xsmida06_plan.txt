@@ -18,5 +18,5 @@ mockup další verze - xvecer29
 ------------------------------------------------
 
 systém pro správu verzí: Git
-hosting: Gitlab
+hosting: Gitlab: https://gitlab.com/petrvecera/ivs-calculator
 komunikační kanály: Discord, Gitlab, Trello
