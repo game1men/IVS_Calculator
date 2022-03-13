@@ -1,7 +1,7 @@
 ﻿/**
  * 
  * 
- * Description: Tests for MatLib, part of IVS project 2022
+ * Description: Tests for MathLib, part of IVS project 2022
  * Author: Josef Uncovsky
  * 
  * 
