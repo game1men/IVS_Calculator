@@ -20,7 +20,7 @@
         }
         public static double Div(double a, double b) {
 
-            //The dividing function
+            //the division function
             return 1.0;
 
         }
@@ -48,8 +48,7 @@
 
             //The logarithm function
             return 1.0;
-
         }
     }
-    
+
 }
