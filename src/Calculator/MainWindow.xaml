@@ -5,8 +5,166 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI_Application"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Calculator" Height="880" Width="570" ResizeMode="CanMinimize">
+    <Border Margin="10">
+        <DockPanel>
+            <!--Main text box for nubmers-->
+            <TextBox TextWrapping="NoWrap" TextAlignment="Right" Text="1 000 + 88 = 1 088" FontSize="60" IsReadOnly="True" VerticalContentAlignment="Center" DockPanel.Dock="Top" VerticalAlignment="Top"/>
+
+
+            <!--Buttons grid-->
+            <Grid Grid.Row="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <!--1 button row-->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="15">
+                        <TextBlock Text="x!" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15">
+                        <TextBlock Text="CE" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15">
+                        <TextBlock Text="C" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="3" Margin="15">
+                        <TextBlock Text="B" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+
+                </Grid>
+
+                <!--2 button row-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="15">
+                        <TextBlock Text="2R" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15">
+                        <TextBlock Text="nR" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15">
+                        <TextBlock Text="P2" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="3" Margin="15">
+                        <TextBlock Text="Pn" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+
+                </Grid>
+
+                <!--3 button row-->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="15">
+                        <TextBlock Text="7" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15">
+                        <TextBlock Text="8" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15">
+                        <TextBlock Text="9" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="3" Margin="15">
+                        <TextBlock Text="mod" FontSize="50" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+
+                </Grid>
+
+                <!--4 button row-->
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="15">
+                        <TextBlock Text="4" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15">
+                        <TextBlock Text="5" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15">
+                        <TextBlock Text="6" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="3" Margin="15">
+                        <TextBlock Text="÷" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                </Grid>
+
+                <!--5 button row-->
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="15">
+                        <TextBlock Text="1" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15">
+                        <TextBlock Text="2" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15">
+                        <TextBlock Text="3" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="3" Margin="15">
+                        <TextBlock Text="*" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                </Grid>
+
+                <!--6 button row-->
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Margin="15">
+                        <TextBlock Text="0" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="1" Margin="15">
+                        <TextBlock Text="-" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="2" Margin="15">
+                        <TextBlock Text="+" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                    <Button Grid.Column="3" Margin="15">
+                        <TextBlock Text="=" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Button>
+                </Grid>
+            </Grid>
+        </DockPanel>
+    </Border>
 </Window>
