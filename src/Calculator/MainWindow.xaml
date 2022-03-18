@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:GUI_Application"
         mc:Ignorable="d"
         Title="Calculator" Height="880" Width="570" ResizeMode="CanMinimize">
+
+
+
+    <!--Latex API-->
+    <!--https://stackoverflow.com/questions/3839618/text-content-in-a-wpf-button-not-being-centred-vertically-->
+    
+    
+    
+    
+    
     <Border Margin="10">
         <DockPanel>
             <!--Main text box for nubmers-->
