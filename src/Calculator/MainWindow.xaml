@@ -10,7 +10,7 @@
 
 
     <!--Latex API-->
-    <!--https://stackoverflow.com/questions/3839618/text-content-in-a-wpf-button-not-being-centred-vertically-->
+    <!--https://stackoverflow.com/questions/18865947/display-equations-in-a-wpf-application-->
     
     
     
@@ -34,7 +34,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <!--1 button row-->
+                <!--1st button row-->
                 <Grid Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -58,7 +58,7 @@
 
                 </Grid>
 
-                <!--2 button row-->
+                <!--2nd button row-->
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -82,7 +82,7 @@
 
                 </Grid>
 
-                <!--3 button row-->
+                <!--3rd button row-->
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -106,7 +106,7 @@
 
                 </Grid>
 
-                <!--4 button row-->
+                <!--4th button row-->
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -129,7 +129,7 @@
                     </Button>
                 </Grid>
 
-                <!--5 button row-->
+                <!--5th button row-->
                 <Grid Grid.Row="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -152,7 +152,7 @@
                     </Button>
                 </Grid>
 
-                <!--6 button row-->
+                <!--6th button row-->
                 <Grid Grid.Row="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
