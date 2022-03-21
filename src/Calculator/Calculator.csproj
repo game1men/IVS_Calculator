@@ -20,4 +20,10 @@
     <None Include="D:\Git_Repos\ivs-calculator\src\Calculator\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="WpfMath">
+      <HintPath>WpfMath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
