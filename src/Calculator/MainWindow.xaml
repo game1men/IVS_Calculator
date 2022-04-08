@@ -1,5 +1,5 @@
 ﻿<!--
-    WPF-Math API is used here, licence si stated as:
+    WPF-Math API is used here, licence is stated as:
     
     Copyright (c) 2010 Alex Regueiro
 
@@ -21,7 +21,7 @@
         xmlns:m="clr-namespace:WpfMath.Controls;assembly=WpfMath"
         xmlns:local="clr-namespace:GUI_Application"
         mc:Ignorable="d"
-        Title="Calculator" Height="880" Width="570" ResizeMode="CanMinimize">
+        Title="Calculator" Height="880" Width="570" ResizeMode="CanMinimize" KeyDown="Window_KeyDown">
 
     <Border Margin="10">
         <DockPanel>
@@ -32,8 +32,8 @@
                     <RowDefinition/>
                     
                 </Grid.RowDefinitions>
-                <m:FormulaControl Formula="1000.583666 + \sqrt[2]{36}" Scale="35" SystemTextFontName="Arial" Grid.Row="0" Margin="0 0 10 10" HorizontalAlignment="Right"/>
-                <m:FormulaControl Formula="=1\,006.583\,666" Scale="60" SystemTextFontName="Arial" Grid.Row="1" HorizontalAlignment="Right" Margin="0 0 10 0"/>
+                <m:FormulaControl Height="45" Formula="{Binding EquationTextBox, Mode=TwoWay}" Scale="35" SystemTextFontName="Arial" Grid.Row="0" Margin="0 0 10 10" HorizontalAlignment="Right"/>
+                <TextBox BorderBrush="White" IsReadOnly="True" Height="60" Text="{Binding MainTextBox, Mode=TwoWay}" TextAlignment="Right" FontSize="52" Grid.Row="1"/>
             </Grid>
             
             
@@ -59,16 +59,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Margin="15">
+                    <Button Click="MathFunction_Click" Grid.Column="0" Margin="15">
                         <m:FormulaControl Formula="x!" Scale="60" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Grid.Column="1" Margin="15">
+                    <Button Click="TextClenaup_Click" Grid.Column="1" Margin="15">
                         <TextBlock Text="CE" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="2" Margin="15">
+                    <Button Click="TextClenaup_Click" Grid.Column="2" Margin="15">
                         <TextBlock Text="C" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="3" Margin="15">
+                    <Button Click="TextClenaup_Click" Grid.Column="3" Margin="15">
                         <TextBlock Text="◄" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
 
@@ -83,16 +83,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Margin="15">
+                    <Button Click="MathFunction_Click" Grid.Column="0" Margin="15">
                         <m:FormulaControl Formula="\sqrt[2]{x}" Scale="60" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Grid.Column="1" Margin="15">
+                    <Button Click="MathFunction_Click" Grid.Column="1" Margin="15">
                         <m:FormulaControl Formula="\sqrt[n]{x}" Scale="60" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Grid.Column="2" Margin="15">
+                    <Button Click="MathFunction_Click" Grid.Column="2" Margin="15">
                         <m:FormulaControl Formula="x^2" Scale="60" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Grid.Column="3" Margin="15">
+                    <Button Click="MathFunction_Click" Grid.Column="3" Margin="15">
                         <m:FormulaControl Formula="x^n" Scale="60" SystemTextFontName="Arial"/>
                     </Button>
 
@@ -107,16 +107,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="0" Margin="15">
                         <TextBlock Text="7" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="1" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="1" Margin="15">
                         <TextBlock Text="8" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="2" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="2" Margin="15">
                         <TextBlock Text="9" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="3" Margin="15">
+                    <Button Click="MathOperation_Click" Grid.Column="3" Margin="15">
                         <TextBlock Text="mod" FontSize="50" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
 
@@ -131,16 +131,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="0" Margin="15">
                         <TextBlock Text="4" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="1" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="1" Margin="15">
                         <TextBlock Text="5" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="2" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="2" Margin="15">
                         <TextBlock Text="6" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="3" Margin="15">
+                    <Button Click="MathOperation_Click" Grid.Column="3" Margin="15">
                         <m:FormulaControl Formula="\div" Scale="80" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -154,16 +154,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="0" Margin="15">
                         <TextBlock Text="1" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="1" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="1" Margin="15">
                         <TextBlock Text="2" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="2" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="2" Margin="15">
                         <TextBlock Text="3" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="3" Margin="15">
+                    <Button Click="MathOperation_Click" Grid.Column="3" Margin="15">
                         <m:FormulaControl Formula="\times" Scale="80" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -177,16 +177,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Margin="15">
+                    <Button Click="Number_Click" Grid.Column="0" Margin="15">
                         <TextBlock Text="0" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Grid.Column="1" Margin="15">
+                    <Button Click="MathOperation_Click" Grid.Column="1" Margin="15">
                         <m:FormulaControl Formula="-" Scale="80" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Grid.Column="2" Margin="15">
+                    <Button Click="MathOperation_Click" Grid.Column="2" Margin="15">
                         <m:FormulaControl Formula="+" Scale="80" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Grid.Column="3" Margin="15">
+                    <Button Click="MathOperation_Click" Grid.Column="3" Margin="15">
                         <m:FormulaControl Formula="=" Scale="80" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
