@@ -20,9 +20,12 @@
         }
         public static double Div(double a, double b) {
 
-            //the division function
+            //The dividing function
             return 1.0;
-
+        }
+        public static double Mod(double a, double b) {
+            //The modulo function
+            return 1.0;
         }
         public static double Factorial(double a) {
 
@@ -48,6 +51,7 @@
 
             //The logarithm function
             return 1.0;
+
         }
     }
 
