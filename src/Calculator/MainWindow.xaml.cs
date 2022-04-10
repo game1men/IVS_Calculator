@@ -81,6 +81,15 @@ namespace GUI_Application {
                 }
             }
         }
+
+        private void MathFractionDot_Click(object sender, RoutedEventArgs e) {
+            if (sender is ContentControl c) {
+                if (c.Content is FormulaControl) {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
         private void TextClenaup_Click(object sender, RoutedEventArgs e) {
             throw new NotImplementedException();
         }
