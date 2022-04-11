@@ -59,17 +59,40 @@ namespace MathLib {
          * @brief Division of two numbers
          * 
          * @param a first number (dividend)
-         * @param b first number (divisor)
+         * @param b second number (divisor)
          * 
-         * @return quotient of two numbers
+         * @return Quotient of two numbers
          */
         public static double Div(double a, double b) {
 
-            double result = a / b;
-            //TODO division by zero Error
-            return result;
+            if (b == 0)
+                throw new DivideByZeroException();
+
+            else
+                return a / b;
 
         }
+
+        /**
+         * @brief Modulo of two numbers
+         * 
+         * @param a first number (dividend)
+         * @param b second number (divisor)
+         * 
+         * @return The rest after division
+         */
+        public static double Mod(double a, double b) {
+
+            if (b == 0) { 
+                throw new Exception();
+            }
+
+            else { 
+                return a % b;
+            }
+
+        }
+
 
         /**
          * @brief
@@ -78,27 +101,46 @@ namespace MathLib {
          */
         public static double Factorial(double a) {
 
-            //The factorial function
-            return 1.0;
+            if (a < 0 || a % 1 != 0) {
+                throw new Exception();
+            }
 
+            else { 
+                for(double i = a - 1; i > 0; i--) { 
+                    a *= i;
+                }
+
+                return a;
+            }
 
         }
 
         /**
-         * @brief
-         * @param
-         * @param
-         * @return
+         * @brief Power function for a number
+         * 
+         * @param a number to be multiplied
+         * @param exponent shows how many times should be the first number multiplied
+         * 
+         * @return number to the power of exponent
          */
         public static double Power(double a, double exponent) {
 
-            double power = a;
-            for(int i = 1; i <exponent; i++) {
-                a *= power;
+            if (exponent == 0) {
+                return 1.0;
             }
-            //TODO Power with Nonnatural exponent
-            return a;
 
+            else if (exponent % 1 != 0) {
+                throw new Exception();
+            }
+
+            else {
+                double power = a;
+                for(int i = 1; i <exponent; i++) {
+                    a *= power;
+                }
+
+                return a;
+            }
 
         }
         public static double Root(double a, double exponent) {
