@@ -95,9 +95,11 @@ namespace MathLib {
 
 
         /**
-         * @brief
-         * @param
-         * @return 
+         * @brief Factorial functions for a number
+         * 
+         * @param a number
+         * 
+         * @return Factorial of a given number
          */
         public static double Factorial(double a) {
 
@@ -143,13 +145,24 @@ namespace MathLib {
             }
 
         }
+
+        /**
+         * @brief
+         * @param
+         * @param
+         * @return
+         */
         public static double Root(double a, double exponent) {
 
-            //The square root function
-            return 1.0;
-            
+            if(a < 0) {
+                throw new Exception();
+            }
+
+            double result = Math.Pow(a, 1 / exponent);
+            return result;
 
         }
+
         public static double Log(double a) {
 
             //The logarithm function
