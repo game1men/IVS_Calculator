@@ -147,10 +147,12 @@ namespace MathLib {
         }
 
         /**
-         * @brief
-         * @param
-         * @param
-         * @return
+         * @brief Root function of any positive real number
+         * 
+         * @param a radicand
+         * @param b root
+         * 
+         * @return Root of any number for given root
          */
         public static double Root(double a, double exponent) {
 
@@ -163,10 +165,21 @@ namespace MathLib {
 
         }
 
+        /**
+         * @brief Natural logarithm funtion for any non zero number
+         * 
+         * @param a number
+         * 
+         * @return Exponent that is needed to make a certain number
+         */
         public static double Log(double a) {
 
-            //The logarithm function
-            return 1.0;
+            if(a <= 0) { 
+                throw new Exception();
+            }
+
+            double result = Math.Log(a);
+            return result;
         }
     }
 
