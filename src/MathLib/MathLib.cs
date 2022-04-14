@@ -22,26 +22,27 @@
 
             //The dividing function
             return 1.0;
+
         }
         public static double Mod(double a, double b) {
             //The modulo function
             return 1.0;
         }
-        public static double Factorial(double a) {
+        public static int Factorial(int a) {
 
             //The factorial function
-            return 1.0;
+            return 1;
 
 
         }
-        public static double Power(double a, double exponent) {
+        public static double Power(double a, int exponent) {
 
             //The power function
             return 1.0;
 
 
         }
-        public static double Root(double a, double exponent) {
+        public static double Root(double a, int exponent) {
 
             //The square root function
             return 1.0;
@@ -51,7 +52,6 @@
 
             //The logarithm function
             return 1.0;
-
         }
     }
 
