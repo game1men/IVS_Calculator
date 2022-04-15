@@ -31,6 +31,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WpfMath.Controls;
+using System.Globalization;
 
 namespace GUI_Application {
     /// <summary>
@@ -47,7 +48,12 @@ namespace GUI_Application {
 #pragma warning restore CS0067
 
         public string EquationTextBox { get; set; } = @"1000.583666 + \sqrt[2]{36}";
-        public string MainTextBox { get; set; } = @"1 006.583 666";
+        public string MainTextBox { get; set; } = @"";
+
+        public int inputNumber { get; set; } = 0;
+        public double lastInput { get; set; } = 0;
+        public bool newInput { get; set; } = false;
+        public string lastOperation { get; set; } = "";
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             // Keyboard press event
@@ -57,10 +63,14 @@ namespace GUI_Application {
         private void Number_Click(object sender, RoutedEventArgs e) { 
             if(sender is ContentControl c) {
                 if(c.Content is TextBlock t) {
-                    // Example
-                    // MainTextBox += t.Text;
 
-                    throw new NotImplementedException();
+                    if (newInput) {
+                        MainTextBox = "";
+                    }
+                    MainTextBox += t.Text;
+                    newInput = false;
+
+                    //                 throw new NotImplementedException();
                 }
             }
         }
@@ -74,7 +84,47 @@ namespace GUI_Application {
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
                 if (c.Content is FormulaControl fc) {
-                    throw new NotImplementedException();
+
+                    if (inputNumber == 0) {
+
+                        lastInput = double.Parse(MainTextBox);
+                        lastOperation = fc.Formula;
+                        inputNumber = 1;
+                        newInput = true;
+                        return;
+
+                    }
+
+                    switch (lastOperation) {
+
+                        case "=":
+                        break;
+                        case "+":
+                        MainTextBox = "" + (lastInput + double.Parse(MainTextBox));
+                        break;
+                        case "-":
+                        MainTextBox = "" + (lastInput - double.Parse(MainTextBox));
+                        break;
+                        case @"\times":
+                        MainTextBox = "" + (lastInput * double.Parse(MainTextBox));
+                        break;
+                        case @"\div":
+                        MainTextBox = "" + (lastInput / double.Parse(MainTextBox));
+                        break;
+                        default:
+                            throw new NotImplementedException();
+                        break;
+
+                    }
+
+                    if (fc.Formula == "=") {
+                        inputNumber = 0;
+                    }
+                    lastInput = double.Parse(MainTextBox);
+                    lastOperation = fc.Formula;
+                    newInput = true;
+
+
                 } else if (c.Content is TextBlock t) {
                     // For mod operation
                     throw new NotImplementedException();
@@ -85,13 +135,16 @@ namespace GUI_Application {
         private void MathFractionDot_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
                 if (c.Content is FormulaControl) {
-                    throw new NotImplementedException();
+                    if (!MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
+                        MainTextBox += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+                    }
+                   
                 }
             }
         }
 
         private void TextClenaup_Click(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
+            MainTextBox = MainTextBox.Substring(0,MainTextBox.Length-1);
         }
     }
 }
