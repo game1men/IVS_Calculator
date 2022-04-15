@@ -41,7 +41,7 @@ namespace GUI_Application {
         public MainWindow() {
             InitializeComponent();
             DataContext = this; // This enables binding to properties
-           
+
         }
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged; // Binding event
@@ -54,15 +54,19 @@ namespace GUI_Application {
         public double lastInput { get; set; } = 0;
         public bool newInput { get; set; } = false;
         public string lastOperation { get; set; } = "";
+        public bool err { get; set; } = false;
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             // Keyboard press event
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
-        private void Number_Click(object sender, RoutedEventArgs e) { 
-            if(sender is ContentControl c) {
-                if(c.Content is TextBlock t) {
+        private void Number_Click(object sender, RoutedEventArgs e) {
+            if (sender is ContentControl c) {
+                if (c.Content is TextBlock t) {
+                    if (err == true) {
+                        ClearAfterError();
+                    }
 
                     if (newInput) {
                         MainTextBox = "";
@@ -74,9 +78,19 @@ namespace GUI_Application {
         }
 
         private void MathFunction_Click(object sender, RoutedEventArgs e) {
-            MathOperation_Click( sender,  e); // TEMPORARY
+            MathOperation_Click(sender, e); // TEMPORARY
         }
 
+        private void ClearAfterError() {
+            MainTextBox = "";
+            EquationTextBox = "";
+            err = false;
+            inputNumber = 0;
+            lastInput = 0;
+            newInput = false;
+            lastOperation = "";
+
+        }
         private bool OneArgumentOperations(string formula) {
             switch (formula) {
 
@@ -85,20 +99,35 @@ namespace GUI_Application {
                 return true;
                 break;
                 case @"\sqrt[2]{x}":
+                if (double.Parse(MainTextBox) < 0) {
+                    MainTextBox = "x musí být kladné číslo";
+                    err = true;
+                    return true;
+                }
                 EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
                 MainTextBox = "" + Math.Sqrt(double.Parse(MainTextBox));
-             
+
                 inputNumber = 0;
                 return true;
                 break;
                 case @"x!":
+                if (double.Parse(MainTextBox) < 0) {
+                    MainTextBox = "x musí být kladné číslo";
+                    err = true;
+                    return true;
+                }
+                if (double.Parse(MainTextBox) % 1 != 0) {
+                    MainTextBox = "x musí být celé číslo";
+                    err = true;
+                    return true;
+                }
                 throw new NotImplementedException();
                 break;
                 case @"x^2":
                 EquationTextBox = MainTextBox + "^2";
                 MainTextBox = "" + Math.Pow(double.Parse(MainTextBox), 2);
 
-        
+
                 inputNumber = 0;
                 return true;
                 break;
@@ -111,6 +140,12 @@ namespace GUI_Application {
         private void MathOperations(string formula) {
 
 
+
+
+            if (MainTextBox == "") {
+                return;
+                err = false;
+            }
 
 
             if (inputNumber == 0) {
@@ -145,21 +180,41 @@ namespace GUI_Application {
 
                 break;
                 case @"\div":
+                if (double.Parse(MainTextBox) == 0) {
+                    MainTextBox = "Nelze dělit 0";
+                    err = true;
+                    return;
+                }
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 MainTextBox = "" + (lastInput / double.Parse(MainTextBox));
 
                 break;
                 case @"\sqrt[n]{x}":
+                if (double.Parse(MainTextBox) < 0) {
+                    MainTextBox = "x musí být kladné číslo";
+                    err = true;
+                    return;
+                }
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 MainTextBox = "" + Math.Pow(lastInput, 1 / double.Parse(MainTextBox));
 
                 break;
                 case @"mod":
+                if (double.Parse(MainTextBox) == 0) {
+                    MainTextBox = "Nelze dělit 0";
+                    err = true;
+                    return;
+                }
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 MainTextBox = "" + lastInput % double.Parse(MainTextBox);
 
                 break;
                 case @"x^n":
+                if (double.Parse(MainTextBox) % 1 != 0) {
+                    MainTextBox = "n musí být celé číslo";
+                    err = true;
+                    return;
+                }
                 EquationTextBox = "" + lastInput + "^" + MainTextBox;
                 MainTextBox = "" + Math.Pow(lastInput, double.Parse(MainTextBox));
 
@@ -184,6 +239,9 @@ namespace GUI_Application {
 
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
+                if (err == true) {
+                    ClearAfterError();
+                }
                 if (c.Content is FormulaControl fc) {
 
 
@@ -206,16 +264,44 @@ namespace GUI_Application {
         private void MathFractionDot_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
                 if (c.Content is FormulaControl) {
-                    if (!MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
+                    if (err == true) {
+                        MainTextBox = "";
+                        err = false;
+                    }
+                    if (!MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator) && MainTextBox != "") {
                         MainTextBox += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
                     }
-                   
+
                 }
             }
         }
 
         private void TextClenaup_Click(object sender, RoutedEventArgs e) {
-            MainTextBox = MainTextBox.Substring(0,MainTextBox.Length-1);
+            if (sender is ContentControl c) {
+                if (c.Content is TextBlock t) {
+                    if (err == true) {
+                        ClearAfterError();
+                    }
+                    switch (t.Text) {
+                        case "◄":
+                        if (MainTextBox.Length >= 1) {
+                            MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
+                            if (MainTextBox.EndsWith(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
+                                MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
+                            }
+                        }
+
+
+                        break;
+                        case "C":
+                        MainTextBox = "";
+                        break;
+
+                    }
+
+                }
+            }
+
         }
     }
 }
