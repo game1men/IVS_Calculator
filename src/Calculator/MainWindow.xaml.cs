@@ -47,7 +47,7 @@ namespace GUI_Application {
         public event PropertyChangedEventHandler? PropertyChanged; // Binding event
 #pragma warning restore CS0067
 
-        public string EquationTextBox { get; set; } = @"1000.583666 + \sqrt[2]{36}";
+        public string EquationTextBox { get; set; } = @"";
         public string MainTextBox { get; set; } = @"";
 
         public int inputNumber { get; set; } = 0;
@@ -69,65 +69,136 @@ namespace GUI_Application {
                     }
                     MainTextBox += t.Text;
                     newInput = false;
-
-                    //                 throw new NotImplementedException();
                 }
             }
         }
 
         private void MathFunction_Click(object sender, RoutedEventArgs e) {
-            if (sender is ContentControl c) {
+            MathOperation_Click( sender,  e); // TEMPORARY
+        }
+
+        private bool OneArgumentOperations(string formula) {
+            switch (formula) {
+
+                case "=":
+                inputNumber = 0;
+                return true;
+                break;
+                case @"\sqrt[2]{x}":
+                EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
+                MainTextBox = "" + Math.Sqrt(double.Parse(MainTextBox));
+             
+                inputNumber = 0;
+                return true;
+                break;
+                case @"x!":
                 throw new NotImplementedException();
+                break;
+                case @"x^2":
+                EquationTextBox = MainTextBox + "^2";
+                MainTextBox = "" + Math.Pow(double.Parse(MainTextBox), 2);
+
+        
+                inputNumber = 0;
+                return true;
+                break;
+
             }
+            return false;
+        }
+
+
+        private void MathOperations(string formula) {
+
+
+
+
+            if (inputNumber == 0) {
+                if (OneArgumentOperations(formula))
+                    return;
+                lastInput = double.Parse(MainTextBox);
+                lastOperation = formula;
+                inputNumber = 1;
+                newInput = true;
+                return;
+
+            }
+
+
+
+            switch (lastOperation) {
+
+
+                case "+":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                MainTextBox = "" + (lastInput + double.Parse(MainTextBox));
+
+                break;
+                case "-":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                MainTextBox = "" + (lastInput - double.Parse(MainTextBox));
+
+                break;
+                case @"\times":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                MainTextBox = "" + (lastInput * double.Parse(MainTextBox));
+
+                break;
+                case @"\div":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                MainTextBox = "" + (lastInput / double.Parse(MainTextBox));
+
+                break;
+                case @"\sqrt[n]{x}":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                MainTextBox = "" + Math.Pow(lastInput, 1 / double.Parse(MainTextBox));
+
+                break;
+                case @"mod":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                MainTextBox = "" + lastInput % double.Parse(MainTextBox);
+
+                break;
+                case @"x^n":
+                EquationTextBox = "" + lastInput + "^" + MainTextBox;
+                MainTextBox = "" + Math.Pow(lastInput, double.Parse(MainTextBox));
+
+                break;
+
+            }
+
+
+
+
+
+            if (OneArgumentOperations(formula))
+                return;
+
+
+            lastInput = double.Parse(MainTextBox);
+            lastOperation = formula;
+            newInput = true;
+
+
         }
 
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
                 if (c.Content is FormulaControl fc) {
 
-                    if (inputNumber == 0) {
 
-                        lastInput = double.Parse(MainTextBox);
-                        lastOperation = fc.Formula;
-                        inputNumber = 1;
-                        newInput = true;
-                        return;
 
-                    }
 
-                    switch (lastOperation) {
 
-                        case "=":
-                        break;
-                        case "+":
-                        MainTextBox = "" + (lastInput + double.Parse(MainTextBox));
-                        break;
-                        case "-":
-                        MainTextBox = "" + (lastInput - double.Parse(MainTextBox));
-                        break;
-                        case @"\times":
-                        MainTextBox = "" + (lastInput * double.Parse(MainTextBox));
-                        break;
-                        case @"\div":
-                        MainTextBox = "" + (lastInput / double.Parse(MainTextBox));
-                        break;
-                        default:
-                            throw new NotImplementedException();
-                        break;
+                    MathOperations(fc.Formula);
 
-                    }
 
-                    if (fc.Formula == "=") {
-                        inputNumber = 0;
-                    }
-                    lastInput = double.Parse(MainTextBox);
-                    lastOperation = fc.Formula;
-                    newInput = true;
+
 
 
                 } else if (c.Content is TextBlock t) {
-                    // For mod operation
-                    throw new NotImplementedException();
+
+                    MathOperations(t.Text);
                 }
             }
         }
