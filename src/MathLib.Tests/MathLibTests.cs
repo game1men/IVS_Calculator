@@ -7,26 +7,18 @@
  * 
  * */
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MathLib;
 using Xunit;
 
-namespace MathLib.Tests
-{
-    public class MathLibTests
-    {
+namespace MathLib.Tests {
+    public class MathLibTests {
 
         [Theory]
-        [InlineData(2.0,3.0, 5.0)] 
-        [InlineData(8.0, 11.0, 19.0)] 
+        [InlineData(2.0, 3.0, 5.0)]
+        [InlineData(8.0, 11.0, 19.0)]
         [InlineData(10.0, 14.0, 24.0)]
         [InlineData(8000000, 8000000, 16000000)]
-        [InlineData(double.MaxValue, double.MaxValue, double.MaxValue*2)]
-        public void AddPositiveValsShouldCalculate(double x, double y, double expected)
-        {
+        [InlineData(double.MaxValue, double.MaxValue, double.MaxValue * 2)]
+        public void AddPositiveValsShouldCalculate(double x, double y, double expected) {
             double actual = CalcMathLib.Add(x, y);
             Assert.Equal(expected, actual);
         }
@@ -37,8 +29,7 @@ namespace MathLib.Tests
         [InlineData(-34.0, -87.0, -121.0)]
         [InlineData(-67.0, -546.0, -613.0)]
         [InlineData(-double.MaxValue, double.MaxValue, 0)]
-        public void AddNegativeValsShouldCalculate(double x, double y, double expected)
-        {
+        public void AddNegativeValsShouldCalculate(double x, double y, double expected) {
             double actual = CalcMathLib.Add(x, y);
             Assert.Equal(expected, actual);
         }
@@ -49,20 +40,66 @@ namespace MathLib.Tests
         [InlineData(50.0, -67.0, -17.0)]
         [InlineData(67.0, -546.0, -479.0)]
         [InlineData(double.MaxValue, -double.MaxValue, 0)]
-        public void AddPositiveAndNegativeValsShouldCalculate(double x, double y, double expected)
-        {
+        public void AddPositiveAndNegativeValsShouldCalculate(double x, double y, double expected) {
             double actual = CalcMathLib.Add(x, y);
             Assert.Equal(expected, actual);
         }
+        [Theory]
+        [InlineData(double.NaN, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(45423, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void AddNaNValsShouldCalculate(double x, double y, double expected) {
 
+            double actual = CalcMathLib.Add(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        
+        [Theory]
+        [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
+        [InlineData(145, double.PositiveInfinity, double.PositiveInfinity)]
+        [InlineData(-23, double.PositiveInfinity, double.PositiveInfinity)]
+        [InlineData(double.PositiveInfinity, double.NegativeInfinity, double.NaN)]
+        [InlineData(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity)]
+        [InlineData(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity)]
+        public void AddInfinityValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Add(x, y);
+            Assert.Equal(expected, actual);
+
+        }
         [Theory]
         [InlineData(17.0, 12.0, 5.0)]
         [InlineData(450.0, 650.0, -200.0)]
         [InlineData(50.0, 67.0, -17.0)]
         [InlineData(67.0, 546.0, -479.0)]
-        [InlineData(double.MaxValue, 4, double.MaxValue-4)]
-        public void SubPositiveValsShouldCalculate(double x, double y, double expected)
-        {
+        [InlineData(double.MaxValue, 4, double.MaxValue - 4)]
+        public void SubPositiveValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Sub(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.NaN, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(45423, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void SubNaNValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Sub(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
+        [InlineData(145, double.PositiveInfinity, double.NegativeInfinity)]
+        [InlineData(-23, double.PositiveInfinity, double.NegativeInfinity)]
+        [InlineData(double.PositiveInfinity, double.NegativeInfinity, double.PositiveInfinity)]
+        [InlineData(double.PositiveInfinity, double.PositiveInfinity, double.NaN)]
+        [InlineData(double.NegativeInfinity, double.NegativeInfinity, double.NaN)]
+        public void SubInfinityValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Sub(x, y);
             Assert.Equal(expected, actual);
@@ -74,8 +111,7 @@ namespace MathLib.Tests
         [InlineData(-50.0, -67.0, 17.0)]
         [InlineData(-67.0, -546.0, 479.0)]
         [InlineData(-double.MaxValue, -double.MaxValue, 0)]
-        public void SubNegativeValsShouldCalculate(double x, double y, double expected)
-        {
+        public void SubNegativeValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Sub(x, y);
             Assert.Equal(expected, actual);
@@ -87,10 +123,33 @@ namespace MathLib.Tests
         [InlineData(-50.0, 67.0, -117.0)]
         [InlineData(-67.0, 546.0, -613.0)]
         [InlineData(-double.MaxValue, -double.MaxValue, 0)]
-        public void SubPositiveAndNegativeShouldCalculate(double x, double y, double expected)
-        {
+        public void SubPositiveAndNegativeShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Sub(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.NaN, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(45423, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void MulNaNValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Mul(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
+        [InlineData(145, double.PositiveInfinity, double.PositiveInfinity)]
+        [InlineData(-23, double.PositiveInfinity, double.NegativeInfinity)]
+        [InlineData(double.PositiveInfinity, double.NegativeInfinity, double.NegativeInfinity)]
+        [InlineData(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity)]
+        [InlineData(double.NegativeInfinity, double.NegativeInfinity, double.PositiveInfinity)]
+        public void MulInfinityValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Mul(x, y);
             Assert.Equal(expected, actual);
 
         }
@@ -99,9 +158,8 @@ namespace MathLib.Tests
         [InlineData(1000.0, 7.0, 7000.0)]
         [InlineData(50.0, 56.0, 2800.0)]
         [InlineData(67.0, 4.0, 268.0)]
-        [InlineData(double.MaxValue, 2, double.MaxValue*2)]
-        public void MulPositiveValsShouldCalculate(double x, double y, double expected)
-        {
+        [InlineData(double.MaxValue, 2, double.MaxValue * 2)]
+        public void MulPositiveValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Mul(x, y);
             Assert.Equal(expected, actual);
@@ -112,9 +170,8 @@ namespace MathLib.Tests
         [InlineData(-1000.0, -7.0, 7000.0)]
         [InlineData(-50.0, -56.0, 2800.0)]
         [InlineData(-67.0, -4.0, 268.0)]
-        [InlineData(-double.MaxValue, -2, double.MaxValue * 2)]
-        public void MulNegativeValsShouldCalculate(double x, double y, double expected)
-        {
+        [InlineData(double.MinValue, -2, double.MaxValue * 2)]
+        public void MulNegativeValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Mul(x, y);
             Assert.Equal(expected, actual);
@@ -127,22 +184,43 @@ namespace MathLib.Tests
         [InlineData(-50.0, 56.0, -2800.0)]
         [InlineData(67.0, -4.0, -268.0)]
         [InlineData(-double.MaxValue, 2, (-1 * double.MaxValue) * 2)]
-        public void MulNegativeAndPositiveValsShouldCalculate(double x, double y, double expected)
-        {
+        public void MulNegativeAndPositiveValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Mul(x, y);
             Assert.Equal(expected, actual);
 
         }
+        [Theory]
+        [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
+        [InlineData(145, double.PositiveInfinity, 0)]
+        [InlineData(-23, double.PositiveInfinity, -0)]
+        [InlineData(double.PositiveInfinity, double.NegativeInfinity, double.NaN)]
+        [InlineData(double.PositiveInfinity, double.PositiveInfinity, double.NaN)]
+        [InlineData(double.NegativeInfinity, double.NegativeInfinity, double.NaN)]
+        public void DivInfinityValsShouldCalculate(double x, double y, double expected) {
 
+            double actual = CalcMathLib.Div(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.NaN, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(45423, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void DivNaNValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Div(x, y);
+            Assert.Equal(expected, actual);
+
+        }
         [Theory]
         [InlineData(75.0, 1.0, 75.0)]
         [InlineData(1000.0, 7.0, 142.85714285714286)]
         [InlineData(50.0, 5.0, 10.0)]
         [InlineData(850000.0, 4.0, 212500.0)]
         [InlineData(double.MaxValue, 2, double.MaxValue / 2)]
-        public void DivPositiveValsShouldCalculate(double x, double y, double expected)
-        {
+        public void DivPositiveValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Div(x, y);
             Assert.Equal(expected, actual);
@@ -150,12 +228,10 @@ namespace MathLib.Tests
         }
 
         [Theory]
-        [InlineData(1.0, 0.0, double.NaN)]
-        public void DivByzeroShouldNotCalculate(double x, double y, double expected)
-        {
+        [InlineData(1.0, 0.0)]
+        public void DivByzeroShouldNotCalculate(double x, double y) {
 
-            double actual = CalcMathLib.Div(x, y);
-            Assert.Equal(expected, actual);
+            Assert.Throws<DivideByZeroException>(() => CalcMathLib.Div(x, y));
 
         }
 
@@ -165,8 +241,7 @@ namespace MathLib.Tests
         [InlineData(-900, -11.5, 78.26086956521739)]
         [InlineData(-750, -3.0, 250.0)]
         [InlineData(-double.MaxValue, 2, -double.MaxValue / 2)]
-        public void DivNegativeValsShouldCalculate(double x, double y, double expected)
-        {
+        public void DivNegativeValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Div(x, y);
             Assert.Equal(expected, actual);
@@ -177,70 +252,137 @@ namespace MathLib.Tests
         [InlineData(666.0, -111.0, -6.0)]
         [InlineData(900.0, -11.5, -78.26086956521739)]
         [InlineData(750.0, -3.0, -250.0)]
-        [InlineData(double.MaxValue, -2, -double.MaxValue / 2)]
-        public void DivNegativeAndPositiveValsShouldCalculate(double x, double y, double expected)
-        {
+        [InlineData(double.MaxValue, -2, double.MinValue / 2)]
+        public void DivNegativeAndPositiveValsShouldCalculate(double x, double y, double expected) {
 
             double actual = CalcMathLib.Div(x, y);
             Assert.Equal(expected, actual);
 
         }
         [Theory]
-        [InlineData(5.0, 120.0)]
-        [InlineData(7.0, 5040.0)]
-        [InlineData(8.0, 40320.0)]
-        [InlineData(9.0, 362880.0)]
-        [InlineData(10.0, 3628800.0)]
-        [InlineData(11.0, 39916800.0)]
-        [InlineData(12.0, 479001600.0)]
-        [InlineData(14.0, 87178291200.0)]
+        [InlineData(double.NaN, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(45423, double.NaN, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void ModNaNValsShouldCalculate(double x, double y, double expected) {
 
-        public void FactorialPositiveValsShouldCalculate(double x, double expected)
-        {
+            double actual = CalcMathLib.Mod(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.PositiveInfinity, 3, double.NaN)]
+        [InlineData(145, double.PositiveInfinity, 145)]
+        [InlineData(-23, double.PositiveInfinity, -23)]
+        [InlineData(double.PositiveInfinity, double.NegativeInfinity, double.NaN)]
+        [InlineData(double.PositiveInfinity, double.PositiveInfinity, double.NaN)]
+        [InlineData(double.NegativeInfinity, double.NegativeInfinity, double.NaN)]
+        public void ModInfinityValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Mod(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(75.0, 10.0, 5.0)]
+        [InlineData(0.0, 12.0, 0.0)]
+        [InlineData(895.0, 7.0, 6.0)]
+        [InlineData(11145.47, 56.0, 1.4699999999993452)]
+        [InlineData(250000.0, 4.0, 0.0)]
+        public void ModPositiveValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Mod(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(-75.0, -10.0, -5.0)]
+        [InlineData(-1000.0, -7.0, -6.0)]
+        [InlineData(-50.0, -87856.0, -50.0)]
+        [InlineData(-67.0, -17474747.0, -67.0)]
+        public void ModNegativeValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Mod(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(-75.0, 10.0, -5.0)]
+        [InlineData(1000.0, -7177.0, 1000.0)]
+        [InlineData(-50.0, 787878.0, -50.0)]
+        [InlineData(67.0, -447477.0, 67.0)]
+        public void ModNegativeAndPositiveValsShouldCalculate(double x, double y, double expected) {
+
+            double actual = CalcMathLib.Mod(x, y);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(12.0, 0.0)]
+        [InlineData(-11.1, 0.0)]
+        public void ModByZeroShouldNotCalculate(double x, double y) {
+            Assert.Throws<Exception>(() => CalcMathLib.Mod(x, y));
+        }
+
+        [Theory]
+        [InlineData(0, 1)]
+        [InlineData(1, 1)]
+        [InlineData(5, 120)]
+        [InlineData(7, 5040)]
+        [InlineData(8, 40320)]
+        [InlineData(9, 362880)]
+        [InlineData(10, 3628800)]
+        [InlineData(11, 39916800)]
+        [InlineData(12, 479001600)]
+        public void FactorialPositiveValsShouldCalculate(int x, int expected) {
 
             double actual = CalcMathLib.Factorial(x);
             Assert.Equal(expected, actual);
         }
         [Theory]
-        [InlineData(5.2, double.NaN)]
-        [InlineData(7.789, double.NaN)]
-        [InlineData(8.0000000004, double.NaN)]
-        [InlineData(9.89972, double.NaN)]
-        [InlineData(10.47521417, double.NaN)]
-        [InlineData(11.174775857, double.NaN)]
-        [InlineData(12.24522452452, double.NaN)]
-        [InlineData(14.171172827, double.NaN)]
-        public void FactorialDecimalValsShouldNotCalculate(double x, double expected)
-        {
+        [InlineData(-1)]
+        [InlineData(-5)]
+        [InlineData(-7)]
+        [InlineData(-8)]
+        [InlineData(-9)]
+        [InlineData(-10)]
+        [InlineData(-11)]
+        [InlineData(-12)]
+        [InlineData(-14)]
+        [InlineData(-18)]
+        [InlineData(-20)]
+        public void FactorialNegativeValsShouldNotCalculate(int x) {
+            Assert.Throws<Exception>(() => CalcMathLib.Factorial(x));
 
-            double actual = CalcMathLib.Factorial(x);
+        }
+        [Theory]
+        [InlineData(double.NaN, 45, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void PowerNaNValsShouldCalculate(double x, int exponent, double expected) {
+
+            double actual = CalcMathLib.Power(x, exponent);
             Assert.Equal(expected, actual);
 
         }
         [Theory]
-        [InlineData(-1.0, double.NaN)]
-        [InlineData(-5.2, double.NaN)]
-        [InlineData(-7.789, double.NaN)]
-        [InlineData(-8.0000000004, double.NaN)]
-        [InlineData(-9.89972, double.NaN)]
-        [InlineData(-10.47521417, double.NaN)]
-        [InlineData(-11.174775857, double.NaN)]
-        [InlineData(-12.24522452452, double.NaN)]
-        [InlineData(-14.171172827, double.NaN)]
-        public void FactorialNegativeValsShouldNotCalculate(double x, double expected)
-        {
-            double actual = CalcMathLib.Factorial(x);
+        [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
+        [InlineData(145, int.MaxValue, double.PositiveInfinity)]
+        [InlineData(-23, int.MaxValue, double.NegativeInfinity)]
+        [InlineData(double.PositiveInfinity, int.MaxValue, double.PositiveInfinity)]
+        public void PowerInfinityValsShouldCalculate(double x, int exponent, double expected) {
+
+            double actual = CalcMathLib.Power(x, exponent);
             Assert.Equal(expected, actual);
 
         }
         [Theory]
-        [InlineData(3.0, 2.0, 9.0)]
-        [InlineData(4.0, 8.0, 65536.0)]
-        [InlineData(2.0, 32.0, 4294967296.0)]
-        [InlineData(1.0, 100.0, 1.0)]
-        [InlineData(50.0, 10.0, 97656250000000000.0)]
-        public void PowerPositiveValsWithNaturalExponentsShouldCalculate(double x, double exponent, double expected)
-        {
+        [InlineData(3.0, 2, 9.0)]
+        [InlineData(4.0, 8, 65536.0)]
+        [InlineData(2.0, 32, 4294967296.0)]
+        [InlineData(1.0, 100, 1.0)]
+        [InlineData(50.0, 10, 97656250000000000.0)]
+        public void PowerPositiveValsWithNaturalExponentsShouldCalculate(double x, int exponent, double expected) {
 
             double actual = CalcMathLib.Power(x, exponent);
             Assert.Equal(expected, actual);
@@ -255,8 +397,7 @@ namespace MathLib.Tests
         [InlineData(-11.0, 3.0, -1331.0)]
         [InlineData(-2, 3.0, -8.0)]
         [InlineData(-777.84, 2.0, 605035.0656000001)]
-        public void PowerNegativeValsWithNaturalExponentsShouldCalculate(double x, double exponent, double expected)
-        {
+        public void PowerNegativeValsWithNaturalExponentsShouldCalculate(double x, int exponent, double expected) {
 
             double actual = CalcMathLib.Power(x, exponent);
             Assert.Equal(expected, actual);
@@ -264,18 +405,22 @@ namespace MathLib.Tests
 
         }
         [Theory]
-        [InlineData(-3.0, 2.5, double.NaN)]
-        [InlineData(-4.0, 8.78772, double.NaN)]
-        [InlineData(-2.0, 32.74177, double.NaN)]
-        [InlineData(-1.0, 100.74747, double.NaN)]
-        [InlineData(-50.0, 10.457, double.NaN)]
-        [InlineData(-11.0, 3.47, double.NaN)]
-        [InlineData(-2, 3.1111111, double.NaN)]
-        [InlineData(-777.84, 2.55858675, double.NaN)]
-        public void PowerValsWithNonNaturalExponentsShouldNotCalculate(double x, double exponent, double expected)
-        {
+        [InlineData(double.NaN, 45, double.NaN)]
+        [InlineData(double.NaN, 4, double.NaN)]
+        [InlineData(double.NaN, 15, double.NaN)]
+        public void RootNaNValsShouldCalculate(double x, int exponent, double expected) {
 
-            double actual = CalcMathLib.Power(x, exponent);
+            double actual = CalcMathLib.Add(x, exponent);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
+        [InlineData(145, int.MaxValue, 1.0000000023174722)]
+        [InlineData(double.PositiveInfinity, int.MaxValue, double.PositiveInfinity)]
+        public void RootInfinityValsShouldCalculate(double x, int exponent, double expected) {
+
+            double actual = CalcMathLib.Root(x, exponent);
             Assert.Equal(expected, actual);
 
         }
@@ -285,26 +430,59 @@ namespace MathLib.Tests
         [InlineData(4.0, 2.0, 2.0)]
         [InlineData(144.0, 2.0, 12.0)]
         [InlineData(255.0, 8.0, 1.9990217644839356)]
-        public void RootPositiveValsShouldCalculate(double x, double exponent, double expected)
-        {
+        public void RootPositiveValsShouldCalculate(double x, int exponent, double expected) {
 
             double actual = CalcMathLib.Root(x, exponent);
             Assert.Equal(expected, actual);
 
         }
         [Theory]
-        [InlineData(-779.0, 2.0, double.NaN)]
-        [InlineData(-474725.0, 2.0, double.NaN)]
-        [InlineData(-5854.0, 2.0, double.NaN)]
-        [InlineData(-668144.0, 2.0, double.NaN)]
-        [InlineData(-5858255.0, 8.0, double.NaN)]
-        public void RootNegativeValsShouldNotCalculate(double x, double exponent, double expected)
-        {
+        [InlineData(-779.0, 2.0)]
+        [InlineData(-474725.0, 2.0)]
+        [InlineData(-5854.0, 2.0)]
+        [InlineData(-668144.0, 2.0)]
+        [InlineData(-5858255.0, 8.0)]
+        public void RootNegativeValsShouldNotCalculate(double x, int exponent) {
+            Assert.Throws<Exception>(() => CalcMathLib.Root(x, exponent));
+        }
+        [Theory]
+        [InlineData(4.0, 0)]
+        [InlineData(11.0, 0)]
+        [InlineData(25.0, 0)]
+        [InlineData(78.0, 0)]
+        [InlineData(963.0, 0)]
+        public void RootPositiveValsWithZeroExponentShouldCalculate(double x, int exponent) {
 
-            double actual = CalcMathLib.Root(x, exponent);
+            Assert.Throws<Exception>(() => CalcMathLib.Root(x, exponent));
+
+        }
+        [Theory]
+        [InlineData(-4.0, 0)]
+        [InlineData(-567.0, 0)]
+        [InlineData(-111.0, 0)]
+        [InlineData(-125.0, 0)]
+        [InlineData(-78523.0, 0)]
+        public void RootNegativeValsWithZeroExponentShouldCalculate(double x, int exponent) {
+
+            Assert.Throws<Exception>(() => CalcMathLib.Root(x, exponent));
+
+        }
+        [Theory]
+        [InlineData(double.NaN, double.NaN)]
+        public void NaturalLnNaNValShouldCalculate(double x, double expected) {
+
+            double actual = CalcMathLib.Log(x);
+            Assert.Equal(expected, actual);
+
+        }
+        [Theory]
+        [InlineData(double.PositiveInfinity, double.PositiveInfinity)]
+        public void NaturalLNInfinityValShouldCalculate(double x, double expected) {
+            double actual = CalcMathLib.Log(x);
             Assert.Equal(expected, actual);
         }
         [Theory]
+        [InlineData(Math.E,1.0)]
         [InlineData(1.0, 0.0)]
         [InlineData(2.0, 0.6931471805599453)]
         [InlineData(3.0, 1.0986122886681098)]
@@ -315,8 +493,7 @@ namespace MathLib.Tests
         [InlineData(8.0, 2.0794415416798357)]
         [InlineData(9.0, 2.1972245773362196)]
         [InlineData(10.0, 2.302585092994046)]
-        public void NaturalLnPositiveValsShouldCalculate(double x, double expected)
-        {
+        public void NaturalLnPositiveValsShouldCalculate(double x, double expected) {
 
             double actual = CalcMathLib.Log(x);
             Assert.Equal(expected, actual);
@@ -328,29 +505,25 @@ namespace MathLib.Tests
         [InlineData(1.3, 0.26236426446749106)]
         [InlineData(2.4, 0.8754687373538999)]
         [InlineData(double.MaxValue, 709.782712893384)]
-        public void NaturalLnPositiveDecimalValsShouldCalculate(double x, double expected) 
-        {
+        public void NaturalLnPositiveDecimalValsShouldCalculate(double x, double expected) {
 
             double actual = CalcMathLib.Log(x);
             Assert.Equal(expected, actual);
 
         }
         [Theory]
-        [InlineData(-2.0, double.NaN)]
-        [InlineData(-1.0, double.NaN)]
-        [InlineData(0.0, double.NaN)]
-        [InlineData(-0.0000040, double.NaN)]
-        [InlineData(-17176.0, double.NaN)]
-        [InlineData(-857.0, double.NaN)]
-        [InlineData(-879.0, double.NaN)]
-        [InlineData(-575719.0, double.NaN)]
-        [InlineData(-7510.10,double.NaN)]
-        public void NaturalLnNegativeOrZeroValsShouldNotCalculate(double x, double expected)
-        {
+        [InlineData(-2.0)]
+        [InlineData(-1.0)]
+        [InlineData(0.0)]
+        [InlineData(-0.0000040)]
+        [InlineData(-17176.0)]
+        [InlineData(-857.0)]
+        [InlineData(-879.0)]
+        [InlineData(-575719.0)]
+        [InlineData(-7510.10)]
+        public void NaturalLnNegativeOrZeroValsShouldNotCalculate(double x) {
 
-            double actual = CalcMathLib.Log(x);
-            Assert.Equal(expected, actual);
-
+            Assert.Throws<Exception>(() => CalcMathLib.Log(x));
         }
     }
 }
