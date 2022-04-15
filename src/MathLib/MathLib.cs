@@ -101,18 +101,20 @@ namespace MathLib {
          * 
          * @return Factorial of a given number
          */
-        public static double Factorial(double a) {
+        public static double Factorial(int a) {
 
             if (a < 0 || a % 1 != 0) {
                 throw new Exception();
             }
 
             else { 
-                for(double i = a - 1; i > 0; i--) { 
-                    a *= i;
+                double result = a;
+
+                for(int i = a - 1; i > 0; i--) { 
+                    result *= i;
                 }
 
-                return a;
+                return result;
             }
 
         }
