@@ -49,23 +49,22 @@ namespace GUI_Application {
 
         public string EquationTextBox { get; set; } = @"";
         public string MainTextBox { get; set; } = @"";
-
-        public int inputNumber { get; set; } = 0;
+        public int operandNumber { get; set; } = 0;
         public double lastInput { get; set; } = 0;
         public bool newInput { get; set; } = false;
         public string lastOperation { get; set; } = "";
         public bool err { get; set; } = false;
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
-            // Keyboard press event
-            //throw new NotImplementedException();
+            // Will be implemented in WPF TODO: Remove this function
         }
 
         private void Number_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
                 if (c.Content is TextBlock t) {
+                    //if error has occured reset everything
                     if (err == true) {
-                        ClearAfterError();
+                        reset();
                     }
 
                     if (newInput) {
@@ -77,25 +76,34 @@ namespace GUI_Application {
             }
         }
 
+        //TODO: Remove this function
         private void MathFunction_Click(object sender, RoutedEventArgs e) {
             MathOperation_Click(sender, e); // TEMPORARY
         }
-
-        private void ClearAfterError() {
+        /// <summary>
+        /// Resets calculator to default state
+        /// </summary>
+        private void reset() {
             MainTextBox = "";
             EquationTextBox = "";
             err = false;
-            inputNumber = 0;
+            operandNumber = 0;
             lastInput = 0;
             newInput = false;
             lastOperation = "";
 
         }
+        /// <summary>
+        /// Handles operations that take only one argument
+        /// </summary>
+        /// <param name="formula">string containing operation type</param>
+        /// <returns>true if operation was found</returns>
+        /// <exception cref="NotImplementedException">TODO: remove</exception>
         private bool OneArgumentOperations(string formula) {
             switch (formula) {
 
                 case "=":
-                inputNumber = 0;
+                operandNumber = 0;
                 return true;
                 break;
                 case @"\sqrt[2]{x}":
@@ -107,7 +115,7 @@ namespace GUI_Application {
                 EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
                 MainTextBox = "" + Math.Sqrt(double.Parse(MainTextBox));
 
-                inputNumber = 0;
+                operandNumber = 0;
                 return true;
                 break;
                 case @"x!":
@@ -121,14 +129,12 @@ namespace GUI_Application {
                     err = true;
                     return true;
                 }
-                throw new NotImplementedException();
+                throw new NotImplementedException();//TODO: implement
                 break;
                 case @"x^2":
                 EquationTextBox = MainTextBox + "^2";
                 MainTextBox = "" + Math.Pow(double.Parse(MainTextBox), 2);
-
-
-                inputNumber = 0;
+                operandNumber = 0;
                 return true;
                 break;
 
@@ -136,34 +142,32 @@ namespace GUI_Application {
             return false;
         }
 
-
+        /// <summary>
+        /// Handles math operations
+        /// </summary>
+        /// <param name="formula">string containing operation type</param>
         private void MathOperations(string formula) {
 
-
-
-
+           
             if (MainTextBox == "") {
                 return;
-                err = false;
             }
 
-
-            if (inputNumber == 0) {
+            //Checks if this is first operand of operation
+            if (operandNumber == 0) {
                 if (OneArgumentOperations(formula))
                     return;
                 lastInput = double.Parse(MainTextBox);
                 lastOperation = formula;
-                inputNumber = 1;
+                operandNumber = 1;
                 newInput = true;
+                EquationTextBox = "" + MainTextBox + " " + formula;
                 return;
 
             }
 
-
-
+            
             switch (lastOperation) {
-
-
                 case "+":
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 MainTextBox = "" + (lastInput + double.Parse(MainTextBox));
@@ -206,7 +210,7 @@ namespace GUI_Application {
                     return;
                 }
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + lastInput % double.Parse(MainTextBox);
+                MainTextBox = "" + (lastInput % double.Parse(MainTextBox));
 
                 break;
                 case @"x^n":
@@ -223,39 +227,23 @@ namespace GUI_Application {
             }
 
 
-
-
-
             if (OneArgumentOperations(formula))
                 return;
-
 
             lastInput = double.Parse(MainTextBox);
             lastOperation = formula;
             newInput = true;
-
-
+            EquationTextBox = "" + MainTextBox + " " + formula;
         }
 
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
             if (sender is ContentControl c) {
                 if (err == true) {
-                    ClearAfterError();
+                    reset();
                 }
                 if (c.Content is FormulaControl fc) {
-
-
-
-
-
                     MathOperations(fc.Formula);
-
-
-
-
-
                 } else if (c.Content is TextBlock t) {
-
                     MathOperations(t.Text);
                 }
             }
@@ -268,6 +256,7 @@ namespace GUI_Application {
                         MainTextBox = "";
                         err = false;
                     }
+                    //checks if it does not contain number decimal separator alredy
                     if (!MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator) && MainTextBox != "") {
                         MainTextBox += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
                     }
@@ -280,12 +269,13 @@ namespace GUI_Application {
             if (sender is ContentControl c) {
                 if (c.Content is TextBlock t) {
                     if (err == true) {
-                        ClearAfterError();
+                        reset();
                     }
                     switch (t.Text) {
                         case "◄":
                         if (MainTextBox.Length >= 1) {
                             MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
+                            //checks if decimal separator is not last character
                             if (MainTextBox.EndsWith(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
                                 MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
                             }
@@ -294,7 +284,7 @@ namespace GUI_Application {
 
                         break;
                         case "C":
-                        MainTextBox = "";
+                        reset();
                         break;
 
                     }
