@@ -102,10 +102,7 @@ namespace GUI_Application {
         private bool OneArgumentOperations(string formula) {
             switch (formula) {
 
-                case "=":
-                operandNumber = 0;
-                return true;
-                break;
+
                 case @"\sqrt[2]{x}":
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
@@ -143,30 +140,55 @@ namespace GUI_Application {
         }
 
         /// <summary>
+        /// Formats EquationTextBox acording to operation 
+        /// </summary>
+        /// <param name="formula">string containing operation type</param>
+        void FormatEquationTextBox(string formula) {
+            switch (lastOperation) {
+                case @"\sqrt[n]{x}":
+                EquationTextBox = @"\sqrt[n]{" + MainTextBox + "}";
+
+                break;
+                case @"x^n":
+                EquationTextBox = "" + MainTextBox + "^n";
+
+                break;
+                case @"=":
+
+
+                break;
+                default:
+                EquationTextBox = "" + MainTextBox + " " + formula;
+                break;
+            }
+        }
+
+
+        /// <summary>
         /// Handles math operations
         /// </summary>
         /// <param name="formula">string containing operation type</param>
         private void MathOperations(string formula) {
 
-           
+
             if (MainTextBox == "") {
                 return;
             }
-
+            if (OneArgumentOperations(formula))
+                return;
             //Checks if this is first operand of operation
             if (operandNumber == 0) {
-                if (OneArgumentOperations(formula))
-                    return;
+
                 lastInput = double.Parse(MainTextBox);
                 lastOperation = formula;
                 operandNumber = 1;
                 newInput = true;
-                EquationTextBox = "" + MainTextBox + " " + formula;
+                FormatEquationTextBox(formula);
                 return;
 
             }
 
-            
+
             switch (lastOperation) {
                 case "+":
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
@@ -199,7 +221,7 @@ namespace GUI_Application {
                     err = true;
                     return;
                 }
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + lastInput + "}";
                 MainTextBox = "" + Math.Pow(lastInput, 1 / double.Parse(MainTextBox));
 
                 break;
@@ -223,17 +245,17 @@ namespace GUI_Application {
                 MainTextBox = "" + Math.Pow(lastInput, double.Parse(MainTextBox));
 
                 break;
-
             }
 
 
-            if (OneArgumentOperations(formula))
-                return;
 
             lastInput = double.Parse(MainTextBox);
             lastOperation = formula;
             newInput = true;
-            EquationTextBox = "" + MainTextBox + " " + formula;
+
+            FormatEquationTextBox(formula);
+
+
         }
 
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
