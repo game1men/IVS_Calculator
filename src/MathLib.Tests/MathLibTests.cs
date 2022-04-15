@@ -69,6 +69,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(17.0, 12.0, 5.0)]
         [InlineData(450.0, 650.0, -200.0)]
@@ -81,6 +82,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.NaN, double.NaN, double.NaN)]
         [InlineData(double.NaN, 4, double.NaN)]
@@ -92,6 +94,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
         [InlineData(145, double.PositiveInfinity, double.NegativeInfinity)]
@@ -105,6 +108,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(-17.0, -12.0, -5.0)]
         [InlineData(-450.0, -650.0, 200.0)]
@@ -117,6 +121,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(17.0, -12.0, 29.0)]
         [InlineData(1000.0, -650.0, 1650.0)]
@@ -129,6 +134,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.NaN, double.NaN, double.NaN)]
         [InlineData(double.NaN, 4, double.NaN)]
@@ -140,6 +146,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
         [InlineData(145, double.PositiveInfinity, double.PositiveInfinity)]
@@ -153,6 +160,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(44.0, 10.0, 440.0)]
         [InlineData(1000.0, 7.0, 7000.0)]
@@ -165,6 +173,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(-75.0, -1.0, 75.0)]
         [InlineData(-1000.0, -7.0, 7000.0)]
@@ -190,6 +199,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
         [InlineData(145, double.PositiveInfinity, 0)]
@@ -203,6 +213,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.NaN, double.NaN, double.NaN)]
         [InlineData(double.NaN, 4, double.NaN)]
@@ -214,6 +225,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(75.0, 1.0, 75.0)]
         [InlineData(1000.0, 7.0, 142.85714285714286)]
@@ -229,6 +241,7 @@ namespace MathLib.Tests {
 
         [Theory]
         [InlineData(1.0, 0.0)]
+        [InlineData(0.0,0.0)]
         public void DivByzeroShouldNotCalculate(double x, double y) {
 
             Assert.Throws<DivideByZeroException>(() => CalcMathLib.Div(x, y));
@@ -247,6 +260,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(50, -55.0, -0.9090909090909091)]
         [InlineData(666.0, -111.0, -6.0)]
@@ -259,6 +273,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.NaN, double.NaN, double.NaN)]
         [InlineData(double.NaN, 4, double.NaN)]
@@ -270,6 +285,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.NaN)]
         [InlineData(145, double.PositiveInfinity, 145)]
@@ -283,6 +299,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(75.0, 10.0, 5.0)]
         [InlineData(0.0, 12.0, 0.0)]
@@ -295,6 +312,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(-75.0, -10.0, -5.0)]
         [InlineData(-1000.0, -7.0, -6.0)]
@@ -306,6 +324,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(-75.0, 10.0, -5.0)]
         [InlineData(1000.0, -7177.0, 1000.0)]
@@ -317,7 +336,9 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
+        [InlineData(0.0,0.0)]
         [InlineData(12.0, 0.0)]
         [InlineData(-11.1, 0.0)]
         public void ModByZeroShouldNotCalculate(double x, double y) {
@@ -339,6 +360,7 @@ namespace MathLib.Tests {
             double actual = CalcMathLib.Factorial(x);
             Assert.Equal(expected, actual);
         }
+
         [Theory]
         [InlineData(-1)]
         [InlineData(-5)]
@@ -355,6 +377,7 @@ namespace MathLib.Tests {
             Assert.Throws<Exception>(() => CalcMathLib.Factorial(x));
 
         }
+
         [Theory]
         [InlineData(double.NaN, 45, double.NaN)]
         [InlineData(double.NaN, 4, double.NaN)]
@@ -365,6 +388,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
         [InlineData(145, int.MaxValue, double.PositiveInfinity)]
@@ -376,11 +400,15 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(3.0, 2, 9.0)]
         [InlineData(4.0, 8, 65536.0)]
         [InlineData(2.0, 32, 4294967296.0)]
         [InlineData(1.0, 100, 1.0)]
+        [InlineData(1.0, 0, 1.0)]
+        [InlineData(15.0, 0, 1.0)]
+        [InlineData(17.56, 0, 1.0)]
         [InlineData(50.0, 10, 97656250000000000.0)]
         public void PowerPositiveValsWithNaturalExponentsShouldCalculate(double x, int exponent, double expected) {
 
@@ -388,14 +416,18 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
-        [InlineData(-3.0, 2.0, 9.0)]
-        [InlineData(-4.0, 8.0, 65536.0)]
-        [InlineData(-2.0, 32.0, 4294967296.0)]
-        [InlineData(-1.0, 100.0, 1.0)]
-        [InlineData(-50.0, 10.0, 97656250000000000.0)]
-        [InlineData(-11.0, 3.0, -1331.0)]
-        [InlineData(-2, 3.0, -8.0)]
+        [InlineData(-3.0, 2, 9.0)]
+        [InlineData(-4.0, 8, 65536.0)]
+        [InlineData(-2.0, 32, 4294967296.0)]
+        [InlineData(-1.0, 100, 1.0)]
+        [InlineData(-50.0, 10, 97656250000000000.0)]
+        [InlineData(-11.0, 3, -1331.0)]
+        [InlineData(-2, 3, -8.0)]
+        [InlineData(-2, 0, 1.0)]
+        [InlineData(-27, 0, 1.0)]
+        [InlineData(-13.5888, 0, 1.0)]
         [InlineData(-777.84, 2.0, 605035.0656000001)]
         public void PowerNegativeValsWithNaturalExponentsShouldCalculate(double x, int exponent, double expected) {
 
@@ -403,6 +435,11 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
 
+        }
+
+        [Fact]
+        public void PowerWithZeroExponentShouldNotCalculate() {
+            Assert.Throws<DivideByZeroException>(() => CalcMathLib.Power(0.0, 0));
         }
         [Theory]
         [InlineData(double.NaN, 45, double.NaN)]
@@ -414,6 +451,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
         [InlineData(145, int.MaxValue, 1.0000000023174722)]
@@ -424,6 +462,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(9.0, 2.0, 3.0)]
         [InlineData(25.0, 2.0, 5.0)]
@@ -436,15 +475,19 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
+        [InlineData(0.0,0.0)]
+        [InlineData(10.0, 0.0)]
         [InlineData(-779.0, 2.0)]
         [InlineData(-474725.0, 2.0)]
         [InlineData(-5854.0, 2.0)]
         [InlineData(-668144.0, 2.0)]
         [InlineData(-5858255.0, 8.0)]
-        public void RootNegativeValsShouldNotCalculate(double x, int exponent) {
+        public void RootNegativeOrZeroValsShouldNotCalculate(double x, int exponent) {
             Assert.Throws<Exception>(() => CalcMathLib.Root(x, exponent));
         }
+
         [Theory]
         [InlineData(4.0, 0)]
         [InlineData(11.0, 0)]
@@ -456,6 +499,7 @@ namespace MathLib.Tests {
             Assert.Throws<Exception>(() => CalcMathLib.Root(x, exponent));
 
         }
+
         [Theory]
         [InlineData(-4.0, 0)]
         [InlineData(-567.0, 0)]
@@ -467,20 +511,20 @@ namespace MathLib.Tests {
             Assert.Throws<Exception>(() => CalcMathLib.Root(x, exponent));
 
         }
-        [Theory]
-        [InlineData(double.NaN, double.NaN)]
-        public void NaturalLnNaNValShouldCalculate(double x, double expected) {
 
-            double actual = CalcMathLib.Log(x);
-            Assert.Equal(expected, actual);
-
+        [Fact]
+        public void NaturalLnNaNValShouldCalculate() {
+            double actual = CalcMathLib.Log(double.NaN);
+            Assert.Equal(double.NaN, actual);
         }
         [Theory]
         [InlineData(double.PositiveInfinity, double.PositiveInfinity)]
+        [InlineData(double.NegativeInfinity, double.NegativeInfinity)]
         public void NaturalLNInfinityValShouldCalculate(double x, double expected) {
             double actual = CalcMathLib.Log(x);
             Assert.Equal(expected, actual);
         }
+
         [Theory]
         [InlineData(Math.E,1.0)]
         [InlineData(1.0, 0.0)]
@@ -499,6 +543,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(1.1, 0.09531017980432493)]
         [InlineData(1.2, 0.1823215567939546)]
@@ -511,6 +556,7 @@ namespace MathLib.Tests {
             Assert.Equal(expected, actual);
 
         }
+
         [Theory]
         [InlineData(-2.0)]
         [InlineData(-1.0)]
