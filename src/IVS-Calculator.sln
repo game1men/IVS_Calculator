@@ -4,13 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathLib", "MathLib\MathLib.csproj", "{07BE4392-9E8E-4B61-B0B2-87274B5624F1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{27F90697-6385-4760-8008-74A92E7A81A4} = {27F90697-6385-4760-8008-74A92E7A81A4}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator", "Calculator\Calculator.csproj", "{27F90697-6385-4760-8008-74A92E7A81A4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{07BE4392-9E8E-4B61-B0B2-87274B5624F1} = {07BE4392-9E8E-4B61-B0B2-87274B5624F1}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathLib.Tests", "MathLib.Tests\MathLib.Tests.csproj", "{9A1BF833-3D30-44F7-90FA-3A6ACA7D13E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MathLib.Tests", "MathLib.Tests\MathLib.Tests.csproj", "{9A1BF833-3D30-44F7-90FA-3A6ACA7D13E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

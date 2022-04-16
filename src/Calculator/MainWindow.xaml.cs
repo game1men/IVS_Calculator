@@ -32,6 +32,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WpfMath.Controls;
 using System.Globalization;
+using MathLib;
 
 namespace GUI_Application {
     /// <summary>
@@ -60,13 +61,13 @@ namespace GUI_Application {
         }
 
         private void Number_Click(object sender, RoutedEventArgs e) {
+
             if (sender is ContentControl c) {
                 if (c.Content is TextBlock t) {
                     //if error has occured reset everything
                     if (err == true) {
                         reset();
                     }
-
                     if (newInput) {
                         MainTextBox = "";
                     }
@@ -91,8 +92,8 @@ namespace GUI_Application {
             lastInput = 0;
             newInput = false;
             lastOperation = "";
-
         }
+
         /// <summary>
         /// Handles operations that take only one argument
         /// </summary>
@@ -100,9 +101,8 @@ namespace GUI_Application {
         /// <returns>true if operation was found</returns>
         /// <exception cref="NotImplementedException">TODO: remove</exception>
         private bool OneArgumentOperations(string formula) {
+
             switch (formula) {
-
-
                 case @"\sqrt[2]{x}":
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
@@ -110,10 +110,10 @@ namespace GUI_Application {
                     return true;
                 }
                 EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
-                MainTextBox = "" + Math.Sqrt(double.Parse(MainTextBox));
-
+                MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2);
                 operandNumber = 0;
                 return true;
+
                 break;
                 case @"x!":
                 if (double.Parse(MainTextBox) < 0) {
@@ -126,15 +126,18 @@ namespace GUI_Application {
                     err = true;
                     return true;
                 }
-                throw new NotImplementedException();//TODO: implement
+                EquationTextBox = @"" + MainTextBox + "!";
+                MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox));
+                return true;
+
                 break;
                 case @"x^2":
                 EquationTextBox = MainTextBox + "^2";
-                MainTextBox = "" + Math.Pow(double.Parse(MainTextBox), 2);
+                MainTextBox = "" + CalcMathLib.Power(double.Parse(MainTextBox), 2);
                 operandNumber = 0;
                 return true;
-                break;
 
+                break;
             }
             return false;
         }
@@ -144,6 +147,7 @@ namespace GUI_Application {
         /// </summary>
         /// <param name="formula">string containing operation type</param>
         void FormatEquationTextBox(string formula) {
+
             switch (lastOperation) {
                 case @"\sqrt[n]{x}":
                 EquationTextBox = @"\sqrt[n]{" + MainTextBox + "}";
@@ -155,14 +159,13 @@ namespace GUI_Application {
                 break;
                 case @"=":
 
-
                 break;
                 default:
                 EquationTextBox = "" + MainTextBox + " " + formula;
+
                 break;
             }
         }
-
 
         /// <summary>
         /// Handles math operations
@@ -170,10 +173,15 @@ namespace GUI_Application {
         /// <param name="formula">string containing operation type</param>
         private void MathOperations(string formula) {
 
+            //removes decimal separator if it is last character
+            if (MainTextBox.EndsWith(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
+                MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
+            }
 
             if (MainTextBox == "") {
                 return;
             }
+
             if (OneArgumentOperations(formula))
                 return;
             //Checks if this is first operand of operation
@@ -185,24 +193,23 @@ namespace GUI_Application {
                 newInput = true;
                 FormatEquationTextBox(formula);
                 return;
-
             }
 
-
+            //determines whicht two operator operation to use 
             switch (lastOperation) {
                 case "+":
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + (lastInput + double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Add(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case "-":
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + (lastInput - double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Sub(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"\times":
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + (lastInput * double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Mul(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"\div":
@@ -212,7 +219,7 @@ namespace GUI_Application {
                     return;
                 }
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + (lastInput / double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Div(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"\sqrt[n]{x}":
@@ -222,7 +229,7 @@ namespace GUI_Application {
                     return;
                 }
                 EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + lastInput + "}";
-                MainTextBox = "" + Math.Pow(lastInput, 1 / double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Root(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"mod":
@@ -232,7 +239,7 @@ namespace GUI_Application {
                     return;
                 }
                 EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + (lastInput % double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Mod(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"x^n":
@@ -242,20 +249,16 @@ namespace GUI_Application {
                     return;
                 }
                 EquationTextBox = "" + lastInput + "^" + MainTextBox;
-                MainTextBox = "" + Math.Pow(lastInput, double.Parse(MainTextBox));
+                MainTextBox = "" + CalcMathLib.Power(lastInput, double.Parse(MainTextBox));
 
                 break;
             }
 
-
-
             lastInput = double.Parse(MainTextBox);
             lastOperation = formula;
-            newInput = true;
+            newInput = true;//sets flag to clear MainTextBox when new number is inputed
 
             FormatEquationTextBox(formula);
-
-
         }
 
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
@@ -302,15 +305,11 @@ namespace GUI_Application {
                                 MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
                             }
                         }
-
-
                         break;
                         case "C":
                         reset();
                         break;
-
                     }
-
                 }
             }
 
