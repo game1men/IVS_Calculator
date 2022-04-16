@@ -113,6 +113,7 @@ namespace GUI_Application {
                
                 MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2);
                 operandNumber = 0;
+                newInput = false;
                 return true;
 
                 break;
@@ -130,6 +131,7 @@ namespace GUI_Application {
                 }
                
                 MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox));
+                newInput = false;
                 return true;
 
                 break;
@@ -137,6 +139,14 @@ namespace GUI_Application {
                 EquationTextBox = MainTextBox + "^2";
                 MainTextBox = "" + CalcMathLib.Power(double.Parse(MainTextBox), 2);
                 operandNumber = 0;
+                newInput = false;
+                return true;
+
+                break;
+                case @"=":
+                EquationTextBox = EquationTextBox + "=";
+                operandNumber = 0;
+                newInput = false;
                 return true;
 
                 break;
@@ -160,7 +170,7 @@ namespace GUI_Application {
 
                 break;
                 case @"=":
-
+               
                 break;
                 default:
                 EquationTextBox = "" + MainTextBox + " " + formula;
@@ -321,6 +331,9 @@ namespace GUI_Application {
                     }
                     switch (t.Text) {
                         case "◄":
+                        if (newInput) {
+                            MainTextBox = "";
+                        }
                         if (MainTextBox.Length >= 1) {
                             MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
                             //checks if decimal separator is not last character
