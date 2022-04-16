@@ -104,18 +104,20 @@ namespace GUI_Application {
 
             switch (formula) {
                 case @"\sqrt[2]{x}":
+                EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
                     err = true;
                     return true;
                 }
-                EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
+               
                 MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2);
                 operandNumber = 0;
                 return true;
 
                 break;
                 case @"x!":
+                EquationTextBox = @"" + MainTextBox + "!";
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
                     err = true;
@@ -126,7 +128,7 @@ namespace GUI_Application {
                     err = true;
                     return true;
                 }
-                EquationTextBox = @"" + MainTextBox + "!";
+               
                 MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox));
                 return true;
 
@@ -173,19 +175,37 @@ namespace GUI_Application {
         /// <param name="formula">string containing operation type</param>
         private void MathOperations(string formula) {
 
+            //sets number as negative
+            if (formula == "-" && newInput) {
+                MainTextBox = "-";
+                newInput = false;
+                return;
+            }
+            //sets number as negative
+            if (formula == "-" && MainTextBox == "") {
+                MainTextBox = "-";
+                return;
+            }
+            //inverts number sign
+            if (MainTextBox == "-" &&(formula == "-" || formula == "+")) {
+                MainTextBox = "";
+                return;
+            }
+
             //removes decimal separator if it is last character
             if (MainTextBox.EndsWith(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
                 MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
             }
 
-            if (MainTextBox == "") {
-                return;
+            if (MainTextBox == "" || MainTextBox == "-") {
+                MainTextBox = "0";
             }
 
-            if (OneArgumentOperations(formula))
-                return;
             //Checks if this is first operand of operation
             if (operandNumber == 0) {
+
+                if (OneArgumentOperations(formula))
+                    return;
 
                 lastInput = double.Parse(MainTextBox);
                 lastOperation = formula;
@@ -213,52 +233,56 @@ namespace GUI_Application {
 
                 break;
                 case @"\div":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
                     MainTextBox = "Nelze dělit 0";
                     err = true;
                     return;
-                }
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                }              
                 MainTextBox = "" + CalcMathLib.Div(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"\sqrt[n]{x}":
+                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + lastInput + "}";
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
                     err = true;
                     return;
                 }
-                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + lastInput + "}";
                 MainTextBox = "" + CalcMathLib.Root(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"mod":
+                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
                     MainTextBox = "Nelze dělit 0";
                     err = true;
                     return;
                 }
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
                 MainTextBox = "" + CalcMathLib.Mod(lastInput, double.Parse(MainTextBox));
 
                 break;
                 case @"x^n":
+                EquationTextBox = "" + lastInput + "^" + MainTextBox;
                 if (double.Parse(MainTextBox) % 1 != 0) {
                     MainTextBox = "n musí být celé číslo";
                     err = true;
                     return;
                 }
-                EquationTextBox = "" + lastInput + "^" + MainTextBox;
                 MainTextBox = "" + CalcMathLib.Power(lastInput, double.Parse(MainTextBox));
 
                 break;
             }
+
+            if (OneArgumentOperations(formula))
+                return;
 
             lastInput = double.Parse(MainTextBox);
             lastOperation = formula;
             newInput = true;//sets flag to clear MainTextBox when new number is inputed
 
             FormatEquationTextBox(formula);
+
         }
 
         private void MathOperation_Click(object sender, RoutedEventArgs e) {
@@ -285,7 +309,6 @@ namespace GUI_Application {
                     if (!MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator) && MainTextBox != "") {
                         MainTextBox += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
                     }
-
                 }
             }
         }
