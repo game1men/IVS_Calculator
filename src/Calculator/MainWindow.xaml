@@ -219,7 +219,7 @@
                     <RowDefinition Height="9*"/>
 
                 </Grid.RowDefinitions>
-                <m:FormulaControl x:Name="SecondBox" Formula="{Binding EquationTextBox, Mode=TwoWay}" Scale="24" Grid.Row="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom"/>
+                <m:FormulaControl x:Name="SecondBox" Formula="{Binding EquationTextBox, Mode=TwoWay}" Scale="20" Grid.Row="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom"/>
                 
                 <TextBox Background="#1a171c" Foreground="White" BorderThickness="0" Grid.Row="1" VerticalAlignment="Center" 
                          FontSize="{Binding MainTextFontSize, Mode=TwoWay}" HorizontalAlignment="Stretch" TextAlignment="Right" 
