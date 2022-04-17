@@ -43,14 +43,10 @@
         xmlns:m="clr-namespace:WpfMath.Controls;assembly=WpfMath"
         xmlns:local="clr-namespace:GUI_Application"
         mc:Ignorable="d"
-        Title="Calculator" Height="660" Width="426" ResizeMode="CanMinimize" KeyDown="Window_KeyDown" Background="Black" Foreground="White">
+        Title="Calculator" Height="660" Width="426" ResizeMode="CanMinimize" Background="Black" Foreground="White">
 
-    <!--https://stackoverflow.com/questions/68788350/how-to-bind-keyboard-keys-in-button-wpf-->
-    <!--https://www.devcoons.com/how-to-add-hotkeys-shortcuts-in-wpf/-->
-    
-    
+
     <Window.Resources>
-        
         <!--Function button style-->
         <Style x:Key="FunctionStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#382545"/>
@@ -65,6 +61,7 @@
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
+
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#50266c"/>
                 </Trigger>
@@ -135,7 +132,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#6d3493"/>
+                    <Setter Property="Background" Value="#7c3ea6"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#7a6885"/>
@@ -143,7 +140,75 @@
             </Style.Triggers>
         </Style>
 
+
+        <RoutedUICommand x:Key="NumberCommand" />
+        <RoutedUICommand x:Key="DotCommand"/>
+        <RoutedUICommand x:Key="FunctionCommand"/>
+        <RoutedUICommand x:Key="DeleteCommand"/>
+        
+
     </Window.Resources>
+
+    <Window.InputBindings>
+        <!--Number binding-->
+        <KeyBinding Key="NumPad0" CommandParameter="0" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad1" CommandParameter="1" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad2" CommandParameter="2" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad3" CommandParameter="3" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad4" CommandParameter="4" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad5" CommandParameter="5" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad6" CommandParameter="6" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad7" CommandParameter="7" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad8" CommandParameter="8" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="NumPad9" CommandParameter="9" Command="{StaticResource NumberCommand}"/>
+
+        <KeyBinding Key="D0" CommandParameter="0" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D1" CommandParameter="1" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D2" CommandParameter="2" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D3" CommandParameter="3" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D4" CommandParameter="4" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D5" CommandParameter="5" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D6" CommandParameter="6" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D7" CommandParameter="7" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D8" CommandParameter="8" Command="{StaticResource NumberCommand}"/>
+        <KeyBinding Key="D9" CommandParameter="9" Command="{StaticResource NumberCommand}"/>
+
+        <!--Dot binding-->
+        <KeyBinding Key="OemPeriod" Command="{StaticResource DotCommand}"/>
+        <KeyBinding Key="OemComma" Command="{StaticResource DotCommand}"/>
+        <KeyBinding Key="Decimal" Command="{StaticResource DotCommand}"/>
+
+        <!--Operation binding-->
+        <KeyBinding Key="Add" CommandParameter="+" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="Subtract" CommandParameter="-" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="Multiply" CommandParameter="*" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="Divide" CommandParameter="/" Command="{StaticResource FunctionCommand}"/>
+
+        <!--Equals command-->
+        <KeyBinding Key="Enter" Command="{StaticResource FunctionCommand}"/>
+
+        <!--Delete binding-->
+        <KeyBinding Key="Delete" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Key}" Command="{StaticResource DeleteCommand}"/>
+        <KeyBinding Key="Esc" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Key}" Command="{StaticResource DeleteCommand}"/>
+        <KeyBinding Key="Back" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Key}" Command="{StaticResource DeleteCommand}"/>
+
+        <!--Function binding-->
+        <KeyBinding Key="P" CommandParameter="x^2" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="N" CommandParameter="x^n" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="Q" CommandParameter="\sqrt[2]{x}" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="R" CommandParameter="\sqrt[n]{x}" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="F" CommandParameter="x!" Command="{StaticResource FunctionCommand}"/>
+        <KeyBinding Key="M" CommandParameter="mod" Command="{StaticResource FunctionCommand}"/>
+
+
+    </Window.InputBindings>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="{StaticResource NumberCommand}" Executed="Number_Executed" />
+        <CommandBinding Command="{StaticResource DotCommand}" Executed="Dot_Executed"/>
+        <CommandBinding Command="{StaticResource FunctionCommand}" Executed="Function_Executed"/>
+        <CommandBinding Command="{StaticResource DeleteCommand}" Executed="Delete_Executed"/>
+    </Window.CommandBindings>
 
     <Border Margin="5">
         <DockPanel>
@@ -154,10 +219,11 @@
                     <RowDefinition Height="9*"/>
 
                 </Grid.RowDefinitions>
-                <!--{Binding EquationTextBox, Mode=TwoWay}-->
-                <m:FormulaControl x:Name="SecondBox" Formula="10000 + 58" Scale="24" Grid.Row="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom"/>
-                <!--{Binding MainTextBox, Mode=TwoWay}-->
-                <TextBox Background="#1a171c" Foreground="White" BorderThickness="0" Grid.Row="1" VerticalAlignment="Center" FontSize="35" HorizontalAlignment="Stretch" TextAlignment="Right"  BorderBrush="White" IsReadOnly="True" Text="8888888"/>
+                <m:FormulaControl x:Name="SecondBox" Formula="{Binding EquationTextBox, Mode=TwoWay}" Scale="24" Grid.Row="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Bottom"/>
+                
+                <TextBox Background="#1a171c" Foreground="White" BorderThickness="0" Grid.Row="1" VerticalAlignment="Center" 
+                         FontSize="{Binding MainTextFontSize, Mode=TwoWay}" HorizontalAlignment="Stretch" TextAlignment="Right" 
+                         BorderBrush="White" IsReadOnly="True" Text="{Binding MainTextBox, Mode=TwoWay}"/>
             </Grid>
 
             <!--Buttons grid-->
@@ -181,17 +247,17 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource FunctionStyle}" Click="MathFunction_Click" Grid.Column="0" Margin="10">
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
                         <m:FormulaControl Foreground="White" Formula="x^2" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Click="MathFunction_Click" Grid.Column="1" Margin="10">
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="x^n" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Click="TextClenaup_Click" Grid.Column="2" Margin="10">
-                        <TextBlock Text="C" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
+                        <TextBlock Text="{Binding DeleteText, Mode=TwoWay}" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Click="TextClenaup_Click" Grid.Column="3" Margin="10">
-                        <TextBlock Text="◄" FontSize="80" Margin="0 0 0 15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="Back" Grid.Column="3" Margin="10">
+                        <Image Source="Media/backspace-svgrepo-com.png" UseLayoutRounding="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="50"/>
                     </Button>
                 </Grid>
 
@@ -204,16 +270,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource FunctionStyle}" Click="MathFunction_Click" Grid.Column="0" Margin="10">
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
                         <m:FormulaControl Formula="\sqrt[2]{x}" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Click="MathFunction_Click" Grid.Column="1" Margin="10">
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="\sqrt[n]{x}" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Click="MathFunction_Click" Grid.Column="2" Margin="10">
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
                         <m:FormulaControl Formula="x!" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Click="MathOperation_Click" Grid.Column="3" Margin="10">
+                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="3" Margin="10">
                         <TextBlock Text="mod" FontSize="30" Margin="0 0 0 6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
                 </Grid>
@@ -227,16 +293,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="0" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="7" Grid.Column="0" Margin="10">
                         <TextBlock Text="7" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="1" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
                         <TextBlock Text="8" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="2" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="9" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Click="MathOperation_Click" Grid.Column="3" Margin="10">
+                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="\div" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -250,16 +316,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="0" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="0" Margin="10">
                         <TextBlock  Text="4" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="1" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
                         <TextBlock Text="5" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="2" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="6" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Click="MathOperation_Click" Grid.Column="3" Margin="10">
+                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="\times" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -273,16 +339,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="0" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="0" Margin="10">
                         <TextBlock Text="1" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="1" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
                         <TextBlock Text="2" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="2" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="3" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Click="MathOperation_Click" Grid.Column="3" Margin="10">
+                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="-" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -296,16 +362,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Click="Number_Click" Grid.Column="0" Margin="10">
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="0" Grid.Column="0" Margin="10">
                         <TextBlock Text="0" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Click="MathFractionDot_Click" Grid.Column="1" Margin="10">
-                        <m:FormulaControl Formula="." Scale="50" SystemTextFontName="Arial" Margin="0 35 0 0"/>
+                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource DotCommand}" Grid.Column="1" Margin="10">
+                        <m:FormulaControl Formula="{Binding DotText, Mode=TwoWay}" Scale="50" SystemTextFontName="Arial" Margin="0 35 0 0"/>
                     </Button>
-                    <Button Style="{StaticResource EqualsStyle}" Click="MathOperation_Click" Grid.Column="2" Margin="10">
+                    <Button Style="{StaticResource EqualsStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
                         <m:FormulaControl Formula="=" Scale="55" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Click="MathOperation_Click" Grid.Column="3" Margin="10">
+                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="+" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>

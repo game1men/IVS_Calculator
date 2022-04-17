@@ -48,10 +48,13 @@ namespace GUI_Application {
 
         public string EquationTextBox { get; set; } = @"1000.583666 + \sqrt[2]{36}";
         public string MainTextBox { get; set; } = @"1 006.583 666";
+        public int MainTextFontSize { get; set; } = 35;
+        public string DotText { get; set; } = ".";
+        public string DeleteText { get; set; } = "C";
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
             // Keyboard press event
-            throw new NotImplementedException();
+            return;
         }
 
         private void Number_Click(object sender, RoutedEventArgs e) { 
@@ -90,8 +93,32 @@ namespace GUI_Application {
             }
         }
 
+
+
         private void TextClenaup_Click(object sender, RoutedEventArgs e) {
             throw new NotImplementedException();
+        }
+
+        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
+            return;
+        }
+
+        private void Number_Executed(object sender, ExecutedRoutedEventArgs e) {
+            var num = e.Parameter.ToString();
+            return;
+        }
+        private void Operation_Executed(object sender, ExecutedRoutedEventArgs e) {
+            return;
+        }
+        private void Equals_Executed(object sender, ExecutedRoutedEventArgs e) {
+            return;
+        }
+        private void Delete_Executed(object sender, ExecutedRoutedEventArgs e) {
+            return;
+        }
+
+        private void Dot_Executed(object sender, ExecutedRoutedEventArgs e) {
+            return;
         }
     }
 }
