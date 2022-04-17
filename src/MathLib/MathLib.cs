@@ -107,6 +107,10 @@ namespace MathLib {
                 throw new Exception();
             }
 
+            if (a == 0) {
+                return 1;
+            }
+
             else { 
                 double result = a;
 
@@ -158,7 +162,7 @@ namespace MathLib {
          */
         public static double Root(double a, double exponent) {
 
-            if(a < 0) {
+            if (a < 0 || exponent == 0) {
                 throw new Exception();
             }
 
@@ -176,7 +180,15 @@ namespace MathLib {
          */
         public static double Log(double a) {
 
-            if(a <= 0) { 
+            if (double.IsNegativeInfinity(a) == true) {
+                return double.NegativeInfinity;
+            }
+
+            if (double.IsPositiveInfinity(a) == true) {
+                return double.PositiveInfinity;
+            }
+
+            if (a <= 0) { 
                 throw new Exception();
             }
 
