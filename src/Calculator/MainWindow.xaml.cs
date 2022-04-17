@@ -52,53 +52,6 @@ namespace GUI_Application {
         public string DotText { get; set; } = ".";
         public string DeleteText { get; set; } = "C";
 
-        private void Window_KeyDown(object sender, KeyEventArgs e) {
-            // Keyboard press event
-            return;
-        }
-
-        private void Number_Click(object sender, RoutedEventArgs e) { 
-            if(sender is ContentControl c) {
-                if(c.Content is TextBlock t) {
-                    // Example
-                    // MainTextBox += t.Text;
-
-                    throw new NotImplementedException();
-                }
-            }
-        }
-
-        private void MathFunction_Click(object sender, RoutedEventArgs e) {
-            if (sender is ContentControl c) {
-                throw new NotImplementedException();
-            }
-        }
-
-        private void MathOperation_Click(object sender, RoutedEventArgs e) {
-            if (sender is ContentControl c) {
-                if (c.Content is FormulaControl fc) {
-                    throw new NotImplementedException();
-                } else if (c.Content is TextBlock t) {
-                    // For mod operation
-                    throw new NotImplementedException();
-                }
-            }
-        }
-
-        private void MathFractionDot_Click(object sender, RoutedEventArgs e) {
-            if (sender is ContentControl c) {
-                if (c.Content is FormulaControl) {
-                    throw new NotImplementedException();
-                }
-            }
-        }
-
-
-
-        private void TextClenaup_Click(object sender, RoutedEventArgs e) {
-            throw new NotImplementedException();
-        }
-
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
             return;
         }
