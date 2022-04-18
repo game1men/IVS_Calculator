@@ -1,68 +1,62 @@
-﻿/**
- * @brief Math Library for IVS project (Calculator)
- * 
- * This library contains basic mathematic functions 
- * such as sum, difference, multiplication, division and 
- * more complex mathemati functions such as factorial,
- * power, root and basic logarithm.
- * 
- * @author Matej Smida
- * 
- */
+﻿///<summary>
+/// Math Library for IVS project (Calculator)
+/// 
+/// This library contains basic mathematic functions 
+/// such as sum, difference, multiplication, division and 
+/// more complex mathemati functions such as factorial,
+/// power, root and basic logarithm.
+/// 
+/// author Matej Smida
+///</summary>
 
 namespace MathLib {
     public static class CalcMathLib {
-
-        /**
-         * @brief Sum of two numbers
-         * 
-         * @param a first number to be added
-         * @param b second number to be added
-         * 
-         * @return Sum of numbers a and b
-         */
+     
+        /// <summary>
+        /// Sum of two numbers
+        /// </summary>
+        /// <param name="a">First number to be added</param>
+        /// <param name="b">Second number to be added</param>
+        /// <returns>Sum of numbers a and b</returns>
         public static double Add(double a, double b) {
 
             return a + b;
 
         }
 
-        /**
-         * @brief Subtraction of two numbers
-         *
-         * @param a first number
-         * @param b second number
-         *
-         * @return Difference of numbers a and b
-         */
+        /// <summary>
+        /// Substraction of two numbers
+        /// </summary>
+        /// <param name="a">First number</param>
+        /// <param name="b">Second number</param>
+        /// <returns>Difference of numbers a and b</returns>
         public static double Sub(double a, double b) {
 
             return a - b;
 
         }
 
-        /**
-         * @brief Multiplication of two numbers 
-         * 
-         * @param a first number to be multiplied
-         * @param b second number to be multiplied
-         * 
-         * @return Product of two numbers
-         */
+        /// <summary>
+        /// Multiplication of two nubers
+        /// </summary>
+        /// <param name="a">First number to be multiplied</param>
+        /// <param name="b">Second number to be multiplied</param>
+        /// <returns>Product of two numbers</returns>
         public static double Mul(double a, double b) {
 
             return a * b;
 
         }
 
-        /**
-         * @brief Division of two numbers
-         * 
-         * @param a first number (dividend)
-         * @param b second number (divisor)
-         * 
-         * @return Quotient of two numbers
-         */
+        /// <summary>
+        /// Division of two numbers
+        /// </summary>
+        /// <param name="a">First number (dividend)</param>
+        /// <param name="b">Second number (divisor)</param>
+        /// <returns>Quotient od two numbers</returns>
+        /// <exception cref="DivideByZeroException">
+        /// Throws an exception when you are trying to divide by zero
+        /// </exception>
         public static double Div(double a, double b) {
 
             if (b == 0)
@@ -73,14 +67,13 @@ namespace MathLib {
 
         }
 
-        /**
-         * @brief Modulo of two numbers
-         * 
-         * @param a first number (dividend)
-         * @param b second number (divisor)
-         * 
-         * @return The rest after division
-         */
+        /// <summary>
+        /// Modulo of two numbers
+        /// </summary>
+        /// <param name="a">First number (dividend)</param>
+        /// <param name="b">Second number (divisor)</param>
+        /// <returns>The rest after division</returns>
+        /// <exception cref="Exception">Throws an exception when you are trying to divide by zero</exception>
         public static double Mod(double a, double b) {
 
             if (b == 0) { 
@@ -93,14 +86,12 @@ namespace MathLib {
 
         }
 
-
-        /**
-         * @brief Factorial functions for a number
-         * 
-         * @param a number
-         * 
-         * @return Factorial of a given number
-         */
+        /// <summary>
+        /// Factorial function for a number
+        /// </summary>
+        /// <param name="a">A whole number</param>
+        /// <returns>Factorial of a given number</returns>
+        /// <exception cref="Exception">Throws an exception when number is not whole</exception>
         public static double Factorial(int a) {
 
             if (a < 0 || a % 1 != 0) {
@@ -123,14 +114,14 @@ namespace MathLib {
 
         }
 
-        /**
-         * @brief Power function for a number
-         * 
-         * @param a number to be multiplied
-         * @param exponent shows how many times should be the first number multiplied
-         * 
-         * @return number to the power of exponent
-         */
+        /// <summary>
+        /// Power function for a number
+        /// </summary>
+        /// <param name="a">A number to be multiplied</param>
+        /// <param name="exponent">Exponent that shows how many times should be the first number multiplied</param>
+        /// <returns>Number to the power of exponent</returns>
+        /// <exception cref="DivideByZeroException">Throws an exception when number or exponent is zero</exception>
+        /// <exception cref="Exception">Throws exception when exponent is not whole number</exception>
         public static double Power(double a, double exponent) {
 
             if (a == 0 && exponent == 0) {
@@ -156,14 +147,13 @@ namespace MathLib {
 
         }
 
-        /**
-         * @brief Root function of any positive real number
-         * 
-         * @param a radicand
-         * @param b root
-         * 
-         * @return Root of any number for given root
-         */
+        /// <summary>
+        /// Root function of any positive real number
+        /// </summary>
+        /// <param name="a">Radicant</param>
+        /// <param name="exponent">Root</param>
+        /// <returns>Root of any number for given root</returns>
+        /// <exception cref="Exception">Throws an exception when number is below zero or exponent is zero</exception>
         public static double Root(double a, double exponent) {
 
             if (a < 0 || exponent == 0) {
@@ -175,13 +165,12 @@ namespace MathLib {
 
         }
 
-        /**
-         * @brief Natural logarithm funtion for any non zero number
-         * 
-         * @param a number
-         * 
-         * @return Exponent that is needed to make a certain number
-         */
+        /// <summary>
+        /// Natural logarithm function
+        /// </summary>
+        /// <param name="a">A non zero number</param>
+        /// <returns>Exponent that is needed to make a certain number</returns>
+        /// <exception cref="Exception">Throws an exception when number is below or equal to zero</exception>
         public static double Log(double a) {
 
             if (double.IsNegativeInfinity(a) == true) {
