@@ -60,12 +60,6 @@ namespace GUI_Application {
             var num = e.Parameter.ToString();
             return;
         }
-        private void Operation_Executed(object sender, ExecutedRoutedEventArgs e) {
-            return;
-        }
-        private void Equals_Executed(object sender, ExecutedRoutedEventArgs e) {
-            return;
-        }
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e) {
             return;
         }
