@@ -133,12 +133,16 @@ namespace MathLib {
          */
         public static double Power(double a, double exponent) {
 
-            if (exponent == 0) {
-                return 1.0;
+            if (a == 0 && exponent == 0) {
+                throw new DivideByZeroException();
             }
 
             else if (exponent % 1 != 0) {
                 throw new Exception();
+            }
+
+            else if (exponent == 0) { 
+                return 1.0;
             }
 
             else {
