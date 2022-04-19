@@ -42,7 +42,6 @@ namespace GUI_Application {
         public MainWindow() {
             InitializeComponent();
             DataContext = this; // This enables binding to properties
-
         }
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged; // Binding event
