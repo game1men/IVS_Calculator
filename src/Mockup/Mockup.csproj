@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>GUI_Application</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Authors>xvecer29, xuncov00, xsmida06, xceska06</Authors>
+    <Product>$(SolutionName)</Product>
+    <Company>Themix</Company>
+    <PackageId>$(AssemblyName)</PackageId>
+    <ApplicationIcon>Icon\calculator_icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove=".\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Media\backspace-svgrepo-com.png" />
+    <None Remove="Media\backspace-svgrepo-com.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icon\calculator_icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WpfMath">
+      <HintPath>WpfMath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Media\backspace-svgrepo-com.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Media\backspace-svgrepo-com.svg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
