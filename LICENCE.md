@@ -137,9 +137,11 @@ License, supplemented by the additional permissions listed below.
 
 -----
 
-# WPF-Math licence
+# Used 3-rd party API licenses
 
-## The MIT License
+## WPF-Math - licence
+
+### The MIT License
 
 Copyright (c) 2010 Alex Regueiro
 
@@ -158,17 +160,13 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-[WPF-Math](https://github.com/ForNeVeR/wpf-math)
-
-
+[GitHub - WPF-Math](https://github.com/ForNeVeR/wpf-math)
 
 ----
 
-# Fody Property Changed
+## Fody Property Changed - license
 
-## The MIT License
+### The MIT License
 
 Copyright (c) 2012 Simon Cropp and contributors
 
@@ -190,4 +188,4 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-[Fody Property Changed]([GitHub - Fody/PropertyChanged: Injects INotifyPropertyChanged code into properties at compile time](https://github.com/Fody/PropertyChanged))
+[GitHub - Fody/PropertyChanged](https://github.com/Fody/PropertyChanged)
