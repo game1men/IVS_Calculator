@@ -10,6 +10,7 @@
     <Product>$(SolutionName)</Product>
     <Company>Themix</Company>
     <PackageId>$(AssemblyName)</PackageId>
+    <ApplicationIcon>Icon\calculator_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,10 @@
   <ItemGroup>
     <None Remove="Media\backspace-svgrepo-com.png" />
     <None Remove="Media\backspace-svgrepo-com.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icon\calculator_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
