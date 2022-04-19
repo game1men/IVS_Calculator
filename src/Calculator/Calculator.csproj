@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Media\backspace-svgrepo-com.png" />
+    <None Remove="Media\backspace-svgrepo-com.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="D:\Git_Repos\ivs-calculator\src\Calculator\.editorconfig" />
   </ItemGroup>
 
@@ -28,6 +33,15 @@
     <Reference Include="WpfMath">
       <HintPath>WpfMath.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Media\backspace-svgrepo-com.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Media\backspace-svgrepo-com.svg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
