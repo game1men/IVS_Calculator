@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="D:\Git_Repos\ivs-calculator\src\Calculator\.editorconfig" />
+    <EditorConfigFiles Remove=".\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,15 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="D:\Git_Repos\ivs-calculator\src\Calculator\.editorconfig" />
+    <None Include=".\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MathLib\MathLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
