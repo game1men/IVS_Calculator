@@ -168,17 +168,21 @@ namespace GUI_Application {
             if (formula == null) {
                 return;
             }
-            //sets number as negative if '-' and newInput is set
-            if (formula == "-" && IsNewInput && OperandNumber != 0) {
-                MainTextBox = "-";
-                IsNewInput = false;
-                return;
+
+            if (formula == "-") {
+                //sets number as negative if '-' and newInput is set
+                if (IsNewInput && OperandNumber != 0) {
+                    MainTextBox = "-";
+                    IsNewInput = false;
+                    return;
+                }
+                //sets number as negative if '-' is pressed and MainTextBox is empty
+                if (MainTextBox == "") {
+                    MainTextBox = "-";
+                    return;
+                }
             }
-            //sets number as negative if '-' is pressed and MainTextBox is empty
-            if (formula == "-" && MainTextBox == "") {
-                MainTextBox = "-";
-                return;
-            }
+
             //inverts number sign
             if (MainTextBox == "-" && (formula == "-" || formula == "+")) {
                 MainTextBox = "";

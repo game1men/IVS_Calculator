@@ -248,13 +248,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
                         <m:FormulaControl Foreground="White" Formula="x^2" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="x^n" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="{Binding DeleteText, Mode=TwoWay}" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
                     <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="Back" Grid.Column="3" Margin="10">
@@ -271,16 +271,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
                         <m:FormulaControl Formula="\sqrt[2]{x}" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="\sqrt[n]{x}" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
                         <m:FormulaControl Formula="x!" Scale="40" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="3" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="3" Margin="10">
                         <TextBlock Text="mod" FontSize="30" Margin="0 0 0 6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
                 </Grid>
@@ -294,16 +294,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="7" Grid.Column="0" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="7" Grid.Column="0" Margin="10">
                         <TextBlock Text="7" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
                         <TextBlock Text="8" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="9" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="\div" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -317,16 +317,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="0" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="0" Margin="10">
                         <TextBlock  Text="4" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
                         <TextBlock Text="5" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="6" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="\times" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -340,16 +340,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="0" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="0" Margin="10">
                         <TextBlock Text="1" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="1" Margin="10">
                         <TextBlock Text="2" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="3" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="-" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
@@ -363,16 +363,16 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="0" Grid.Column="0" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource NumberCommand}" CommandParameter="0" Grid.Column="0" Margin="10">
                         <TextBlock Text="0" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Button>
-                    <Button Style="{StaticResource NumberStyle}" Command="{StaticResource DotCommand}" Grid.Column="1" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource NumberStyle}" Command="{StaticResource DotCommand}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="{Binding DotText, Mode=TwoWay}" Scale="50" SystemTextFontName="Arial" Margin="0 35 0 0"/>
                     </Button>
-                    <Button Style="{StaticResource EqualsStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource EqualsStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
                         <m:FormulaControl Formula="=" Scale="55" SystemTextFontName="Arial"/>
                     </Button>
-                    <Button Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
+                    <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="+" Scale="50" SystemTextFontName="Arial"/>
                     </Button>
                 </Grid>
