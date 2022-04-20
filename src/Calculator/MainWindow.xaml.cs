@@ -47,99 +47,100 @@ namespace GUI_Application {
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged; // Binding event
 #pragma warning restore CS0067
+        //UI binding 
         public string EquationTextBox { get; set; } = @"";
         public string MainTextBox { get; set; } = @"";
-        public int operandNumber { get; set; } = 0;
-        public double lastInput { get; set; } = 0;
-        public bool newInput { get; set; } = false;
-        public string lastOperation { get; set; } = "";
-        public bool err { get; set; } = false;
         public int MainTextFontSize { get; set; } = 35;
         public string DotText { get; set; } = ".";
-        public string DeleteText { get; set; } = "C";
+        public string DeleteText { get; set; } = "CE";
+
+        //Logic
+        public int OperandNumber { get; set; } = 0;
+        public double LastInput { get; set; } = 0;
+        public bool IsNewInput { get; set; } = false;
+        public string LastOperation { get; set; } = "";
+        public bool WasError { get; set; } = false;
+
 
         /// <summary>
         /// Resets calculator to default state
         /// </summary>
-        private void reset() {
+        private void ResetCalc() {
             MainTextBox = "";
             EquationTextBox = "";
-            err = false;
-            operandNumber = 0;
-            lastInput = 0;
-            newInput = false;
-            lastOperation = "";
+            WasError = false;
+            OperandNumber = 0;
+            LastInput = 0;
+            IsNewInput = false;
+            LastOperation = "";
         }
 
         /// <summary>
         /// Handles operations that take only one argument
         /// </summary>
-        /// <param name="formula">string containing operation type</param>
-        /// <returns>true if operation was found</returns>
-        /// <exception cref="NotImplementedException">TODO: remove</exception>
+        /// <param name="formula">String containing operation type</param>
+        /// <returns>True if operation was found</returns>
         private bool OneArgumentOperations(string formula) {
 
             switch (formula) {
                 case @"\sqrt[2]{x}":
-                EquationTextBox = @"\sqrt[2]{" + MainTextBox + "}";
+                EquationTextBox = @"\sqrt[2]{" + MainTextBox + "} =";
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
-                    err = true;
+                    WasError = true;
                     return true;
                 }
 
                 MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2).ToString("G14");
-                operandNumber = 0;
-                newInput = false;
+                OperandNumber = 0;
+                IsNewInput = true;
                 return true;
 
-                break;
+
                 case @"x!":
-                EquationTextBox = @"" + MainTextBox + "!";
+                EquationTextBox = @"" + MainTextBox + "! =";
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
-                    err = true;
+                    WasError = true;
                     return true;
                 }
                 if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
                     MainTextBox = "x musí být celé číslo";
-                    err = true;
+                    WasError = true;
                     return true;
                 }
 
                 MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox)).ToString("G14");
-                newInput = false;
+                IsNewInput = true;
                 return true;
 
-                break;
                 case @"x^2":
-                EquationTextBox = MainTextBox + "^2";
+                EquationTextBox = MainTextBox + "^2 =";
                 MainTextBox = "" + CalcMathLib.Power(double.Parse(MainTextBox), 2).ToString("G14");
-                operandNumber = 0;
-                newInput = false;
+                OperandNumber = 0;
+                IsNewInput = true;
                 return true;
 
-                break;
                 case @"=":
-                if (!EquationTextBox.Contains("=")) {
-                    EquationTextBox = EquationTextBox + "=";
-                    operandNumber = 0;
-                    newInput = false;
+                if (!EquationTextBox.Contains('=') && EquationTextBox != "") {
+                    EquationTextBox += "=";
+                    OperandNumber = 0;
+                    IsNewInput = true;
                 }
+
                 return true;
 
-                break;
             }
             return false;
         }
 
         /// <summary>
-        /// Formats EquationTextBox acording to operation 
+        /// Formats EquationTextBox according to operation 
         /// </summary>
-        /// <param name="formula">string containing operation type</param>
+        /// <param name="formula">String containing operation type</param>
         void FormatEquationTextBox(string formula) {
 
-            switch (lastOperation) {
+            switch (LastOperation) {
                 case @"\sqrt[n]{x}":
                 EquationTextBox = @"\sqrt[n]{" + MainTextBox + "}";
 
@@ -161,16 +162,19 @@ namespace GUI_Application {
         /// <summary>
         /// Handles math operations
         /// </summary>
-        /// <param name="formula">string containing operation type</param>
-        private void MathOperations(string formula) {
+        /// <param name="formula">String containing operation type</param>
+        private void MathOperations(string? formula) {
 
-            //sets number as negative
-            if (formula == "-" && newInput) {
-                MainTextBox = "-";
-                newInput = false;
+            if (formula == null) {
                 return;
             }
-            //sets number as negative
+            //sets number as negative if '-' and newInput is set
+            if (formula == "-" && IsNewInput && OperandNumber != 0) {
+                MainTextBox = "-";
+                IsNewInput = false;
+                return;
+            }
+            //sets number as negative if '-' is pressed and MainTextBox is empty
             if (formula == "-" && MainTextBox == "") {
                 MainTextBox = "-";
                 return;
@@ -186,84 +190,89 @@ namespace GUI_Application {
                 MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
             }
 
-            if (MainTextBox == "" || MainTextBox == "-") {
+            if (MainTextBox == "" || MainTextBox == "-" || WasError) {
                 MainTextBox = "0";
             }
 
             //Checks if this is first operand of operation
-            if (operandNumber == 0) {
+            if (OperandNumber == 0) {
 
                 if (OneArgumentOperations(formula))
                     return;
 
-                lastInput = double.Parse(MainTextBox);
-                lastOperation = formula;
-                operandNumber = 1;
-                newInput = true;
+                LastInput = double.Parse(MainTextBox);
+                LastOperation = formula;
+                OperandNumber = 1;
+                IsNewInput = true;
                 FormatEquationTextBox(formula);
                 return;
             }
 
-            //determines whicht two operator operation to use 
-            switch (lastOperation) {
+            //determines which  two operator operation to use 
+            switch (LastOperation) {
                 case "+":
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Add(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
+                MainTextBox = "" + CalcMathLib.Add(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
                 case "-":
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Sub(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
+                MainTextBox = "" + CalcMathLib.Sub(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
                 case @"\times":
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Mul(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
+                MainTextBox = "" + CalcMathLib.Mul(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
                 case @"\div":
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
                     MainTextBox = "Nelze dělit 0";
-                    err = true;
+                    WasError = true;
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Div(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Div(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
                 case @"\sqrt[n]{x}":
-                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + lastInput + "}";
+                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + LastInput + "}";
                 if (double.Parse(MainTextBox) < 0) {
                     MainTextBox = "x musí být kladné číslo";
-                    err = true;
+                    WasError = true;
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Root(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                if (double.Parse(MainTextBox) == 0) {
+                    MainTextBox = "n nesmí být 0";
+                    WasError = true;
+                    return;
+                }
+                MainTextBox = "" + CalcMathLib.Root(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
                 case @"mod":
-                EquationTextBox = "" + lastInput + " " + lastOperation + " " + MainTextBox;
+                EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
                     MainTextBox = "Nelze dělit 0";
-                    err = true;
+                    WasError = true;
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Mod(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Mod(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
                 case @"x^n":
-                EquationTextBox = "" + lastInput + "^" + MainTextBox;
+                EquationTextBox = "" + LastInput + "^{" + MainTextBox+"}";
                 if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
                     MainTextBox = "n musí být celé číslo";
-                    err = true;
+                    WasError = true;
                     return;
                 }
-                if (MainTextBox == "0") {
+                if (double.Parse(MainTextBox) == 0) {
                     MainTextBox = "n nesmí být 0";
-                    err = true;
+                    WasError = true;
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Power(lastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Power(LastInput, double.Parse(MainTextBox)).ToString("G14");
 
                 break;
             }
@@ -271,46 +280,57 @@ namespace GUI_Application {
             if (OneArgumentOperations(formula))
                 return;
 
-            lastInput = double.Parse(MainTextBox);
-            lastOperation = formula;
-            newInput = true;//sets flag to clear MainTextBox when new number is inputed
+            LastInput = double.Parse(MainTextBox);
+            LastOperation = formula;
+            IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
 
             FormatEquationTextBox(formula);
 
         }
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (err == true) {
-                reset();
+            if (WasError == true) {
+                ResetCalc();
             }
             MathOperations(e.Parameter.ToString());
             if (MainTextBox != "") {
-                DeleteText = "C";
-            } else {
                 DeleteText = "CE";
+            } else {
+                DeleteText = "C";
             }
 
         }
 
         private void Number_Executed(object sender, ExecutedRoutedEventArgs e) {
+         
 
-            DeleteText = "C";
-            if (err == true) {
-                reset();
+            if (e.Parameter.ToString() == "0" && (MainTextBox == "-0" || MainTextBox == "0")) {
+                IsNewInput = false;
+                return;
             }
-            if (newInput) {
+            DeleteText = "CE";
+            if (WasError == true) {
+                ResetCalc();
+            }
+            if (IsNewInput) {
                 MainTextBox = "";
             }
+            if (IsNewInput && OperandNumber == 0) { //resets calculator when last equation was finished and number is inputed
+                ResetCalc();
+            }
+            if (MainTextBox.Length > 18) {//size restriction of MainTextBox
+                return;
+            }
             MainTextBox += e.Parameter.ToString();
-            newInput = false;
+            IsNewInput = false;
 
         }
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (err == true) {
-                reset();
+            if (WasError == true) {
+                ResetCalc();
             }
             switch (e.Parameter.ToString()) {
                 case "Back":
-                if (newInput) {
+                if (IsNewInput) {
                     MainTextBox = "";
                 }
                 if (MainTextBox.Length >= 1) {
@@ -322,37 +342,47 @@ namespace GUI_Application {
                 }
                 break;
                 case "Escape":
-                reset();
+                ResetCalc();
                 break;
                 case "Delete":
                 MainTextBox = "";
                 break;
-                case "C":
+                case "CE":
                 if (MainTextBox == "" || EquationTextBox == "") {
-                    reset();
+                    ResetCalc();
                 } else {
                     MainTextBox = "";
-                    DeleteText = "CE";
+                    DeleteText = "C";
                 }
                 break;
-                case "CE":
-                reset();
-                DeleteText = "C";
+                case "C":
+                ResetCalc();
+                DeleteText = "CE";
                 break;
             }
         }
 
         private void Dot_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (err == true) {
-                MainTextBox = "";
-                err = false;
+           
+            if (IsNewInput && OperandNumber == 0) { //resets calculator when last equation was finished and number is inputed
+                ResetCalc();
             }
-            //checks if it does not contain number decimal separator alredy
+            if (IsNewInput) {
+                MainTextBox = "";
+            }
+            if (WasError == true) {
+                MainTextBox = "";
+                WasError = false;
+            }
+            if (MainTextBox.Length > 18) {//size restriction of MainTextBox
+                return;
+            }
+            //checks if it does not contain number decimal separator already
             if (!MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator) && MainTextBox != "") {
                 MainTextBox += CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
             }
             if (MainTextBox == "") {
-                DeleteText = "CE";
+                DeleteText = "C";
             }
         }
     }

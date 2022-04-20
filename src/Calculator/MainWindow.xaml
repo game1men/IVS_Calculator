@@ -185,6 +185,7 @@
         <KeyBinding Key="Divide" CommandParameter="\div" Command="{StaticResource FunctionCommand}"/>
 
         <!--Equals command-->
+        <KeyBinding Key="Enter" CommandParameter="=" Command="{StaticResource FunctionCommand}"/>
         <KeyBinding Key="Return" CommandParameter="=" Command="{StaticResource FunctionCommand}"/>
 
         <!--Delete binding-->
