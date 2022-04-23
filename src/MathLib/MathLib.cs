@@ -137,21 +137,16 @@ namespace MathLib {
                 return 1.0;
             }
 
-            
-            
-            double power = Math.Abs(a); 
+
+            double power = a; 
             for(int i = 1; i < Math.Abs(exponent); i++) {
                 a *= power;
             }
 
-            //decimal x = Convert.ToDecimal(a);
             if (exponent <= -1) {
-                //x = 1 / Convert.ToDecimal(a);
                 a = 1 / a;
             }
-            //x = Math.Round(x, ROUNDING_PRECISION);
-            //return Convert.ToDouble(x);
-            return Math.Round(a, ROUNDING_PRECISION);
+            return Math.Round(a, ROUNDING_PRECISION, MidpointRounding.ToZero);
 
         }
 
