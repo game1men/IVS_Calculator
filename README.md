@@ -1,19 +1,18 @@
 Prostredi
 ---------
 
-Windows 10 64bit
+Windows 64bit
 
 Autori
 ------
 
 Themix
-
-- xvecer29 Večeřa Petr
-- xceska06 Češka René
-- xuncov00 Unčovský Josef
-- xsmida06 Šmida Matěj
-
+- xvecer29 Petr Večeřa
+- xceska06 René Češka
+- xuncov00 Josef Unčovský
+- xsmida06 Matěj Šmida
+  
 Licence
 -------
 
-Tento program je poskytovan pod linceci GPLv3. Zneni licence je v souboru LICENCE.md v koreni repozitare.
+Tento program je poskytovan pod linceci GPLv3. Zneni licence je v souboru LISENCE.md v koreni repozitare.
