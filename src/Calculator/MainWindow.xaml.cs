@@ -262,8 +262,8 @@ namespace GUI_Application {
                 return;
             }
             if (formula == "-") {
-                //sets number as negative if '-' and newInput is set
-                if (IsNewInput) {
+                //sets number as negative if '-' and newInput is set 
+                if (IsNewInput && OperandNumber!=0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
                     IsNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
