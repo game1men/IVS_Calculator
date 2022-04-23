@@ -436,7 +436,32 @@ namespace MathLib.Tests {
 
 
         }
+        [Theory]
+        [InlineData(1.0, -1, 1.0)]
+        [InlineData(2.0, -1, 0.5)]
+        [InlineData(20.0, -2, 0.0025)]
+        [InlineData(45.0, -3, 0.00001097393)]
+        [InlineData(120.0, -3, 0.00006944444)]
+        public void PowerPositiveValsWithNegativeExponentsShouldCalculate(double x, int exponent, double expected) {
 
+            double actual = CalcMathLib.Power(x, exponent);
+            Assert.Equal(expected, actual);
+
+
+        }
+        [Theory]
+        [InlineData(-1.0, -1, -1.0)]
+        [InlineData(-2.0, -1, -0.5)]
+        [InlineData(-20.0, -2, -0.0025)]
+        [InlineData(-45.0, -3, -0.00001097393)]
+        [InlineData(-120.0, -3, -0.00006944444)]
+        public void PowerNegativeValsWithNegativeExponentsShouldCalculate(double x, int exponent, double expected) {
+
+            double actual = CalcMathLib.Power(x, exponent);
+            Assert.Equal(expected, actual);
+
+
+        }
         [Fact]
         public void PowerWithZeroExponentShouldNotCalculate() {
             Assert.Throws<DivideByZeroException>(() => CalcMathLib.Power(0.0, 0));
