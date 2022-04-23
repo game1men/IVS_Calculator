@@ -55,11 +55,20 @@ namespace GUI_Application {
         public string DeleteText { get; set; } = "CE";
 
         //Logic
-        public int OperandNumber { get; set; } = 0;
-        public double LastInput { get; set; } = 0;
-        public bool IsNewInput { get; set; } = false;
-        public string LastOperation { get; set; } = "";
-        public bool WasError { get; set; } = false;
+        public int OperandNumber { get; set; } = 0;/**< indicates which operand of function is now inputed */
+        public double LastInput { get; set; } = 0;/**< stores last input*/
+        public bool IsNewInput { get; set; } = false;/**< indicates if last input was finished */
+        public string LastOperation { get; set; } = "";/**< indicates what was last operation */
+        public bool WasError { get; set; } = false;/**< indicates if there was some kind of error*/
+
+        //Constansts
+        public const string CantDivideByZero  = "Nelze dělit 0";
+        public const string NCantBeZero = "n nesmí být 0";
+        public const string NHasToBeInteger = "n musí být celé číslo";
+        public const string XHasToBeInteger = "n musí být celé číslo";
+        public const string XHasToBePositive = "x musí být kladné číslo";
+        public const string MainTextBoxFormating = "G14";
+
 
 
         /// <summary>
@@ -82,44 +91,36 @@ namespace GUI_Application {
         /// <returns>True if operation was found</returns>
         private bool OneArgumentOperations(string formula) {
 
+
             switch (formula) {
                 case @"\sqrt[2]{x}":
                 EquationTextBox = @"\sqrt[2]{" + MainTextBox + "} =";
                 if (double.Parse(MainTextBox) < 0) {
-                    MainTextBox = "x musí být kladné číslo";
-                    WasError = true;
+                    ShowError(XHasToBePositive);
                     return true;
                 }
-
-                MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2).ToString("G14");
-                OperandNumber = 0;
-                IsNewInput = true;
-                return true;
-
+                MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2).ToString(MainTextBoxFormating);
+                break;
 
                 case @"x!":
                 EquationTextBox = @"" + MainTextBox + "! =";
                 if (double.Parse(MainTextBox) < 0) {
-                    MainTextBox = "x musí být kladné číslo";
-                    WasError = true;
+                     ShowError(CantDivideByZero);
                     return true;
                 }
                 if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
-                    MainTextBox = "x musí být celé číslo";
+                    ShowError(XHasToBeInteger);
                     WasError = true;
                     return true;
                 }
-
-                MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox)).ToString("G14");
-                IsNewInput = true;
-                return true;
+                MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox)).ToString(MainTextBoxFormating);
+                break;
 
                 case @"x^2":
                 EquationTextBox = MainTextBox + "^2 =";
-                MainTextBox = "" + CalcMathLib.Power(double.Parse(MainTextBox), 2).ToString("G14");
-                OperandNumber = 0;
-                IsNewInput = true;
-                return true;
+                MainTextBox = "" + CalcMathLib.Power(double.Parse(MainTextBox), 2).ToString(MainTextBoxFormating);
+
+                break;
 
                 case @"=":
                 if (!EquationTextBox.Contains('=') && EquationTextBox != "") {
@@ -128,10 +129,14 @@ namespace GUI_Application {
                     IsNewInput = true;
                 }
 
-                return true;
+                break;
+                default:
+                return false;
 
             }
-            return false;
+            OperandNumber = 0;
+            IsNewInput = true;
+            return true;
         }
 
         /// <summary>
@@ -157,6 +162,12 @@ namespace GUI_Application {
 
                 break;
             }
+        }
+
+        private void ShowError(string err) {
+            MainTextBox = err;
+            WasError = true;
+            return;
         }
 
         /// <summary>
@@ -216,67 +227,61 @@ namespace GUI_Application {
             switch (LastOperation) {
                 case "+":
                 EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Add(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Add(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
                 case "-":
                 EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Sub(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Sub(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
                 case @"\times":
                 EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Mul(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Mul(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
                 case @"\div":
                 EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
-                    MainTextBox = "Nelze dělit 0";
-                    WasError = true;
+                    ShowError(CantDivideByZero);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Div(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Div(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
                 case @"\sqrt[n]{x}":
                 EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + LastInput + "}";
-                if (double.Parse(MainTextBox) < 0) {
-                    MainTextBox = "x musí být kladné číslo";
-                    WasError = true;
+                if (LastInput < 0) {
+                    ShowError(XHasToBePositive);
                     return;
                 }
                 if (double.Parse(MainTextBox) == 0) {
-                    MainTextBox = "n nesmí být 0";
-                    WasError = true;
+                    ShowError(NCantBeZero);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Root(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Root(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
                 case @"mod":
                 EquationTextBox = "" + LastInput + " " + LastOperation + " " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
-                    MainTextBox = "Nelze dělit 0";
-                    WasError = true;
+                    ShowError(CantDivideByZero);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Mod(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Mod(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
                 case @"x^n":
                 EquationTextBox = "" + LastInput + "^{" + MainTextBox+"}";
                 if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
-                    MainTextBox = "n musí být celé číslo";
-                    WasError = true;
+                    ShowError(NHasToBeInteger);
                     return;
                 }
                 if (double.Parse(MainTextBox) == 0) {
-                    MainTextBox = "n nesmí být 0";
-                    WasError = true;
+                    ShowError(NCantBeZero);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Power(LastInput, double.Parse(MainTextBox)).ToString("G14");
+                MainTextBox = "" + CalcMathLib.Power(LastInput, double.Parse(MainTextBox)).ToString(MainTextBoxFormating);
 
                 break;
             }
