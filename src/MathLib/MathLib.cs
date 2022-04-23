@@ -11,6 +11,11 @@
 
 namespace MathLib {
     public static class CalcMathLib {
+
+        /// <summary>
+        /// Precision which is used in internal calculations
+        /// </summary>
+        public const int ROUNDING_PRECISION = 14;
      
         /// <summary>
         /// Sum of two numbers
@@ -122,28 +127,31 @@ namespace MathLib {
         /// <returns>Number to the power of exponent</returns>
         /// <exception cref="DivideByZeroException">Throws an exception when number or exponent is zero</exception>
         /// <exception cref="Exception">Throws exception when exponent is not whole number</exception>
-        public static double Power(double a, double exponent) {
+        public static double Power(double a, long exponent) {
 
             if (a == 0 && exponent == 0) {
                 throw new DivideByZeroException();
             }
 
-            else if (exponent % 1 != 0) {
-                throw new Exception();
-            }
-
-            else if (exponent == 0) { 
+            if (exponent == 0) { 
                 return 1.0;
             }
 
-            else {
-                double power = a;
-                for(int i = 1; i <exponent; i++) {
-                    a *= power;
-                }
-
-                return a;
+            
+            
+            double power = Math.Abs(a); 
+            for(int i = 1; i < Math.Abs(exponent); i++) {
+                a *= power;
             }
+
+            //decimal x = Convert.ToDecimal(a);
+            if (exponent <= -1) {
+                //x = 1 / Convert.ToDecimal(a);
+                a = 1 / a;
+            }
+            //x = Math.Round(x, ROUNDING_PRECISION);
+            //return Convert.ToDouble(x);
+            return Math.Round(a, ROUNDING_PRECISION);
 
         }
 
