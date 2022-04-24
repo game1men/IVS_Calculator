@@ -1,34 +1,32 @@
-﻿using System;
-using MathLib;
+﻿using MathLib;
 
-namespace Profiling
-{
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Program prog = new Program();
-            prog.StandardDeviation();
+namespace Profiling {
+    internal class Program {
+
+
+        static void Main(string[] args) {
+
+            StandardDeviation();
         }
 
         /// <summary>
         /// Calculates standard deviation
         /// </summary>
-        public void StandardDeviation()
-        {
+        public static void StandardDeviation() {
+            char[] delimiterChars = { ' ', ',', '\n', '\t' };
             double average = 0;
             int numberCount = 0;
             double sum = 0;
-            string temp;//stores line from console
-            for (; (temp = Console.ReadLine()) != null;)//reads input line by line
+            string? temp;//stores line from console
+            while ((temp = Console.ReadLine()) != null)//reads input line by line
             {
-                string[] line = temp.Split();//split by space
+                string[] line = temp.Split(delimiterChars);//split by delimiters
                 if (line.Contains("\u0004"))//for support ctrl+d EOF in cmd
                     break;
 
                 foreach (string x in line)//loads characters splitted in array
                 {
-                    if (x == " " || x == "\t" || x == "\n" || x == "")//ignore these characters
+                    if (String.IsNullOrWhiteSpace(x))//ignore these characters
                         continue;
 
                     double number;//temporary var for TryParse output
