@@ -8,7 +8,7 @@ namespace Profiling
         static void Main(string[] args)
         {
             Program prog = new Program();
-            prog.standardDeviation();
+            prog.StandardDeviation();
         }
 
         /// <summary>
