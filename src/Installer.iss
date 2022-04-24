@@ -22,7 +22,7 @@ DefaultDirName={commonpf64}\{#MyAppName}
 UsePreviousAppDir=yes
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=D:\Git_Repos\ivs-calculator\LICENCE.md
+LicenseFile=licence-en.txt
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputBaseFilename=Calculator setup
@@ -33,6 +33,8 @@ SolidCompression=yes
 WizardStyle=modern
 UninstallDisplayIcon={app}\{#MyAppExeName}
 SetupIconFile=compiler:SetupClassicIcon.ico
+CloseApplications=yes
+AppMutex=Global\CalculatorInstanceMutex
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"; LicenseFile: "licence-en.txt"
