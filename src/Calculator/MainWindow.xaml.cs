@@ -1,5 +1,5 @@
 ﻿/*****************************************
- * This application uses Fody Property Changed NuGet package, the licence is stated bellow:
+ * This application uses Fody Property Changed NuGet package, the license is stated bellow:
  * The MIT License
 
 Copyright (c) 2012 Simon Cropp and contributors
@@ -44,21 +44,27 @@ namespace GUI_Application {
 #pragma warning disable CS0067
         public event PropertyChangedEventHandler? PropertyChanged; // Binding event
 #pragma warning restore CS0067
+
         //UI binding 
-        public string EquationTextBox { get; set; } = @"";///<summary> text EquationTextBox </summary>/
-        public string MainTextBox { get; set; } = @""; /// <summary> text MainTextBox </summary>
-        public int MainTextFontSize { get; set; } = 35;/// <summary> font size of MainText</summary>
-        public string DotText { get; set; } = ".";/// <summary> text of number separator button </summary>
-        public string DeleteText { get; set; } = "C";/// <summary> text of delete button </summary>
+        ///<summary>Text EquationTextBox</summary>
+        public string EquationTextBox { get; set; } = string.Empty;
+        /// <summary>Text MainTextBox</summary>
+        public string MainTextBox { get; set; } = string.Empty;
+        /// <summary>Font size of MainText</summary>
+        public int MainTextFontSize { get; set; } = 35;
+        /// <summary>Text of number separator button</summary>
+        public string DotText { get; set; } = ".";
+        /// <summary>Text of delete button</summary>
+        public string DeleteText { get; set; } = "C";
 
-        //Logic
-        private double LastInput { get; set; } = 0;/// <summary> stores last input</summary>
-        private int OperandNumber { get; set; } = 0;/// <summary> indicates which operand of function is now inputed </summary>
-        private bool IsNewInput { get; set; } = false;/// <summary> indicates if last input was finished </summary>
-        private string LastOperation { get; set; } = "";/// <summary> indicates what was last operation </summary>
-        private bool WasError { get; set; } = false;/// <summary> indicates if there was some kind of error</summary>
+        // Logic
+        private double _lastInput = 0;
+        private int _operandNumber = 0;
+        private bool _isNewInput = false;
+        private string _lastOperation = string.Empty;
+        private bool _wasError = false;
 
-        //Constansts
+        //Constants
         private const string CANT_DIVIDE_BY_ZERO = "Nelze dělit 0";
         private const string N_CANT_BE_ZERO = "n nesmí být 0";
         private const string N_HAS_TO_BE_INTEGER = "n musí být celé číslo";
@@ -75,11 +81,11 @@ namespace GUI_Application {
         private void ResetCalc() {
             MainTextBox = "";
             EquationTextBox = "";
-            WasError = false;
-            OperandNumber = 0;
-            LastInput = 0;
-            IsNewInput = false;
-            LastOperation = "";
+            _wasError = false;
+            _operandNumber = 0;
+            _lastInput = 0;
+            _isNewInput = false;
+            _lastOperation = "";
             DeleteText = "C";
         }
 
@@ -130,8 +136,8 @@ namespace GUI_Application {
                 return false;
             }
             //set settings for next input
-            OperandNumber = 0;
-            IsNewInput = true;
+            _operandNumber = 0;
+            _isNewInput = true;
             return true;
         }
 
@@ -142,36 +148,36 @@ namespace GUI_Application {
         private void TwoArgumentOperations(string formula) {
 
             //determines which two operator operation to use 
-            switch (LastOperation) {
+            switch (_lastOperation) {
                 case "+":
-                EquationTextBox = "" + LastInput + " + " + MainTextBox;//formats EquationTextBox
-                MainTextBox = "" + CalcMathLib.Add(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);//does operation and shows output on MainTextBox
+                EquationTextBox = "" + _lastInput + " + " + MainTextBox;//formats EquationTextBox
+                MainTextBox = "" + CalcMathLib.Add(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);//does operation and shows output on MainTextBox
 
                 break;
                 case "-":
-                EquationTextBox = "" + LastInput + " - " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Sub(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                EquationTextBox = "" + _lastInput + " - " + MainTextBox;
+                MainTextBox = "" + CalcMathLib.Sub(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
                 case @"\times":
-                EquationTextBox = "" + LastInput + @" \times " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Mul(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                EquationTextBox = "" + _lastInput + @" \times " + MainTextBox;
+                MainTextBox = "" + CalcMathLib.Mul(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
                 case @"\div":
-                EquationTextBox = "" + LastInput + @" \div " + MainTextBox;
+                EquationTextBox = "" + _lastInput + @" \div " + MainTextBox;
 
                 if (double.Parse(MainTextBox) == 0) {
                     ShowError(CANT_DIVIDE_BY_ZERO);
                     return;
                 }
 
-                MainTextBox = "" + CalcMathLib.Div(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                MainTextBox = "" + CalcMathLib.Div(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
                 case @"\sqrt[n]{x}":
-                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + LastInput + "}";
-                if (LastInput < 0) {
+                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + _lastInput + "}";
+                if (_lastInput < 0) {
                     ShowError(X_HAS_TO_BE_POSITIVE);
                     return;
                 }
@@ -179,37 +185,37 @@ namespace GUI_Application {
                     ShowError(N_CANT_BE_ZERO);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Root(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                MainTextBox = "" + CalcMathLib.Root(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
                 case @"mod":
-                EquationTextBox = "" + LastInput + " mod " + MainTextBox;
+                EquationTextBox = "" + _lastInput + " mod " + MainTextBox;
                 if (double.Parse(MainTextBox) == 0) {
                     ShowError(CANT_DIVIDE_BY_ZERO);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Mod(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                MainTextBox = "" + CalcMathLib.Mod(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
                 case @"x^n":
-                EquationTextBox = "" + LastInput + "^{" + MainTextBox + "}";
+                EquationTextBox = "" + _lastInput + "^{" + MainTextBox + "}";
                 if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
                     ShowError(N_HAS_TO_BE_INTEGER);
                     return;
                 }
-                if (double.Parse(MainTextBox) == 0 && LastInput == 0) {
+                if (double.Parse(MainTextBox) == 0 && _lastInput == 0) {
                     ShowError(N_CANT_BE_ZERO);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Power(LastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                MainTextBox = "" + CalcMathLib.Power(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
             }//switch for determining which two operator operation to use 
 
             //set settings for next input
-            LastInput = double.Parse(MainTextBox);
-            LastOperation = formula;
-            IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
+            _lastInput = double.Parse(MainTextBox);
+            _lastOperation = formula;
+            _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
 
             FormatEquationTextBox(formula);
             return;
@@ -221,7 +227,7 @@ namespace GUI_Application {
         /// <param name="formula">String containing operation type</param>
         void FormatEquationTextBox(string formula) {
 
-            switch (LastOperation) {
+            switch (_lastOperation) {
                 case @"\sqrt[n]{x}":
                 EquationTextBox = @"\sqrt[n]{" + MainTextBox + "}";
 
@@ -245,7 +251,7 @@ namespace GUI_Application {
         /// <param name="err">String which shows to user</param>
         private void ShowError(string err) {
             MainTextBox = err;
-            WasError = true;
+            _wasError = true;
             return;
         }
 
@@ -260,9 +266,9 @@ namespace GUI_Application {
             }
             if (formula == "-") {
                 //sets number as negative if '-' and newInput is set 
-                if (IsNewInput && OperandNumber != 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
+                if (_isNewInput && _operandNumber != 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
-                    IsNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
+                    _isNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
                 }
                 //sets number as negative if '-' is pressed and MainTextBox is empty
@@ -281,21 +287,21 @@ namespace GUI_Application {
                 MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
             }
             //if input is invalid it will change it to 0
-            if (MainTextBox == "" || MainTextBox == "-" || WasError) {
+            if (MainTextBox == "" || MainTextBox == "-" || _wasError) {
                 MainTextBox = "0";
             }
             //Checks if this is first operand of operation
-            if (OperandNumber == 0) {
+            if (_operandNumber == 0) {
 
                 //if formula is one argument operation return;
                 if (OneArgumentOperations(formula))
                     return;
 
                 //set settings for next input
-                LastInput = double.Parse(MainTextBox);
-                LastOperation = formula;
-                OperandNumber = 1;
-                IsNewInput = true;
+                _lastInput = double.Parse(MainTextBox);
+                _lastOperation = formula;
+                _operandNumber = 1;
+                _isNewInput = true;
 
                 FormatEquationTextBox(formula);
                 return;
@@ -307,7 +313,7 @@ namespace GUI_Application {
         /// Handles math operations
         /// </summary>
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (WasError == true) {
+            if (_wasError == true) {
                 ResetCalc();
             }
             MathOperations(e.Parameter.ToString());
@@ -329,7 +335,7 @@ namespace GUI_Application {
             if (MainTextBox == "-0" || MainTextBox == "0") {
 
                 if (e.Parameter.ToString() == "0") {//user cant input just zeros
-                    IsNewInput = false;
+                    _isNewInput = false;
                     return;
                 } else {//remove zero so it can be replaced by number
                     MainTextBox = "";
@@ -342,18 +348,18 @@ namespace GUI_Application {
                 return;
             }
             MainTextBox += e.Parameter.ToString();//adds inputed number to MainTextBox
-            IsNewInput = false;
+            _isNewInput = false;
         }
         /// <summary>
         /// Handles deleting of text
         /// </summary>
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (WasError == true) {
+            if (_wasError == true) {
                 ResetCalc();
             }
             switch (e.Parameter.ToString()) {//chooses from different options of deleting
                 case "Back":
-                if (IsNewInput) { //if last input was finished, clear whole MainTextBox
+                if (_isNewInput) { //if last input was finished, clear whole MainTextBox
                     MainTextBox = "";
                 }
                 if (MainTextBox.Length >= 1) {
@@ -387,15 +393,15 @@ namespace GUI_Application {
         /// Formats MainTextBox by flags which are set
         /// </summary>
         private void formatMainTextBox() {
-            if (IsNewInput && OperandNumber == 0) { //resets calculator when last equation was finished and number is inputed
+            if (_isNewInput && _operandNumber == 0) { //resets calculator when last equation was finished and number is inputed
                 ResetCalc();
             }
-            if (IsNewInput) { //clear text box, if last input was finished
+            if (_isNewInput) { //clear text box, if last input was finished
                 MainTextBox = "";
             }
-            if (WasError == true) {//clear text box, if there was an error
+            if (_wasError == true) {//clear text box, if there was an error
                 MainTextBox = "";
-                WasError = false;
+                _wasError = false;
             }
         }
         /// <summary>
