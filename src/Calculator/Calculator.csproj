@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MathLib\MathLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="WpfMath">
       <HintPath>WpfMath.dll</HintPath>
     </Reference>

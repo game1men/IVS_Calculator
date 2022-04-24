@@ -86,6 +86,7 @@ namespace MathLib {
 
         }
 
+
         /// <summary>
         /// Factorial function for a number
         /// </summary>
@@ -146,6 +147,8 @@ namespace MathLib {
             }
 
         }
+
+
 
         /// <summary>
         /// Root function of any positive real number
