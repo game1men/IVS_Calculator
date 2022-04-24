@@ -14,7 +14,7 @@ namespace Profiling
         /// <summary>
         /// Calculates standard deviation
         /// </summary>
-        public void standardDeviation()
+        public void StandardDeviation()
         {
             double average = 0;
             int numberCount = 0;
