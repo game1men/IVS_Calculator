@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MathLib\MathLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\Home\Skola\Vysoka\2.semestr\ivs\projekt2\ivs-calculator\src\Profiling\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\Home\Skola\Vysoka\2.semestr\ivs\projekt2\ivs-calculator\src\Profiling\.editorconfig" />
+  </ItemGroup>
+
+</Project>

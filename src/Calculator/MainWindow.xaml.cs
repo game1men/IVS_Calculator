@@ -410,7 +410,7 @@ namespace GUI_Application {
         private void Dot_Executed(object sender, ExecutedRoutedEventArgs e) {
 
             formatMainTextBox();
-            if (MainTextBox.Length > 18) {//size restriction of MainTextBox
+            if (MainTextBox.Length > MAINT_TEXT_BOX_LENGTH) {//size restriction of MainTextBox
                 return;
             }
             //checks if it does not contain number decimal separator already
