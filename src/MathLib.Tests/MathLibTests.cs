@@ -479,7 +479,6 @@ namespace MathLib.Tests {
 
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
-        [InlineData(145, int.MaxValue, 1.0000000023174722)]
         [InlineData(double.PositiveInfinity, int.MaxValue, double.PositiveInfinity)]
         public void RootInfinityValsShouldCalculate(double x, int exponent, double expected) {
 
