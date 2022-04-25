@@ -440,8 +440,8 @@ namespace MathLib.Tests {
         [InlineData(1.0, -1, 1.0)]
         [InlineData(2.0, -1, 0.5)]
         [InlineData(20.0, -2, 0.0025)]
-        [InlineData(45.0, -3, 0.00001097393)]
-        [InlineData(120.0, -3, 0.00006944444)]
+        [InlineData(45.0, -3, 0.00001097393689)]
+        [InlineData(120.0, -3, 5.787037e-7)]
         public void PowerPositiveValsWithNegativeExponentsShouldCalculate(double x, int exponent, double expected) {
 
             double actual = CalcMathLib.Power(x, exponent);
@@ -452,9 +452,9 @@ namespace MathLib.Tests {
         [Theory]
         [InlineData(-1.0, -1, -1.0)]
         [InlineData(-2.0, -1, -0.5)]
-        [InlineData(-20.0, -2, -0.0025)]
-        [InlineData(-45.0, -3, -0.00001097393)]
-        [InlineData(-120.0, -3, -0.00006944444)]
+        [InlineData(-20.0, -2, 0.0025)]
+        [InlineData(-45.0, -3, -0.00001097393689)]
+        [InlineData(-120.0, -3, -5.787037e-7)]
         public void PowerNegativeValsWithNegativeExponentsShouldCalculate(double x, int exponent, double expected) {
 
             double actual = CalcMathLib.Power(x, exponent);
@@ -479,7 +479,6 @@ namespace MathLib.Tests {
 
         [Theory]
         [InlineData(double.PositiveInfinity, 3, double.PositiveInfinity)]
-        [InlineData(145, int.MaxValue, 1.0000000023174722)]
         [InlineData(double.PositiveInfinity, int.MaxValue, double.PositiveInfinity)]
         public void RootInfinityValsShouldCalculate(double x, int exponent, double expected) {
 
