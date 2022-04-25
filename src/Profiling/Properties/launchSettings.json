@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Profiling": {
+      "commandName": "Project",
+      "commandLineArgs": "< 1000.txt"
+    }
+  }
+}
