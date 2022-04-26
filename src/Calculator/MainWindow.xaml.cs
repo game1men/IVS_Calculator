@@ -136,6 +136,7 @@ namespace GUI_Application {
                 return false;
             }
             //set settings for next input
+            _lastOperation = formula;
             _operandNumber = 0;
             _isNewInput = true;
             return true;
@@ -207,7 +208,7 @@ namespace GUI_Application {
                     ShowError(N_CANT_BE_ZERO);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Power(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                MainTextBox = "" + CalcMathLib.Power(_lastInput, long.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
             }//switch for determining which two operator operation to use 
@@ -266,7 +267,7 @@ namespace GUI_Application {
             }
             if (formula == "-") {
                 //sets number as negative if '-' and newInput is set 
-                if (_isNewInput && _operandNumber != 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
+                if (_isNewInput && _operandNumber != 0 && !wasEqualsPressed) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
                     _isNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
@@ -309,19 +310,64 @@ namespace GUI_Application {
             TwoArgumentOperations(formula);
             OneArgumentOperations(formula);
         }
+
+        bool wasEqualsPressed = false;
+
+        int lastNumber;
+        double iterationNumber = 0;
+        string iterationOperation = "";
+        int iterationOperandNumber = 0;
+
         /// <summary>
         /// Handles math operations
         /// </summary>
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
+            if (MainTextBox = "") {
+                return;
+            }
+            double lastInput2 = 0;
+            string operation = e.Parameter.ToString();
+            if (wasEqualsPressed && e.Parameter.ToString() == "=") {
+                _operandNumber = iterationOperandNumber;
+                operation = iterationOperation;
+                _lastOperation = iterationOperation;
+                _lastInput = double.Parse(MainTextBox);
+                if (_operandNumber != 0) {
+                    MainTextBox = iterationNumber.ToString(MAIN_TEXT_BOX_FORMATING);
+                }
+               
+                lastInput2 = _lastInput;
+
+
+            } else if (e.Parameter.ToString() == "=") {
+
+
+                iterationOperation = _lastOperation;
+
+                iterationNumber = double.Parse(MainTextBox);
+                wasEqualsPressed = true;
+
+                iterationOperandNumber = _operandNumber;
+            } else {
+                wasEqualsPressed = false;
+            }
+
+
             if (_wasError == true) {
                 ResetCalc();
             }
-            MathOperations(e.Parameter.ToString());
+            MathOperations(operation);
             if (MainTextBox != "") {
                 DeleteText = "CE";
             } else {
                 DeleteText = "C";
             }
+
+            if (e.Parameter.ToString() != operation && _operandNumber !=0) {
+                EquationTextBox = "" + lastInput2 + " " + iterationOperation + " " + iterationNumber + " =";
+            }
+
+
         }
 
         /// <summary>
