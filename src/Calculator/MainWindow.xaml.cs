@@ -207,7 +207,7 @@ namespace GUI_Application {
                     ShowError(N_CANT_BE_ZERO);
                     return;
                 }
-                MainTextBox = "" + CalcMathLib.Power(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                MainTextBox = "" + CalcMathLib.Power(_lastInput, long.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
 
                 break;
             }//switch for determining which two operator operation to use 
