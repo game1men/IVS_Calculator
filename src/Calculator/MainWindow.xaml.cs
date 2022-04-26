@@ -322,7 +322,7 @@ namespace GUI_Application {
         /// Handles math operations
         /// </summary>
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (MainTextBox = "") {
+            if (MainTextBox == "") {
                 return;
             }
             double lastInput2 = 0;
