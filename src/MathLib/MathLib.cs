@@ -67,8 +67,7 @@ namespace MathLib {
             if (b == 0)
                 throw new DivideByZeroException();
 
-            else
-                return a / b;
+            return a / b;
 
         }
 
@@ -81,13 +80,10 @@ namespace MathLib {
         /// <exception cref="Exception">Throws an exception when you are trying to divide by zero</exception>
         public static double Mod(double a, double b) {
 
-            if (b == 0) { 
+            if (b == 0)
                 throw new Exception();
-            }
 
-            else { 
-                return a % b;
-            }
+            return a % b;
 
         }
 
@@ -100,23 +96,19 @@ namespace MathLib {
         /// <exception cref="Exception">Throws an exception when number is not whole</exception>
         public static double Factorial(int a) {
 
-            if (a < 0 || a % 1 != 0) {
+            if (a < 0 || a % 1 != 0)
                 throw new Exception();
-            }
 
-            if (a == 0) {
+            if (a == 0)
                 return 1;
+
+            double result = a;
+
+            for(int i = a - 1; i > 0; i--) { 
+                result *= i;
             }
 
-            else { 
-                double result = a;
-
-                for(int i = a - 1; i > 0; i--) { 
-                    result *= i;
-                }
-
-                return result;
-            }
+            return result;
 
         }
 
@@ -130,13 +122,11 @@ namespace MathLib {
         /// <exception cref="Exception">Throws exception when exponent is not whole number</exception>
         public static double Power(double a, long exponent) {
 
-            if (a == 0 && exponent == 0) {
+            if (a == 0 && exponent == 0)
                 throw new DivideByZeroException();
-            }
 
-            if (exponent == 0) { 
+            if (exponent == 0)
                 return 1.0;
-            }
 
 
             double power = a; 
@@ -144,9 +134,9 @@ namespace MathLib {
                 a *= power;
             }
 
-            if (exponent <= -1) {
+            if (exponent <= -1)
                 a = 1 / a;
-            }
+
             return Math.Round(a, ROUNDING_PRECISION, MidpointRounding.ToZero);
 
         }
@@ -162,12 +152,10 @@ namespace MathLib {
         /// <exception cref="Exception">Throws an exception when number is below zero or exponent is zero</exception>
         public static double Root(double a, double exponent) {
 
-            if (a < 0 || exponent == 0) {
+            if (a < 0 || exponent == 0)
                 throw new Exception();
-            }
 
-            double result = Math.Pow(a, 1 / exponent);
-            return result;
+            return Math.Pow(a, 1 / exponent);
 
         }
 
@@ -179,20 +167,16 @@ namespace MathLib {
         /// <exception cref="Exception">Throws an exception when number is below or equal to zero</exception>
         public static double Log(double a) {
 
-            if (double.IsNegativeInfinity(a) == true) {
+            if (double.IsNegativeInfinity(a) == true)
                 return double.NegativeInfinity;
-            }
 
-            if (double.IsPositiveInfinity(a) == true) {
+            if (double.IsPositiveInfinity(a) == true)
                 return double.PositiveInfinity;
-            }
 
-            if (a <= 0) { 
+            if (a <= 0)
                 throw new Exception();
-            }
 
-            double result = Math.Log(a);
-            return result;
+            return Math.Log(a);
         }
     }
 
