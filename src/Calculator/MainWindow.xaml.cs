@@ -253,6 +253,11 @@ namespace GUI_Application {
 
                 break;
             }
+
+            //formats EquationTextBox when was iteration operation set
+            if (_wasEqualsPressed && _operandNumber != 0) {
+                EquationTextBox = "" + _lastInput + " " + _iterationOperation + " " + _iterationNumber + " =";
+            }
         }
         /// <summary>
         /// Shows error and raises err flag
@@ -336,12 +341,7 @@ namespace GUI_Application {
                 return;
             }
             TwoArgumentOperations(formula);
-            OneArgumentOperations(formula);
-
-            //formats EquationTextBox when was iteration operation set
-            if (_wasEqualsPressed && _operandNumber != 0) {
-                EquationTextBox = "" + _lastInput + " " + _iterationOperation + " " + _iterationNumber + " =";
-            }
+            OneArgumentOperations(formula);   
         }
 
       
