@@ -8,12 +8,15 @@
 # DEPENDENCY FOR WINDOWS: GNU Make (http://gnuwin32.sourceforge.net/)
 
 REMOVE_DIRS = rmdir obj /S /Q && md obj && rmdir bin /S /Q && md bin
-
+ARCHIVE_NAME = xvecer29_xceska06_xuncov00_xsmida06
 # default command
 all: run
 	
 # command for packing the project folder into a .zip file
 pack:
+	md $(ARCHIVE_NAME) && copy "Calculator setup.exe" $(ARCHIVE_NAME) && cd $(ARCHIVE_NAME) && md install && copy "Calculator setup.exe" install && del "Calculator setup.exe" \
+	cd.. && cd.. 
+
 	
 # command for removing files which won't be a part of evaluation
 clean:
@@ -37,8 +40,8 @@ test:
 	cd MathLib.Tests && @dotnet test
 
 # command for doc generation
-doc:
-	Doxyfile
+doc: 
+	@doxygen Doxyfile
 # command for installer creation
 install:
 	@iscc Installer.iss
