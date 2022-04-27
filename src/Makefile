@@ -18,11 +18,7 @@ pack:
 # command for removing files which won't be a part of evaluation
 clean:
 	
-	@dotnet clean -v m && del Installer.iss && rd /s /q .vs && cd Calculator && $(REMOVE_DIRS) && cd.. && cd Mathlib && $(REMOVE_DIRS) && cd.. && cd MathLib.Tests && $(REMOVE_DIRS) && cd.. && cd Mockup && $(REMOVE_DIRS) && cd.. && cd Profiling && $(REMOVE_DIRS)
-	
-	
-
-	
+	@dotnet clean -v m && del Calculator setup.exe && rd /s /q .vs && cd Calculator && $(REMOVE_DIRS) && cd.. && cd Mathlib && $(REMOVE_DIRS) && cd.. && cd MathLib.Tests && $(REMOVE_DIRS) && cd.. && cd Mockup && $(REMOVE_DIRS) && cd.. && cd Profiling && $(REMOVE_DIRS)
 	
 # command for compilation and launch of the app
 run: compile
@@ -45,5 +41,5 @@ doc:
 	Doxyfile
 # command for installer creation
 install:
-	@iscc iInstaller.iss
+	@iscc Installer.iss
 
