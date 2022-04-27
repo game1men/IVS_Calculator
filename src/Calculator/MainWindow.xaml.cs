@@ -266,10 +266,10 @@ namespace GUI_Application {
         /// <param name="formula">String containing operation type</param>
         private void MathOperations(string? formula) {
 
-            if (formula == null) {
+            if (formula == null || MainTextBox == "") {
                 return;
-            }
- 
+            }         
+
             //iterating operation when equals pressed multiple times
             if (_wasEqualsPressed && formula == "=") {//when equals was pressed second time load iteration values
                 _operandNumber = _iterationOperandNumber;               
