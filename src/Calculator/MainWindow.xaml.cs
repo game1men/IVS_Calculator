@@ -63,6 +63,10 @@ namespace GUI_Application {
         private bool _isNewInput = false;
         private string _lastOperation = string.Empty;
         private bool _wasError = false;
+        bool _wasEqualsPressed = false;
+        double _iterationNumber = 0;
+        string _iterationOperation = "";
+        int _iterationOperandNumber = 0;
 
         //Constants
         private const string CANT_DIVIDE_BY_ZERO = "Nelze dělit 0";
@@ -265,9 +269,29 @@ namespace GUI_Application {
             if (formula == null) {
                 return;
             }
+ 
+            //iterating operation when equals pressed multiple times
+            if (_wasEqualsPressed && formula == "=") {//when equals was pressed second time load iteration values
+                _operandNumber = _iterationOperandNumber;               
+                if (_operandNumber != 0) {//in two operand operations it needs to set _lastInput and MainTextBox
+                    _lastInput = double.Parse(MainTextBox);
+                    MainTextBox = _iterationNumber.ToString(MAIN_TEXT_BOX_FORMATING);
+                    _lastOperation = _iterationOperation;
+                } else {
+                    formula = _iterationOperation;
+                }   
+            } else if (formula == "=") {//when equals was pressed for first time in row set iteration values
+                _iterationOperation = _lastOperation; //last operation will be used for iterating
+                _iterationNumber = double.Parse(MainTextBox); //first inputed number will be used for iterating
+                _wasEqualsPressed = true;
+                _iterationOperandNumber = _operandNumber;//sets right operand
+            } else {//if other operation than equals was pressed
+                _wasEqualsPressed = false;
+            }
+
             if (formula == "-") {
                 //sets number as negative if '-' and newInput is set 
-                if (_isNewInput && _operandNumber != 0 && !wasEqualsPressed) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
+                if (_isNewInput && _operandNumber != 0 && !_wasEqualsPressed) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
                     _isNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
@@ -309,65 +333,28 @@ namespace GUI_Application {
             }
             TwoArgumentOperations(formula);
             OneArgumentOperations(formula);
+
+            //formats EquationTextBox when was iteration operation set
+            if (_wasEqualsPressed && _operandNumber != 0) {
+                EquationTextBox = "" + _lastInput + " " + _iterationOperation + " " + _iterationNumber + " =";
+            }
         }
 
-        bool wasEqualsPressed = false;
-
-        int lastNumber;
-        double iterationNumber = 0;
-        string iterationOperation = "";
-        int iterationOperandNumber = 0;
+      
 
         /// <summary>
         /// Handles math operations
         /// </summary>
-        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (MainTextBox == "") {
-                return;
-            }
-            double lastInput2 = 0;
-            string operation = e.Parameter.ToString();
-            if (wasEqualsPressed && e.Parameter.ToString() == "=") {
-                _operandNumber = iterationOperandNumber;
-                operation = iterationOperation;
-                _lastOperation = iterationOperation;
-                _lastInput = double.Parse(MainTextBox);
-                if (_operandNumber != 0) {
-                    MainTextBox = iterationNumber.ToString(MAIN_TEXT_BOX_FORMATING);
-                }
-               
-                lastInput2 = _lastInput;
-
-
-            } else if (e.Parameter.ToString() == "=") {
-
-
-                iterationOperation = _lastOperation;
-
-                iterationNumber = double.Parse(MainTextBox);
-                wasEqualsPressed = true;
-
-                iterationOperandNumber = _operandNumber;
-            } else {
-                wasEqualsPressed = false;
-            }
-
-
+        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {        
             if (_wasError == true) {
                 ResetCalc();
             }
-            MathOperations(operation);
+            MathOperations(e.Parameter.ToString());
             if (MainTextBox != "") {
                 DeleteText = "CE";
             } else {
                 DeleteText = "C";
             }
-
-            if (e.Parameter.ToString() != operation && _operandNumber !=0) {
-                EquationTextBox = "" + lastInput2 + " " + iterationOperation + " " + iterationNumber + " =";
-            }
-
-
         }
 
         /// <summary>
