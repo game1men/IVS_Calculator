@@ -91,6 +91,10 @@ namespace GUI_Application {
             _isNewInput = false;
             _lastOperation = "";
             DeleteText = "C";
+            _wasEqualsPressed = false;
+            _iterationNumber = 0;
+            _iterationOperation = "";
+            _iterationOperandNumber = 0;
         }
 
         /// <summary>
