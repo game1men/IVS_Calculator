@@ -13,16 +13,17 @@ ARCHIVE_NAME = xvecer29_xceska06_xuncov00_xsmida06
 all: run
 	
 # command for packing the project folder into a .zip file
-pack: install
+pack: install doc
 	@cd .. && md $(ARCHIVE_NAME) & echo "" >nul
-	@cd .. && xcopy "src\Calculator setup.exe" $(ARCHIVE_NAME)\src\ /S /I /y
+	@cd .. && xcopy "src\Calculator setup.exe" $(ARCHIVE_NAME)\install\ /S /I /y
+	@cd .. && xcopy doc\* $(ARCHIVE_NAME)\doc\ /S /I /y
 	@call clean-repo.cmd
-	@cd .. && xcopy src\* $(ARCHIVE_NAME)\src\ /S /I /y
-	@cd .. && xcopy mockup\* $(ARCHIVE_NAME)\mockup\ /S /I /y
-	@cd .. && xcopy profiling\* $(ARCHIVE_NAME)\profiling\ /S /I /y
-	@cd .. && xcopy plan\* $(ARCHIVE_NAME)\plan\ /S /I /y
-	@cd .. && xcopy .git\* $(ARCHIVE_NAME)\.git\ /S /I /y /K
-	@cd .. && xcopy *.* $(ARCHIVE_NAME) /I /y
+	@cd .. && xcopy src\* $(ARCHIVE_NAME)\repo\src\ /S /I /y
+	@cd .. && xcopy mockup\* $(ARCHIVE_NAME)\repo\mockup\ /S /I /y
+	@cd .. && xcopy profiling\* $(ARCHIVE_NAME)\repo\profiling\ /S /I /y
+	@cd .. && xcopy plan\* $(ARCHIVE_NAME)\repo\plan\ /S /I /y
+	@cd .. && xcopy .git\* $(ARCHIVE_NAME)\repo\.git\ /S /I /y /K
+	@cd .. && xcopy *.* $(ARCHIVE_NAME)\repo\ /I /y
 	@cd .. && powershell Compress-Archive $(ARCHIVE_NAME) $(ARCHIVE_NAME).zip
 	@cd .. && rd /S /Q $(ARCHIVE_NAME)
 	
