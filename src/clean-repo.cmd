@@ -17,6 +17,6 @@ rd Profiling\obj /S /Q >nul 2>nul
 rd Profiling\bin /S /Q >nul 2>nul
 
 cd .. 
-rd /S /Q doc\
+rd /S /Q doc\ 2>nul
 
 echo "" >nul
