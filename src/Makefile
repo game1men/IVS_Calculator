@@ -21,19 +21,22 @@ pack:
 # command for removing files which won't be a part of evaluation
 clean:
 	
-	@dotnet clean -v m && del Calculator setup.exe && rd /s /q .vs && cd Calculator && $(REMOVE_DIRS) && cd.. && cd Mathlib && $(REMOVE_DIRS) && cd.. && cd MathLib.Tests && $(REMOVE_DIRS) && cd.. && cd Mockup && $(REMOVE_DIRS) && cd.. && cd Profiling && $(REMOVE_DIRS)
+	@dotnet clean -v m && del "Calculator setup.exe" && rd /s /q .vs && cd Calculator && $(REMOVE_DIRS);\
+	cd Mathlib && $(REMOVE_DIRS) && cd.. && cd MathLib.Tests && $(REMOVE_DIRS);\
+	cd Mockup && $(REMOVE_DIRS) && cd.. && cd Profiling && $(REMOVE_DIRS);
 	
 # command for compilation and launch of the app
-run: compile
+run: 
+	compile && cd Calculator/bin/deploy && start Calculator.exe
 
 # command for executing the compile-cmd script
 compile:
-	@compile.cmd && cd Calculator/bin/deploy && Calculator.exe
+	@compile.cmd 
 
 # command for running the profiler on sample data
 profile:
 
-	 @profiler-run.cmd
+	compile && @profiler-run.cmd
 
 # command for running tests of Mathlib
 test:
