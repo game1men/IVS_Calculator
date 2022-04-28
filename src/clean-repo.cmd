@@ -16,4 +16,7 @@ rd Mockup\bin /S /Q >nul 2>nul
 rd Profiling\obj /S /Q >nul 2>nul
 rd Profiling\bin /S /Q >nul 2>nul
 
+cd .. 
+rd /S /Q doc\
+
 echo "" >nul
