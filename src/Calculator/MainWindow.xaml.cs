@@ -95,7 +95,7 @@ namespace GUI_Application {
             _iterationOperation = "";
         }
 
-        
+
         /// <summary>
         /// Handles operations that take one argument
         /// </summary>
@@ -232,34 +232,35 @@ namespace GUI_Application {
         /// <param name="firstOperand"></param>
         /// <param name="secondOperand"></param>
         /// <param name="operation">String containing operation which will be used in formating</param>
-        void FormatEquationTextBox(string formula, double firstOperand, double secondOperand, string operation) {
-
+        string FormatEquationTextBox(string formula, double firstOperand, double secondOperand, string operation, string equationIn) {
+            string formatedEquation = equationIn;
             switch (formula) {
                 case @"\sqrt[n]{x}":
-                EquationTextBox = @"\sqrt[n]{" + firstOperand + "}";
+                formatedEquation = @"\sqrt[n]{" + firstOperand + "}";
 
                 break;
                 case @"x^n":
-                EquationTextBox = "" + firstOperand + "^n";
+                formatedEquation = "" + firstOperand + "^n";
                 break;
                 case @"x^2":
                 case @"\sqrt[2]{x}":
                 case @"x!":
                 break;
                 case @"=":
-                if (!EquationTextBox.Contains('=') && EquationTextBox != "") {
-                    EquationTextBox += "=";
+                if (!equationIn.Contains('=') && equationIn != "") {
+                    formatedEquation += "=";
                 }
                 break;
                 default:
-                EquationTextBox = "" + firstOperand + " " + operation;
+                formatedEquation = "" + firstOperand + " " + operation;
 
                 break;
             }
             //formats EquationTextBox when was iteration operation set
             if (_equalSignPressedInARow > 1 && _operandNumber != 0) {
-                EquationTextBox = "" + firstOperand + " " + secondOperand + " " + operation + " =";
+                formatedEquation = "" + firstOperand + " " + secondOperand + " " + operation + " =";
             }
+            return formatedEquation;
         }
 
         /// <summary>
@@ -267,7 +268,6 @@ namespace GUI_Application {
         /// </summary>
         /// <param name="err">String which shows to user</param>
         private void ShowError(string err) {
-            MainTextBox = err;
             _wasError = true;
             return;
         }
@@ -276,13 +276,87 @@ namespace GUI_Application {
         /// Handles math operations
         /// </summary>
         /// <param name="formula">String containing operation type</param>
-        private void MathOperations(string? formula) {
+        private int MathOperations(string formula, double operand, string equationNow, out string outEquation, out double outNumber, out string errMessage) {
 
-            string outEquation;
-            double outputNumber;
-            string errMessage;
+            outEquation = equationNow;
+            outNumber = operand;
+            string tempOutEquation = equationNow;
+            double tempOutNumber = operand;
+            errMessage = "";
             int outValue;
+            //iterating operation when equals pressed multiple times
+            if (_equalSignPressedInARow >= 1 && formula == "=") {//when equals was pressed second do iterating            
+                outValue = TwoArgumentOperations(_iterationOperation, operand, _iterationNumber, out outEquation, out outNumber, out errMessage);
+                outEquation = FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation, outEquation);
+                return 0;
+            } else if (EquationTextBox != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values
+                _iterationOperation = _lastOperation; //last operation will be used for iterating
+                _iterationNumber = double.Parse(MainTextBox); //first inputed number will be used for iterating
+                _equalSignPressedInARow++;
+            } else {//if other operation than equals was pressed
+                _equalSignPressedInARow = 0;
+            }
 
+            //Checks if this is first operand of operation
+            if (_operandNumber == 0) {
+                //if formula is one argument operation do it and return
+                outValue = OneArgumentOperations(formula, operand, out tempOutEquation, out tempOutNumber, out errMessage);
+                if (outValue == -1) {
+
+                    ShowError(errMessage);
+                    return -1;
+                } else if (outValue == 1) {
+                    outEquation = tempOutEquation;
+                    outNumber = tempOutNumber;
+                    return 0;
+                }
+
+                //set settings for next input
+                _lastInput = double.Parse(MainTextBox);
+                _lastOperation = formula;
+                _operandNumber = 1;
+                _isNewInput = true;
+
+                outEquation = FormatEquationTextBox(formula, operand, 0, formula, outEquation);
+                return 0;
+            }
+
+            outValue = TwoArgumentOperations(_lastOperation, _lastInput, operand, out tempOutEquation, out tempOutNumber, out errMessage);
+            if (outValue == -1) {
+                ShowError(errMessage);
+                return -1;
+            } else if (outValue == 1) {
+                outEquation = tempOutEquation;
+                outNumber = tempOutNumber;
+            }
+
+            outEquation = FormatEquationTextBox(formula, operand, 0, formula, outEquation);
+
+            outValue = OneArgumentOperations(formula, operand, out tempOutEquation, out tempOutNumber, out errMessage);
+            if (outValue == -1) {
+                ShowError(errMessage);
+                return -1;
+            } else if (outValue == 1) {
+                outEquation = tempOutEquation;
+                outNumber = tempOutNumber;
+            }
+            //set settings for next input
+            _lastInput = double.Parse(MainTextBox);
+            _lastOperation = formula;
+            _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
+            _operandNumber = 0;
+            return 0;
+        }
+
+        /// <summary>
+        /// Handles math operations
+        /// </summary>
+        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
+
+            string formula = e.Parameter.ToString();
+            if (_wasError == true) {
+                ResetCalc();
+            }
             if (formula == null) {
                 return;
             }
@@ -314,78 +388,19 @@ namespace GUI_Application {
                 MainTextBox = "0";
             }
 
-            //iterating operation when equals pressed multiple times
-            if (_equalSignPressedInARow >= 1 && formula == "=") {//when equals was pressed second do iterating            
-                outValue = TwoArgumentOperations(_iterationOperation, double.Parse(MainTextBox), _iterationNumber, out outEquation, out outputNumber, out errMessage);
-                EquationTextBox = outEquation;
-                MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
-                FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation);
-                return;
-            } else if (EquationTextBox != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values
-                _iterationOperation = _lastOperation; //last operation will be used for iterating
-                _iterationNumber = double.Parse(MainTextBox); //first inputed number will be used for iterating
-                _equalSignPressedInARow++;
-            } else {//if other operation than equals was pressed
-                _equalSignPressedInARow = 0;
-            }
 
-            //Checks if this is first operand of operation
-            if (_operandNumber == 0) {
-                //if formula is one argument operation do it and return
-                outValue = OneArgumentOperations(formula, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
-                if (outValue == -1) {
-                    ShowError(errMessage);
-                    return;
-                } else if (outValue == 1) {
-                    EquationTextBox = outEquation;
-                    MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
-                    return;
-                }
-
-                //set settings for next input
-                _lastInput = double.Parse(MainTextBox);
-                _lastOperation = formula;
-                _operandNumber = 1;
-                _isNewInput = true;
-
-                FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
-                return;
-            }
-
-            outValue = TwoArgumentOperations(_lastOperation, _lastInput, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
-            if (outValue == -1) {
-                ShowError(errMessage);
-                return;
-            } else if (outValue == 1) {
+            string outEquation;
+            string errMessage;
+            double outputNumber;
+            if (MathOperations(formula, double.Parse(MainTextBox), EquationTextBox, out outEquation, out outputNumber, out errMessage) == -1) {
+                MainTextBox = errMessage;
+            } else {
                 EquationTextBox = outEquation;
                 MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
             }
+            
+           
 
-            FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
-
-            outValue = OneArgumentOperations(formula, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
-            if (outValue == -1) {
-                ShowError(errMessage);
-                return;
-            } else if (outValue == 1) {
-                EquationTextBox = outEquation;
-                MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
-            }
-            //set settings for next input
-            _lastInput = double.Parse(MainTextBox);
-            _lastOperation = formula;
-            _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
-            _operandNumber = 0;
-        }
-
-        /// <summary>
-        /// Handles math operations
-        /// </summary>
-        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (_wasError == true) {
-                ResetCalc();
-            }
-            MathOperations(e.Parameter.ToString());
             if (MainTextBox != "") {
                 DeleteText = "CE";
             } else {
