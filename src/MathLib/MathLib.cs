@@ -64,11 +64,11 @@ namespace MathLib {
         /// </exception>
         public static double Div(double a, double b) {
 
-            if (b == 0)
+            if (b == 0) {
                 throw new DivideByZeroException();
+            }
 
-            else
-                return a / b;
+            return a / b;
 
         }
 
@@ -81,13 +81,11 @@ namespace MathLib {
         /// <exception cref="Exception">Throws an exception when you are trying to divide by zero</exception>
         public static double Mod(double a, double b) {
 
-            if (b == 0) { 
+            if (b == 0) {
                 throw new Exception();
             }
 
-            else { 
-                return a % b;
-            }
+            return a % b;
 
         }
 
@@ -108,15 +106,13 @@ namespace MathLib {
                 return 1;
             }
 
-            else { 
-                double result = a;
+            double result = a;
 
-                for(int i = a - 1; i > 0; i--) { 
-                    result *= i;
-                }
-
-                return result;
+            for(int i = a - 1; i > 0; i--) { 
+                result *= i;
             }
+
+            return result;
 
         }
 
@@ -134,7 +130,7 @@ namespace MathLib {
                 throw new DivideByZeroException();
             }
 
-            if (exponent == 0) { 
+            if (exponent == 0) {
                 return 1.0;
             }
 
@@ -147,6 +143,7 @@ namespace MathLib {
             if (exponent <= -1) {
                 a = 1 / a;
             }
+
             return Math.Round(a, ROUNDING_PRECISION, MidpointRounding.ToZero);
 
         }
@@ -166,8 +163,7 @@ namespace MathLib {
                 throw new Exception();
             }
 
-            double result = Math.Pow(a, 1 / exponent);
-            return result;
+            return Math.Pow(a, 1 / exponent);
 
         }
 
@@ -187,12 +183,11 @@ namespace MathLib {
                 return double.PositiveInfinity;
             }
 
-            if (a <= 0) { 
+            if (a <= 0) {
                 throw new Exception();
             }
 
-            double result = Math.Log(a);
-            return result;
+            return Math.Log(a);
         }
     }
 
