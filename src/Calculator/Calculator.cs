@@ -196,7 +196,7 @@ namespace GUI_Application {
         /// <param name="firstOperand"></param>
         /// <param name="secondOperand"></param>
         /// <param name="operation">String containing operation which will be used in formating</param>
-        string FormatEquationTextBox(string formula, double firstOperand, double secondOperand, string operation, string equationIn) {
+        private string FormatEquationTextBox(string formula, double firstOperand, double secondOperand, string operation, string equationIn) {
             string formatedEquation = equationIn;
             switch (formula) {
                 case @"\sqrt[n]{x}":
