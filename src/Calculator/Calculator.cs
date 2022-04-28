@@ -292,7 +292,7 @@ namespace GUI_Application {
 
             outEquation = FormatEquationTextBox(formula, operand, 0, formula, outEquation);
 
-            outValue = OneArgumentOperations(formula, operand, out tempOutEquation, out tempOutNumber, out errMessage);
+            outValue = OneArgumentOperations(formula, outNumber, out tempOutEquation, out tempOutNumber, out errMessage);
             if (outValue == -1) {
                 WasError = true;
                 return -1;
