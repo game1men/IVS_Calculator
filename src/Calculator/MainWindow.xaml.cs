@@ -25,7 +25,6 @@ THE SOFTWARE.
 * https://github.com/Fody/PropertyChanged
  *****************************************/
 
-using MathLib;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
@@ -58,12 +57,11 @@ namespace GUI_Application {
         /// <summary>Text of delete button</summary>
         public string DeleteText { get; set; } = "C";
 
-
         //Constants
         private const string MAIN_TEXT_BOX_FORMATING = "G14";
         private const int MAINT_TEXT_BOX_LENGTH = 18;
-        private Calculator calc = new Calculator();
 
+        private Calculator calc = new();
 
         /// <summary>
         /// Resets calculator to default state
@@ -72,18 +70,16 @@ namespace GUI_Application {
             MainTextBox = "";
             EquationTextBox = "";
             DeleteText = "C";
+            calc.Reset();
         }
-
-
-      
 
         /// <summary>
         /// Handles math operations
         /// </summary>
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
 
-            string formula = e.Parameter.ToString();
-            if (calc._wasError) {
+            string? formula = e.Parameter.ToString();
+            if (calc.WasError) {
                 ResetCalc();
             }
             if (formula == null) {
@@ -92,9 +88,9 @@ namespace GUI_Application {
 
             if (formula == "-" && EquationTextBox == "") {
                 //sets number as negative if '-' and newInput is set 
-                if (calc._isNewInput && calc._operandNumber != 0 && calc._equalSignPressedInARow == 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
+                if (calc.IsNewInput && calc.OperandNumber != 0 && calc.EqualSignPressedInARow == 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
-                    calc._isNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
+                    calc.IsNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
                 }
                 //sets number as negative if '-' is pressed and MainTextBox is empty
@@ -113,22 +109,16 @@ namespace GUI_Application {
                 MainTextBox = MainTextBox.Substring(0, MainTextBox.Length - 1);
             }
             //if input is invalid it will change it to 0
-            if (MainTextBox == "" || MainTextBox == "-" || calc._wasError) {
+            if (MainTextBox == "" || MainTextBox == "-" || calc.WasError) {
                 MainTextBox = "0";
             }
-
-
-            string outEquation;
-            string errMessage;
-            double outputNumber;
-            if (calc.Calculate(formula, double.Parse(MainTextBox), EquationTextBox, out outEquation, out outputNumber, out errMessage) == -1) {
+            //calculates operation and sets textboxes
+            if (calc.Calculate(formula, double.Parse(MainTextBox), EquationTextBox, out string outEquation, out double outputNumber, out string errMessage) == -1) {
                 MainTextBox = errMessage;
             } else {
                 EquationTextBox = outEquation;
                 MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
             }
-            
-           
 
             if (MainTextBox != "") {
                 DeleteText = "CE";
@@ -144,14 +134,14 @@ namespace GUI_Application {
         /// <param name="e"></param>
         private void Number_Executed(object sender, ExecutedRoutedEventArgs e) {
 
-            if (calc._wasError == true) {
+            if (calc.WasError == true) {
                 ResetCalc();
             }
             //checks if zero is not only character
             if (MainTextBox == "-0" || MainTextBox == "0") {
 
                 if (e.Parameter.ToString() == "0") {//user cant input just zeros
-                    calc._isNewInput = false;
+                    calc.IsNewInput = false;
                     return;
                 } else {//remove zero so it can be replaced by number
                     MainTextBox = "";
@@ -159,24 +149,24 @@ namespace GUI_Application {
 
             }
             DeleteText = "CE";
-            formatMainTextBox();
+            FormatMainTextBox();
             if (MainTextBox.Length > MAINT_TEXT_BOX_LENGTH) {//size restriction of MainTextBox
                 return;
             }
             MainTextBox += e.Parameter.ToString();//adds inputed number to MainTextBox
-            calc._isNewInput = false;
+            calc.IsNewInput = false;
         }
 
         /// <summary>
         /// Handles deleting of text
         /// </summary>
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (calc._wasError == true) {
+            if (calc.WasError == true) {
                 ResetCalc();
             }
             switch (e.Parameter.ToString()) {//chooses from different options of deleting
                 case "Back":
-                if (calc._isNewInput) { //if last input was finished, clear whole MainTextBox
+                if (calc.IsNewInput) { //if last input was finished, clear whole MainTextBox
                     MainTextBox = "";
                 }
                 if (MainTextBox.Length >= 1) {
@@ -210,16 +200,16 @@ namespace GUI_Application {
         /// <summary>
         /// Formats MainTextBox by flags which are set
         /// </summary>
-        private void formatMainTextBox() {
-            if (calc._isNewInput && calc._operandNumber == 0) { //resets calculator when last equation was finished and number is inputed
+        private void FormatMainTextBox() {
+            if (calc.IsNewInput && calc.OperandNumber == 0) { //resets calculator when last equation was finished and number is inputed
                 ResetCalc();
             }
-            if (calc._isNewInput) { //clear text box, if last input was finished
+            if (calc.IsNewInput) { //clear text box, if last input was finished
                 MainTextBox = "";
             }
-            if (calc._wasError == true) {//clear text box, if there was an error
+            if (calc.WasError == true) {//clear text box, if there was an error
                 MainTextBox = "";
-                calc._wasError = false;
+                calc.WasError = false;
             }
         }
 
@@ -228,7 +218,7 @@ namespace GUI_Application {
         /// </summary>
         private void Dot_Executed(object sender, ExecutedRoutedEventArgs e) {
 
-            formatMainTextBox();
+            FormatMainTextBox();
             if (MainTextBox.Length > MAINT_TEXT_BOX_LENGTH) {//size restriction of MainTextBox
                 return;
             }

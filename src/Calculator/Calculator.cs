@@ -1,39 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MathLib;
+﻿using MathLib;
 
 namespace GUI_Application {
+    /// <summary>
+    /// Sequentially calculates operations. It remembers between states. Does next operation with previous input.
+    /// </summary>
     public class Calculator {
 
+        /// <summary>
+        /// Last inputed number
+        /// </summary>
+        public double LastInput { get { return _lastInput; } }
+        /// <summary>
+        /// Which operand of operation will be next number
+        /// </summary>
+        public int OperandNumber { get { return _operandNumber; } }
+        /// <summary>
+        /// If last operation was finished
+        /// </summary>
+        public bool IsNewInput { get; set; } = false;
+        /// <summary>
+        /// Last inputed operation
+        /// </summary>
+        public string LastOperation { get { return _lastOperation; } }
+        /// <summary>
+        /// If there was any error
+        /// </summary>
+        public bool WasError { get; set; } = false;
+        /// <summary>
+        /// How many times was equal sign pressed in a row
+        /// </summary>
+        public int EqualSignPressedInARow { get { return _equalSignPressedInARow; } }
 
-
+        // Logic
+        private double _lastInput = 0;
+        private int _operandNumber = 0;
+        private string _lastOperation = string.Empty;
+        private int _equalSignPressedInARow = 0;
+        private double _iterationNumber = 0;
+        private string _iterationOperation = "";
+        //constants
         private const string CANT_DIVIDE_BY_ZERO = "Nelze dělit 0";
         private const string N_CANT_BE_ZERO = "n nesmí být 0";
         private const string N_HAS_TO_BE_INTEGER = "n musí být celé číslo";
         private const string X_HAS_TO_BE_INTEGER = "n musí být celé číslo";
         private const string X_HAS_TO_BE_POSITIVE = "x musí být kladné číslo";
-        private const string MAIN_TEXT_BOX_FORMATING = "G14";
-        // Logic
-        public double _lastInput { get; set; } = 0;
-        public int _operandNumber { get; set; } = 0;
-        public bool _isNewInput { get; set; } = false;
-        public string _lastOperation { get; set; } = string.Empty;
-        public bool _wasError { get; set; } = false;
-        public int _equalSignPressedInARow { get; set; } = 0;
-        public double _iterationNumber { get; set; } = 0;
-        public string _iterationOperation { get; set; } = "";
 
         /// <summary>
         /// Resets calculator to default state
         /// </summary>
-        private void ResetCalc() {
-            _wasError = false;
+        public void Reset() {
+            WasError = false;
             _operandNumber = 0;
             _lastInput = 0;
-            _isNewInput = false;
+            IsNewInput = false;
             _lastOperation = "";
             _equalSignPressedInARow = 0;
             _iterationNumber = 0;
@@ -49,7 +68,7 @@ namespace GUI_Application {
         /// <param name="outputNumber">calculated number</param>
         /// <param name="errMessage"></param>
         /// <returns>1 if operation was found 0 if operation was not found -1 if there was error</returns>
-        private int OneArgumentOperations(string formula, double operand, out string equation, out double outputNumber, out string errMessage) {
+        private static int OneArgumentOperations(string formula, double operand, out string equation, out double outputNumber, out string errMessage) {
             outputNumber = operand;
             equation = "";
             errMessage = "";
@@ -99,7 +118,7 @@ namespace GUI_Application {
         /// <param name="outputNumber">calculated number</param>
         /// <param name="errMessage"></param>
         /// <returns>1 if operation was found 0 if operation was not found -1 if there was error</returns>
-        private int TwoArgumentOperations(string formula, double firstOperand, double secondOperand, out string equation, out double outputNumber, out string errMessage) {
+        private static int TwoArgumentOperations(string formula, double firstOperand, double secondOperand, out string equation, out double outputNumber, out string errMessage) {
             outputNumber = 0;
             equation = "";
             errMessage = "";
@@ -209,32 +228,29 @@ namespace GUI_Application {
         }
 
         /// <summary>
-        /// Shows error and raises err flag
+        /// Does operations sequentially. It remembers between states. Does next operation with previous input.
         /// </summary>
-        /// <param name="err">String which shows to user</param>
-        private void ShowError(string err) {
-            _wasError = true;
-            return;
-        }
+        /// <param name="formula">operation which should be done</param>
+        /// <param name="operand">operand which goes with this operation</param>
+        /// <param name="equationIn">state of equation string</param>
+        /// <param name="outEquation">outputs new equation string</param>
+        /// <param name="outNumber">calculated number</param>
+        /// <param name="errMessage"></param>
+        /// <returns>0 if there wasn't any error -1 if there was</returns>
+        public int Calculate(string formula, double operand, string equationIn, out string outEquation, out double outNumber, out string errMessage) {
 
-        /// <summary>
-        /// Handles math operations
-        /// </summary>
-        /// <param name="formula">String containing operation type</param>
-        public int Calculate(string formula, double operand, string equationNow, out string outEquation, out double outNumber, out string errMessage) {
-
-            outEquation = equationNow;
+            outEquation = equationIn;
             outNumber = operand;
-            string tempOutEquation = equationNow;
-            double tempOutNumber = operand;
-            errMessage = "";
-            int outValue;
+            string tempOutEquation;
+            double tempOutNumber;
+            int outValue;//for storing err codes before evaluation
+
             //iterating operation when equals pressed multiple times
             if (_equalSignPressedInARow >= 1 && formula == "=") {//when equals was pressed second do iterating            
                 TwoArgumentOperations(_iterationOperation, operand, _iterationNumber, out outEquation, out outNumber, out errMessage);
                 outEquation = FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation, outEquation);
                 return 0;
-            } else if (equationNow != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values
+            } else if (equationIn != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values (iteration works only on + - * /)
                 _iterationOperation = _lastOperation; //last operation will be used for iterating
                 _iterationNumber = operand; //first inputed number will be used for iterating
                 _equalSignPressedInARow++;
@@ -247,8 +263,7 @@ namespace GUI_Application {
                 //if formula is one argument operation do it and return
                 outValue = OneArgumentOperations(formula, operand, out tempOutEquation, out tempOutNumber, out errMessage);
                 if (outValue == -1) {
-
-                    ShowError(errMessage);
+                    WasError = true;
                     return -1;
                 } else if (outValue == 1) {
                     outEquation = tempOutEquation;
@@ -260,7 +275,7 @@ namespace GUI_Application {
                 _lastInput = operand;
                 _lastOperation = formula;
                 _operandNumber = 1;
-                _isNewInput = true;
+                IsNewInput = true;
 
                 outEquation = FormatEquationTextBox(formula, operand, 0, formula, outEquation);
                 return 0;
@@ -268,7 +283,7 @@ namespace GUI_Application {
 
             outValue = TwoArgumentOperations(_lastOperation, _lastInput, operand, out tempOutEquation, out tempOutNumber, out errMessage);
             if (outValue == -1) {
-                ShowError(errMessage);
+                WasError = true;
                 return -1;
             } else if (outValue == 1) {
                 outEquation = tempOutEquation;
@@ -279,7 +294,7 @@ namespace GUI_Application {
 
             outValue = OneArgumentOperations(formula, operand, out tempOutEquation, out tempOutNumber, out errMessage);
             if (outValue == -1) {
-                ShowError(errMessage);
+                WasError = true;
                 return -1;
             } else if (outValue == 1) {
                 outEquation = tempOutEquation;
@@ -288,7 +303,7 @@ namespace GUI_Application {
             //set settings for next input
             _lastInput = operand;
             _lastOperation = formula;
-            _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
+            IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
             _operandNumber = 0;
             return 0;
         }
