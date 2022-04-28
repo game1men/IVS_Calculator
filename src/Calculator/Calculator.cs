@@ -250,7 +250,7 @@ namespace GUI_Application {
                 TwoArgumentOperations(_iterationOperation, operand, _iterationNumber, out outEquation, out outNumber, out errMessage);
                 outEquation = FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation, outEquation);
                 return 0;
-            } else if (equationIn != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values (iteration works only on + - * /)
+            } else if (equationIn != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == @"\times" || _lastOperation == @"\div")) {//when equals was pressed for first time in row set iteration values (iteration works only on + - * /)
                 _iterationOperation = _lastOperation; //last operation will be used for iterating
                 _iterationNumber = operand; //first inputed number will be used for iterating
                 _equalSignPressedInARow++;
