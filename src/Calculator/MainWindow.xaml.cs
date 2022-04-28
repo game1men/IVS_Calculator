@@ -49,7 +49,7 @@ namespace GUI_Application {
         ///<summary>Text EquationTextBox</summary>
         public string EquationTextBox { get; set; } = string.Empty;
         /// <summary>Text MainTextBox</summary>
-        public string MainTextBox { get; set; } = string.Empty;
+        public string MainTextBox { get; set; } = "0";
         /// <summary>Font size of MainText</summary>
         public int MainTextFontSize { get; set; } = 35;
         /// <summary>Text of number separator button</summary>
@@ -67,7 +67,7 @@ namespace GUI_Application {
         /// Resets calculator to default state
         /// </summary>
         private void ResetCalc() {
-            MainTextBox = "";
+            MainTextBox = "0";
             EquationTextBox = "";
             DeleteText = "C";
             calc.Reset();
@@ -77,7 +77,6 @@ namespace GUI_Application {
         /// Handles math operations
         /// </summary>
         private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
-
             string? formula = e.Parameter.ToString();
             if (calc.WasError) {
                 ResetCalc();
@@ -137,6 +136,8 @@ namespace GUI_Application {
             if (calc.WasError == true) {
                 ResetCalc();
             }
+            DeleteText = "CE";
+            FormatMainTextBox();
             //checks if zero is not only character
             if (MainTextBox == "-0" || MainTextBox == "0") {
 
@@ -148,8 +149,7 @@ namespace GUI_Application {
                 }
 
             }
-            DeleteText = "CE";
-            FormatMainTextBox();
+           
             if (MainTextBox.Length > MAINT_TEXT_BOX_LENGTH) {//size restriction of MainTextBox
                 return;
             }
