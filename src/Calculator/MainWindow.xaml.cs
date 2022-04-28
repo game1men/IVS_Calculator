@@ -58,7 +58,7 @@ namespace GUI_Application {
         public string DeleteText { get; set; } = "C";
 
         //Constants
-        private const string MAIN_TEXT_BOX_FORMATING = "G14";
+        private readonly string MAIN_TEXT_BOX_FORMATING = $"G{MathLib.CalcMathLib.ROUNDING_PRECISION}";
         private const int MAINT_TEXT_BOX_LENGTH = 18;
 
         private Calculator calc = new();
