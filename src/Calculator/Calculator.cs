@@ -309,9 +309,14 @@ namespace GUI_Application {
                 IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
             }
             //set settings for next input
-          
-         
-            
+
+            if (LastOperation == "=") {
+                _lastInput = outNumber;
+                _lastOperation = formula;
+                IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
+            }
+
+
             return 0;
         }
 
