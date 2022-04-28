@@ -85,7 +85,7 @@ namespace GUI_Application {
                 return;
             }
 
-            if (formula == "-" && EquationTextBox == "") {
+            if (formula == "-") {
                 //sets number as negative if '-' and newInput is set 
                 if (calc.IsNewInput && calc.OperandNumber != 0 && calc.EqualSignPressedInARow == 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
