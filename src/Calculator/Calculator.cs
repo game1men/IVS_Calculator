@@ -272,7 +272,7 @@ namespace GUI_Application {
                 }
 
                 //set settings for next input
-                _lastInput = operand;
+                _lastInput = outNumber;
                 _lastOperation = formula;
                 _operandNumber = 1;
                 IsNewInput = true;
@@ -288,9 +288,13 @@ namespace GUI_Application {
             } else if (outValue == 1) {
                 outEquation = tempOutEquation;
                 outNumber = tempOutNumber;
+                _operandNumber = 1;
+                _lastInput = outNumber;
+                _lastOperation = formula;
+                IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
             }
 
-            outEquation = FormatEquationTextBox(formula, operand, 0, formula, outEquation);
+            outEquation = FormatEquationTextBox(formula, outNumber, 0, formula, outEquation);
 
             outValue = OneArgumentOperations(formula, outNumber, out tempOutEquation, out tempOutNumber, out errMessage);
             if (outValue == -1) {
@@ -299,12 +303,15 @@ namespace GUI_Application {
             } else if (outValue == 1) {
                 outEquation = tempOutEquation;
                 outNumber = tempOutNumber;
+                _operandNumber = 0;
+                _lastInput = outNumber;
+                _lastOperation = formula;
+                IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
             }
             //set settings for next input
-            _lastInput = operand;
-            _lastOperation = formula;
-            IsNewInput = true;//sets flag to clear MainTextBox when new number is inputed
-            _operandNumber = 0;
+          
+         
+            
             return 0;
         }
 
