@@ -1,4 +1,4 @@
-xlogin01 100 (základ GUI a základní mat. operace)
-xlogin02 100 (pokročilé mat. operace)
-xlogin03 90 (profiling, instalátor)
-xlogin04 110 (testy, dokumentace)
+xvecer29 100 (GUI-Frontend, Mockup, compile skripty, instalačka)
+xuncov00 100 (unit-testy, makefile)
+xceska06 100 (GUI-Backend, profiling)
+xsmida06 100 (Matematickou knihovnu, dokumentace)

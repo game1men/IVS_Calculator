@@ -1,1 +1,3 @@
-tento soubor bude obsahovat rozdil mezi planem projektu a skutecnosti
+Stanovené termíny na začátku projektu se stihly. S drobnými problémy se potýkal backend programu, kde byl nutný udělat ke konci refactoring a změnit tak strukturu programu. Toto se následně muselo testovat znovu.
+
+Některé test casy nepokrývaly knihovnu, a tak se relativně na konci projektu objevila kritická chyba, která musela být opravena v knihovně, musely se doplnit test cases a musel se na to upravit backend aplikace.
