@@ -95,11 +95,15 @@ namespace GUI_Application {
             _iterationOperation = "";
         }
 
+        
         /// <summary>
-        /// Handles operations that take only one argument
+        /// Handles operations that take one argument
         /// </summary>
         /// <param name="formula">String containing operation type</param>
-        /// <returns>True if operation was found</returns>
+        /// <param name="equation">output of formated equation</param>
+        /// <param name="outputNumber">calculated number</param>
+        /// <param name="errMessage"></param>
+        /// <returns>1 if operation was found 0 if operation was not found -1 if there was error</returns>
         private int OneArgumentOperations(string formula, double operand, out string equation, out double outputNumber, out string errMessage) {
             outputNumber = operand;
             equation = "";
@@ -144,6 +148,12 @@ namespace GUI_Application {
         /// Handles operations that take two arguments
         /// </summary>
         /// <param name="formula">String containing operation type</param>
+        /// <param name="firstOperand"></param>
+        /// <param name="secondOperand"></param>
+        /// <param name="equation">output of formated equation</param>
+        /// <param name="outputNumber">calculated number</param>
+        /// <param name="errMessage"></param>
+        /// <returns>1 if operation was found 0 if operation was not found -1 if there was error</returns>
         private int TwoArgumentOperations(string formula, double firstOperand, double secondOperand, out string equation, out double outputNumber, out string errMessage) {
             outputNumber = 0;
             equation = "";
@@ -251,6 +261,7 @@ namespace GUI_Application {
                 EquationTextBox = "" + firstOperand + " " + secondOperand + " " + operation + " =";
             }
         }
+
         /// <summary>
         /// Shows error and raises err flag
         /// </summary>
@@ -304,12 +315,11 @@ namespace GUI_Application {
             }
 
             //iterating operation when equals pressed multiple times
-            if (_equalSignPressedInARow >= 1 && formula == "=") {//when equals was pressed second time load iteration values            
+            if (_equalSignPressedInARow >= 1 && formula == "=") {//when equals was pressed second do iterating            
                 outValue = TwoArgumentOperations(_iterationOperation, double.Parse(MainTextBox), _iterationNumber, out outEquation, out outputNumber, out errMessage);
                 EquationTextBox = outEquation;
                 MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
                 FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation);
-
                 return;
             } else if (EquationTextBox != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values
                 _iterationOperation = _lastOperation; //last operation will be used for iterating
@@ -319,11 +329,9 @@ namespace GUI_Application {
                 _equalSignPressedInARow = 0;
             }
 
-
             //Checks if this is first operand of operation
             if (_operandNumber == 0) {
-
-                //if formula is one argument operation return;
+                //if formula is one argument operation do it and return
                 outValue = OneArgumentOperations(formula, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
                 if (outValue == -1) {
                     ShowError(errMessage);
@@ -351,7 +359,6 @@ namespace GUI_Application {
             } else if (outValue == 1) {
                 EquationTextBox = outEquation;
                 MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
-
             }
 
             FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
@@ -415,6 +422,7 @@ namespace GUI_Application {
             MainTextBox += e.Parameter.ToString();//adds inputed number to MainTextBox
             _isNewInput = false;
         }
+
         /// <summary>
         /// Handles deleting of text
         /// </summary>
@@ -454,6 +462,7 @@ namespace GUI_Application {
                 break;
             }
         }
+
         /// <summary>
         /// Formats MainTextBox by flags which are set
         /// </summary>
@@ -469,6 +478,7 @@ namespace GUI_Application {
                 _wasError = false;
             }
         }
+
         /// <summary>
         /// Adds dot to the MainTextBox.
         /// </summary>
