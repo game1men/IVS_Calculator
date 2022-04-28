@@ -63,7 +63,7 @@ namespace GUI_Application {
         private bool _isNewInput = false;
         private string _lastOperation = string.Empty;
         private bool _wasError = false;
-        private int  _equalSignPressedInARow = 0;
+        private int _equalSignPressedInARow = 0;
         private double _iterationNumber = 0;
         private string _iterationOperation = "";
 
@@ -100,137 +100,119 @@ namespace GUI_Application {
         /// </summary>
         /// <param name="formula">String containing operation type</param>
         /// <returns>True if operation was found</returns>
-        private bool OneArgumentOperations(string formula) {
-
+        private int OneArgumentOperations(string formula, double operand, out string equation, out double outputNumber, out string errMessage) {
+            outputNumber = operand;
+            equation = "";
+            errMessage = "";
             //determines which operation to use
             switch (formula) {
                 case @"\sqrt[2]{x}":
-                EquationTextBox = @"\sqrt[2]{" + MainTextBox + "} =";//formats EquationTextBox
-                if (double.Parse(MainTextBox) < 0) {
-                    ShowError(X_HAS_TO_BE_POSITIVE);
-                    return true;
+                equation = @"\sqrt[2]{" + operand + "} =";//formats EquationTextBox
+                if (operand < 0) {
+                    errMessage = X_HAS_TO_BE_POSITIVE;
+                    return -1;
                 }
-                MainTextBox = "" + CalcMathLib.Root(double.Parse(MainTextBox), 2).ToString(MAIN_TEXT_BOX_FORMATING);//does operation and shows output on MainTextBox
+                outputNumber = CalcMathLib.Root(operand, 2);//does operation and shows output on MainTextBox
                 break;
 
                 case @"x!":
-                EquationTextBox = @"" + MainTextBox + "! =";
-                if (double.Parse(MainTextBox) < 0) {
-                    ShowError(CANT_DIVIDE_BY_ZERO);
-                    return true;
+                equation = @"" + operand + "! =";
+                if (operand < 0) {
+                    errMessage = CANT_DIVIDE_BY_ZERO;
+                    return -1;
                 }
-                if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
-                    ShowError(X_HAS_TO_BE_INTEGER);
-                    return true;
+                if (operand % 1 != 0) {
+                    errMessage = X_HAS_TO_BE_INTEGER;
+                    return -1;
                 }
-                MainTextBox = "" + CalcMathLib.Factorial(int.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                outputNumber = CalcMathLib.Factorial((int)operand);
                 break;
 
                 case @"x^2":
-                EquationTextBox = MainTextBox + "^2 =";
-                MainTextBox = "" + CalcMathLib.Power(double.Parse(MainTextBox), 2).ToString(MAIN_TEXT_BOX_FORMATING);
+                equation = operand + "^2 =";
+                outputNumber = CalcMathLib.Power(operand, 2);
 
                 break;
 
-                case @"=":
-                if (!EquationTextBox.Contains('=') && EquationTextBox != "") {
-                    EquationTextBox += "=";
-                }
-
-                break;
                 default:
-                return false;
+                return 0;
             }
-            //set settings for next input
-            _lastOperation = formula;
-            _operandNumber = 0;
-            _isNewInput = true;
-            return true;
+            return 1;
         }
 
         /// <summary>
         /// Handles operations that take two arguments
         /// </summary>
         /// <param name="formula">String containing operation type</param>
-        private void TwoArgumentOperations(string formula) {
-
+        private int TwoArgumentOperations(string formula, double firstOperand, double secondOperand, out string equation, out double outputNumber, out string errMessage) {
+            outputNumber = 0;
+            equation = "";
+            errMessage = "";
             //determines which two operator operation to use 
-            switch (_lastOperation) {
+            switch (formula) {
                 case "+":
-                EquationTextBox = "" + _lastInput + " + " + MainTextBox;//formats EquationTextBox
-                MainTextBox = "" + CalcMathLib.Add(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);//does operation and shows output on MainTextBox
+                equation = "" + firstOperand + " + " + secondOperand;//formats EquationTextBox
+                outputNumber = CalcMathLib.Add(firstOperand, secondOperand);//does operation and shows output on MainTextBox
 
-                break;
+                return 1;
                 case "-":
-                EquationTextBox = "" + _lastInput + " - " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Sub(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                equation = "" + firstOperand + " - " + secondOperand;
+                outputNumber = CalcMathLib.Sub(firstOperand, secondOperand);
 
-                break;
+                return 1;
                 case @"\times":
-                EquationTextBox = "" + _lastInput + @" \times " + MainTextBox;
-                MainTextBox = "" + CalcMathLib.Mul(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                equation = "" + firstOperand + @" \times " + secondOperand;
+                outputNumber = CalcMathLib.Mul(firstOperand, secondOperand);
 
-                break;
+                return 1;
                 case @"\div":
-                EquationTextBox = "" + _lastInput + @" \div " + MainTextBox;
+                equation = "" + firstOperand + @" \div " + secondOperand;
 
-                if (double.Parse(MainTextBox) == 0) {
-                    ShowError(CANT_DIVIDE_BY_ZERO);
-                    return;
+                if (secondOperand == 0) {
+                    errMessage = CANT_DIVIDE_BY_ZERO;
+                    return -1;
                 }
 
-                MainTextBox = "" + CalcMathLib.Div(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                outputNumber = CalcMathLib.Div(firstOperand, secondOperand);
 
-                break;
+                return 1;
                 case @"\sqrt[n]{x}":
-                EquationTextBox = @"\sqrt[" + MainTextBox + "]{" + _lastInput + "}";
-                if (_lastInput < 0) {
-                    ShowError(X_HAS_TO_BE_POSITIVE);
-                    return;
+                equation = @"\sqrt[" + secondOperand + "]{" + firstOperand + "}";
+                if (firstOperand < 0) {
+                    errMessage = X_HAS_TO_BE_POSITIVE;
+                    return -1;
                 }
-                if (double.Parse(MainTextBox) == 0) {
-                    ShowError(N_CANT_BE_ZERO);
-                    return;
+                if (secondOperand == 0) {
+                    errMessage = N_CANT_BE_ZERO;
+                    return -1;
                 }
-                MainTextBox = "" + CalcMathLib.Root(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                outputNumber = CalcMathLib.Root(firstOperand, secondOperand);
 
-                break;
+                return 1;
                 case @"mod":
-                EquationTextBox = "" + _lastInput + " mod " + MainTextBox;
-                if (double.Parse(MainTextBox) == 0) {
-                    ShowError(CANT_DIVIDE_BY_ZERO);
-                    return;
+                equation = "" + firstOperand + " mod " + secondOperand;
+                if (secondOperand == 0) {
+                    errMessage = CANT_DIVIDE_BY_ZERO;
+                    return -1;
                 }
-                MainTextBox = "" + CalcMathLib.Mod(_lastInput, double.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                outputNumber = CalcMathLib.Mod(firstOperand, secondOperand);
 
-                break;
+                return 1;
                 case @"x^n":
-                EquationTextBox = "" + _lastInput + "^{" + MainTextBox + "}";
-                if (double.Parse(MainTextBox) % 1 != 0 || MainTextBox.Contains(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator)) {
-                    ShowError(N_HAS_TO_BE_INTEGER);
-                    return;
+                equation = "" + firstOperand + "^{" + secondOperand + "}";
+                if (secondOperand % 1 != 0) {
+                    errMessage = N_HAS_TO_BE_INTEGER;
+                    return -1;
                 }
-                if (double.Parse(MainTextBox) == 0 && _lastInput == 0) {
-                    ShowError(N_CANT_BE_ZERO);
-                    return;
+                if (secondOperand == 0 && firstOperand == 0) {
+                    errMessage = N_CANT_BE_ZERO;
+                    return -1;
                 }
-                MainTextBox = "" + CalcMathLib.Power(_lastInput, long.Parse(MainTextBox)).ToString(MAIN_TEXT_BOX_FORMATING);
+                outputNumber = CalcMathLib.Power(firstOperand, (long)secondOperand);
 
-                break;
+                return 1;
             }//switch for determining which two operator operation to use 
-
-            //set settings for next input
-            _lastInput = double.Parse(MainTextBox);
-            _lastOperation = formula;
-            _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
-
-            if (_equalSignPressedInARow > 1) {//different formating for iteration
-                FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation);
-            } else {
-                FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
-            }
-
-            return;
+            return 0;
         }
 
         /// <summary>
@@ -242,25 +224,30 @@ namespace GUI_Application {
         /// <param name="operation">String containing operation which will be used in formating</param>
         void FormatEquationTextBox(string formula, double firstOperand, double secondOperand, string operation) {
 
-            switch (_lastOperation) {
+            switch (formula) {
                 case @"\sqrt[n]{x}":
                 EquationTextBox = @"\sqrt[n]{" + firstOperand + "}";
 
                 break;
                 case @"x^n":
                 EquationTextBox = "" + firstOperand + "^n";
-
+                break;
+                case @"x^2":
+                case @"\sqrt[2]{x}":
+                case @"x!":
                 break;
                 case @"=":
-
+                if (!EquationTextBox.Contains('=') && EquationTextBox != "") {
+                    EquationTextBox += "=";
+                }
                 break;
                 default:
                 EquationTextBox = "" + firstOperand + " " + operation;
 
                 break;
             }
-             //formats EquationTextBox when was iteration operation set
-            if (_equalSignPressedInARow >1 && _operandNumber != 0) {
+            //formats EquationTextBox when was iteration operation set
+            if (_equalSignPressedInARow > 1 && _operandNumber != 0) {
                 EquationTextBox = "" + firstOperand + " " + secondOperand + " " + operation + " =";
             }
         }
@@ -280,27 +267,18 @@ namespace GUI_Application {
         /// <param name="formula">String containing operation type</param>
         private void MathOperations(string? formula) {
 
-            if (formula == null || MainTextBox == "") {
+            string outEquation;
+            double outputNumber;
+            string errMessage;
+            int outValue;
+
+            if (formula == null) {
                 return;
             }
 
-            //iterating operation when equals pressed multiple times
-            if (_equalSignPressedInARow >=1 && formula == "=" && (_iterationOperation == "+"|| _iterationOperation == "-" || _iterationOperation == "*"||_iterationOperation == "/")) {//when equals was pressed second time load iteration values            
-                    _lastInput = double.Parse(MainTextBox);
-                    MainTextBox = _iterationNumber.ToString(MAIN_TEXT_BOX_FORMATING);
-                    _lastOperation = _iterationOperation;
-                _operandNumber = 1;
-            } else if (formula == "=") {//when equals was pressed for first time in row set iteration values
-                _iterationOperation = _lastOperation; //last operation will be used for iterating
-                _iterationNumber = double.Parse(MainTextBox); //first inputed number will be used for iterating
-                _equalSignPressedInARow++;
-            } else {//if other operation than equals was pressed
-                _equalSignPressedInARow = 0;
-            }
-
-            if (formula == "-") {
+            if (formula == "-" && EquationTextBox == "") {
                 //sets number as negative if '-' and newInput is set 
-                if (_isNewInput && _operandNumber != 0 && _equalSignPressedInARow==0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
+                if (_isNewInput && _operandNumber != 0 && _equalSignPressedInARow == 0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
                     _isNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
@@ -324,12 +302,37 @@ namespace GUI_Application {
             if (MainTextBox == "" || MainTextBox == "-" || _wasError) {
                 MainTextBox = "0";
             }
+
+            //iterating operation when equals pressed multiple times
+            if (_equalSignPressedInARow >= 1 && formula == "=") {//when equals was pressed second time load iteration values            
+                outValue = TwoArgumentOperations(_iterationOperation, double.Parse(MainTextBox), _iterationNumber, out outEquation, out outputNumber, out errMessage);
+                EquationTextBox = outEquation;
+                MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
+                FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation);
+
+                return;
+            } else if (EquationTextBox != "" && formula == "=" && (_lastOperation == "+" || _lastOperation == "-" || _lastOperation == "*" || _lastOperation == "/")) {//when equals was pressed for first time in row set iteration values
+                _iterationOperation = _lastOperation; //last operation will be used for iterating
+                _iterationNumber = double.Parse(MainTextBox); //first inputed number will be used for iterating
+                _equalSignPressedInARow++;
+            } else {//if other operation than equals was pressed
+                _equalSignPressedInARow = 0;
+            }
+
+
             //Checks if this is first operand of operation
             if (_operandNumber == 0) {
 
                 //if formula is one argument operation return;
-                if (OneArgumentOperations(formula))
+                outValue = OneArgumentOperations(formula, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
+                if (outValue == -1) {
+                    ShowError(errMessage);
                     return;
+                } else if (outValue == 1) {
+                    EquationTextBox = outEquation;
+                    MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
+                    return;
+                }
 
                 //set settings for next input
                 _lastInput = double.Parse(MainTextBox);
@@ -337,17 +340,41 @@ namespace GUI_Application {
                 _operandNumber = 1;
                 _isNewInput = true;
 
-                FormatEquationTextBox(formula,double.Parse(MainTextBox),0,formula);
+                FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
                 return;
             }
-            TwoArgumentOperations(formula);
-            OneArgumentOperations(formula);   
+
+            outValue = TwoArgumentOperations(_lastOperation, _lastInput, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
+            if (outValue == -1) {
+                ShowError(errMessage);
+                return;
+            } else if (outValue == 1) {
+                EquationTextBox = outEquation;
+                MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
+
+            }
+
+            FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
+
+            outValue = OneArgumentOperations(formula, double.Parse(MainTextBox), out outEquation, out outputNumber, out errMessage);
+            if (outValue == -1) {
+                ShowError(errMessage);
+                return;
+            } else if (outValue == 1) {
+                EquationTextBox = outEquation;
+                MainTextBox = outputNumber.ToString(MAIN_TEXT_BOX_FORMATING);
+            }
+            //set settings for next input
+            _lastInput = double.Parse(MainTextBox);
+            _lastOperation = formula;
+            _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
+            _operandNumber = 0;
         }
 
         /// <summary>
         /// Handles math operations
         /// </summary>
-        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {        
+        private void Function_Executed(object sender, ExecutedRoutedEventArgs e) {
             if (_wasError == true) {
                 ResetCalc();
             }
@@ -366,6 +393,9 @@ namespace GUI_Application {
         /// <param name="e"></param>
         private void Number_Executed(object sender, ExecutedRoutedEventArgs e) {
 
+            if (_wasError == true) {
+                ResetCalc();
+            }
             //checks if zero is not only character
             if (MainTextBox == "-0" || MainTextBox == "0") {
 
