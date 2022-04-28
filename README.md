@@ -29,10 +29,13 @@ Je nutné mít nainstalované následující programy, které dovolí program vy
 2. GNU makefile pro používání nachystaného makefile ve složce src/ - stažení dostupné na [GnuWin](http://gnuwin32.sourceforge.net/)
 	- správnou integraci s CLI lze zkontrolovat příkazem "make --version"
 3. [Inno setup](https://jrsoftware.org/isdl.php) pro kompilaci instalačky pomocí souboru *Installer.iss*
-	- správnost integrace Inno setup s CLI lze zkontrolovat pomocí příkazu "iscc"
+	- správnost integrace Inno setup s CLI lze zkontrolovat pomocí příkazu *"iscc"*
 	- je nutné program nejdříve zkompilovat pomocí *"make compile"* nebo rovnou spustit příkaz *"make install"*, který vytvoří instalačku v kořeni složky src/
+4. Doxygen pro vygenerování dokumentace
+	- Pro správnou funkčnost je nutné zkontrolovat integraci s CLI, lze ověřit příkazem *"doxygen --version"*
 
 \* pokud integrace příkazů v CLI nebude korektní, program se přes soubor make nezkompiluje
 	
 Poznámky:
+- dokumentaci lze otevřít souborem index.html ve složce doc/ (po vygenerování makefile)
 - \*.cs soubory v projektu se řídí konvencí .editorconfig pro .NET a je nutné si zkontrolovat [nastavení Visual Studia](https://docs.microsoft.com/cs-cz/visualstudio/ide/create-portable-custom-editor-options?view=vs-2022#troubleshoot-editorconfig-settings) v případě, že nefunguje
