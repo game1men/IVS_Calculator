@@ -63,10 +63,9 @@ namespace GUI_Application {
         private bool _isNewInput = false;
         private string _lastOperation = string.Empty;
         private bool _wasError = false;
-        bool _wasEqualsPressed = false;
-        double _iterationNumber = 0;
-        string _iterationOperation = "";
-        int _iterationOperandNumber = 0;
+        private int  _equalSignPressedInARow = 0;
+        private double _iterationNumber = 0;
+        private string _iterationOperation = "";
 
         //Constants
         private const string CANT_DIVIDE_BY_ZERO = "Nelze dělit 0";
@@ -91,10 +90,9 @@ namespace GUI_Application {
             _isNewInput = false;
             _lastOperation = "";
             DeleteText = "C";
-            _wasEqualsPressed = false;
+            _equalSignPressedInARow = 0;
             _iterationNumber = 0;
             _iterationOperation = "";
-            _iterationOperandNumber = 0;
         }
 
         /// <summary>
@@ -226,37 +224,44 @@ namespace GUI_Application {
             _lastOperation = formula;
             _isNewInput = true;//sets flag to clear MainTextBox when new number is inputed
 
-            FormatEquationTextBox(formula);
+            if (_equalSignPressedInARow > 1) {//different formating for iteration
+                FormatEquationTextBox(formula, _lastInput, _iterationNumber, _iterationOperation);
+            } else {
+                FormatEquationTextBox(formula, double.Parse(MainTextBox), 0, formula);
+            }
+
             return;
         }
 
         /// <summary>
-        /// Formats EquationTextBox according to operation 
+        /// Formats EquationTextBox according to arguments
         /// </summary>
-        /// <param name="formula">String containing operation type</param>
-        void FormatEquationTextBox(string formula) {
+        /// <param name="formula">String containing operation type by which it choses formating</param>
+        /// <param name="firstOperand"></param>
+        /// <param name="secondOperand"></param>
+        /// <param name="operation">String containing operation which will be used in formating</param>
+        void FormatEquationTextBox(string formula, double firstOperand, double secondOperand, string operation) {
 
             switch (_lastOperation) {
                 case @"\sqrt[n]{x}":
-                EquationTextBox = @"\sqrt[n]{" + MainTextBox + "}";
+                EquationTextBox = @"\sqrt[n]{" + firstOperand + "}";
 
                 break;
                 case @"x^n":
-                EquationTextBox = "" + MainTextBox + "^n";
+                EquationTextBox = "" + firstOperand + "^n";
 
                 break;
                 case @"=":
 
                 break;
                 default:
-                EquationTextBox = "" + MainTextBox + " " + formula;
+                EquationTextBox = "" + firstOperand + " " + operation;
 
                 break;
             }
-
-            //formats EquationTextBox when was iteration operation set
-            if (_wasEqualsPressed && _operandNumber != 0) {
-                EquationTextBox = "" + _lastInput + " " + _iterationOperation + " " + _iterationNumber + " =";
+             //formats EquationTextBox when was iteration operation set
+            if (_equalSignPressedInARow >1 && _operandNumber != 0) {
+                EquationTextBox = "" + firstOperand + " " + secondOperand + " " + operation + " =";
             }
         }
         /// <summary>
@@ -277,30 +282,25 @@ namespace GUI_Application {
 
             if (formula == null || MainTextBox == "") {
                 return;
-            }         
+            }
 
             //iterating operation when equals pressed multiple times
-            if (_wasEqualsPressed && formula == "=") {//when equals was pressed second time load iteration values
-                _operandNumber = _iterationOperandNumber;               
-                if (_operandNumber != 0) {//in two operand operations it needs to set _lastInput and MainTextBox
+            if (_equalSignPressedInARow >=1 && formula == "=" && (_iterationOperation == "+"|| _iterationOperation == "-" || _iterationOperation == "*"||_iterationOperation == "/")) {//when equals was pressed second time load iteration values            
                     _lastInput = double.Parse(MainTextBox);
                     MainTextBox = _iterationNumber.ToString(MAIN_TEXT_BOX_FORMATING);
                     _lastOperation = _iterationOperation;
-                } else {
-                    formula = _iterationOperation;
-                }   
+                _operandNumber = 1;
             } else if (formula == "=") {//when equals was pressed for first time in row set iteration values
                 _iterationOperation = _lastOperation; //last operation will be used for iterating
                 _iterationNumber = double.Parse(MainTextBox); //first inputed number will be used for iterating
-                _wasEqualsPressed = true;
-                _iterationOperandNumber = _operandNumber;//sets right operand
+                _equalSignPressedInARow++;
             } else {//if other operation than equals was pressed
-                _wasEqualsPressed = false;
+                _equalSignPressedInARow = 0;
             }
 
             if (formula == "-") {
                 //sets number as negative if '-' and newInput is set 
-                if (_isNewInput && _operandNumber != 0 && !_wasEqualsPressed) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
+                if (_isNewInput && _operandNumber != 0 && _equalSignPressedInARow==0) {//(OperandNumber cant be 0 because there would be no way of knowing if it is sing or operation)
                     MainTextBox = "-";
                     _isNewInput = false;//set IsNewInput to false so it is not erased when next number is imputed 
                     return;
@@ -337,14 +337,12 @@ namespace GUI_Application {
                 _operandNumber = 1;
                 _isNewInput = true;
 
-                FormatEquationTextBox(formula);
+                FormatEquationTextBox(formula,double.Parse(MainTextBox),0,formula);
                 return;
             }
             TwoArgumentOperations(formula);
             OneArgumentOperations(formula);   
         }
-
-      
 
         /// <summary>
         /// Handles math operations
