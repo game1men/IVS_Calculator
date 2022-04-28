@@ -51,6 +51,7 @@
         <Style x:Key="FunctionStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#382545"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="ToolTip.StaysOpen" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -75,6 +76,7 @@
         <Style x:Key="OperationStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#c4ad00"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="ToolTip.StaysOpen" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -98,6 +100,7 @@
         <Style x:Key="EqualsStyle" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#069265"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="ToolTip.StaysOpen" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -250,15 +253,49 @@
 
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
                         <m:FormulaControl Foreground="White" Formula="x^2" Scale="40" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Umocní předem zadané číslo
+                                    <LineBreak/>
+                                    Zkratka: P
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="x^n" Scale="40" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Předem zadané číslo je základem pro mocninu a následujcí číslo bude exponent mocniny
+                                    <LineBreak/>
+                                    Zkratka: N
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="2" Margin="10">
                         <TextBlock Text="{Binding DeleteText, Mode=TwoWay}" FontSize="50" Margin="0 0 0 8" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    CE - slouží k vymazání aktuálně zapsaného čísla; Zkratka: DEL
+                                    <LineBreak/>
+                                    C - vymaže celý zápis včetně operace; Zkratka: ESC
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button Style="{StaticResource FunctionStyle}" Command="{StaticResource DeleteCommand}" CommandParameter="Back" Grid.Column="3" Margin="10">
                         <Image Source="Media/backspace-svgrepo-com.png" UseLayoutRounding="True" VerticalAlignment="Center" HorizontalAlignment="Center" Height="50"/>
+                        <Button.ToolTip>
+                            <TextBlock>
+                                Vymaže zprava jeden symbol
+                                <LineBreak/>
+                                Zkratka: BACKSPACE
+                            </TextBlock>
+                        </Button.ToolTip>
                     </Button>
                 </Grid>
 
@@ -273,15 +310,51 @@
 
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="0" Margin="10">
                         <m:FormulaControl Formula="\sqrt[2]{x}" Scale="40" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Spočítá druhou odmocninu z předchozího zadaného čísla
+                                    <LineBreak/>
+                                    Zkratka: Q
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="1" Margin="10">
                         <m:FormulaControl Formula="\sqrt[n]{x}" Scale="40" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock TextWrapping="Wrap" Width="200">
+                                    Předem zadané číslo bude pod odmocninou, následující číslo bude řád počítané odmocniny
+                                    <LineBreak/>
+                                    Zkratka: R
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
                         <m:FormulaControl Formula="x!" Scale="40" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Faktoriál se počítá z předchozího zadaného čísla
+                                    <LineBreak/>
+                                    Zkratka: F
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource FunctionStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text}" Grid.Column="3" Margin="10">
                         <TextBlock Text="mod" FontSize="30" Margin="0 0 0 6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock TextWrapping="Wrap" Width="200">
+                                    Modulo počítá zbytek po dělení. Číslo zadané před funkcí je dělené číslem následujícím po funkci
+                                    <LineBreak/>
+                                    Značka: M
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                 </Grid>
 
@@ -305,6 +378,15 @@
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="\div" Scale="50" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Dělí číslo zadané před funkcí číslem zadané po funkci
+                                    <LineBreak/>
+                                    Zkratka: /
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                 </Grid>
 
@@ -328,6 +410,16 @@
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="\times" Scale="50" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Násobí číslo zadané před funkcí číslem zadané po funkci
+                                    <LineBreak/>
+                                    Zkratka: *
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
+                        
                     </Button>
                 </Grid>
 
@@ -351,6 +443,15 @@
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="-" Scale="50" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Odečítá číslo zadané před funkcí číslem zadané po funkci
+                                    <LineBreak/>
+                                    Zkratka: -
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                 </Grid>
 
@@ -371,9 +472,28 @@
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource EqualsStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="2" Margin="10">
                         <m:FormulaControl Formula="=" Scale="55" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock TextWrapping="Wrap" Width="200">
+                                    Spočítá výsledek zadané operace. Při opakovaném klikání lze vytvořit u operací + - × ÷ posloupnost výpočtu podle druhého operandu s dosazováním předchozího výsledku 
+                                    <LineBreak/>
+                                    Zkratka: ENTER
+                                    
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                     <Button KeyboardNavigation.AcceptsReturn="False" Style="{StaticResource OperationStyle}" Command="{StaticResource FunctionCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content.Formula}" Grid.Column="3" Margin="10">
                         <m:FormulaControl Formula="+" Scale="50" SystemTextFontName="Arial"/>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <TextBlock>
+                                    Sčítá číslo zadané před funkcí číslem zadané po funkci
+                                    <LineBreak/>
+                                    Zkratka: +
+                                </TextBlock>
+                            </ToolTip>
+                        </Button.ToolTip>
                     </Button>
                 </Grid>
             </Grid>
