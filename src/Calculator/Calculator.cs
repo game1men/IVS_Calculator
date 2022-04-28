@@ -85,8 +85,8 @@ namespace GUI_Application {
 
                 case @"x!":
                 equation = @"" + operand + "! =";
-                if (operand < 0) {
-                    errMessage = CANT_DIVIDE_BY_ZERO;
+                if ((int)operand < 0) {
+                    errMessage = X_HAS_TO_BE_POSITIVE;
                     return -1;
                 }
                 if (operand % 1 != 0) {
