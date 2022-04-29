@@ -1,4 +1,4 @@
 xvecer29 100 (GUI-Frontend, Mockup, compile skripty, instalačka)
-xuncov00 100 (unit-testy, makefile)
+xuncov00 100 (Unit-testy, makefile)
 xceska06 100 (GUI-Backend, profiling)
-xsmida06 100 (Matematickou knihovnu, dokumentace)
+xsmida06 100 (Matematická knihovna, dokumentace)
